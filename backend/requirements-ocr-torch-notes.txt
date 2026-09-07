@@ -1,0 +1,31 @@
+# EasyOCR dependency notes
+#
+# `easyocr` itself IS installed via requirements.txt, but it cannot
+# actually run without PyTorch (`torch`), which is intentionally NOT
+# included in requirements.txt because:
+#
+#   - `pip install torch` (from PyPI) installs a CUDA-linked build that
+#     FAILS TO IMPORT on a machine without NVIDIA drivers/libraries,
+#     even when you only intend to run on CPU (gpu=False at runtime
+#     doesn't help -- the failure happens at `import torch` time, before
+#     your code runs, because the wheel dynamically links against
+#     libcudart.so / libcublasLt.so unconditionally).
+#
+#   - The actual CPU-only build is distributed exclusively from
+#     https://download.pytorch.org/whl/cpu, not from PyPI.
+#
+# To make EasyOCR (app/ocr/easyocr_engine.py) actually work, run ONE of
+# the following on a machine with the appropriate access:
+#
+# Option A -- CPU-only machine:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# Option B -- machine with an NVIDIA GPU + drivers installed:
+#   pip install torch
+#   (the default PyPI wheel will work correctly here, since the CUDA
+#   libraries it links against are actually present)
+#
+# After installing torch via either option above, `import easyocr` and
+# `easyocr.Reader(['en'], gpu=False)` (or gpu=True on Option B) will
+# work as expected, and app/ocr/easyocr_engine.py requires no code
+# changes -- it was written against the real, verified EasyOCR API.

@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment secrets
+.env
+
+# Logs
+logs/*.log
+logs/*.log.*
+
+# Uploaded files (dev/local storage)
+uploads/*
+!uploads/.gitkeep
+
+# Bulk intake staging files (Phase 10) -- never committed, same as uploads/
+intake/*
+!intake/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS
+.DS_Store

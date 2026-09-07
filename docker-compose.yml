@@ -1,0 +1,105 @@
+name: efdi
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-efdi_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}
+      POSTGRES_DB: ${POSTGRES_DB:-efdi}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-efdi_user} -d ${POSTGRES_DB:-efdi}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Not exposed to the host by default -- only `backend` needs to
+    # reach it, over the internal compose network. Uncomment if you
+    # need a local DB client to connect directly for debugging.
+    # ports:
+    #   - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        # Set to "true" to bake PaddleOCR/EasyOCR into the image
+        # (substantially larger image, longer build). Leave as
+        # "false" (the default) to use the lean image with the stub
+        # OCR engine -- see backend/requirements-ocr.txt.
+        INSTALL_OCR: ${INSTALL_OCR:-false}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-efdi_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}@postgres:5432/${POSTGRES_DB:-efdi}
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in your .env file -- generate one with openssl rand -hex 32}
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-25}
+      MAX_BULK_INTAKE_FILES: ${MAX_BULK_INTAKE_FILES:-100}
+      OCR_DEFAULT_ENGINE: ${OCR_DEFAULT_ENGINE:-stub}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      # --- Extraction & LLM ---
+      EXTRACTION_DEFAULT_ENGINE: ${EXTRACTION_DEFAULT_ENGINE:-hybrid}
+      LLM_PROVIDER: ${LLM_PROVIDER:-mistral}
+      EXTRACTION_LLM_MODEL: ${EXTRACTION_LLM_MODEL:-mistral-small-2603}
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY:-}
+      MISTRAL_API_BASE: ${MISTRAL_API_BASE:-https://api.mistral.ai/v1}
+      # The frontend container's own nginx, not a browser, is what
+      # actually needs CORS here in production (browsers hit nginx,
+      # nginx proxies server-to-server to backend) -- but kept
+      # configurable since some deployments serve the frontend from a
+      # different origin (e.g. a CDN) and need the backend to allow it
+      # directly.
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
+    volumes:
+      - backend_uploads:/app/uploads
+      - backend_intake:/app/intake
+      - backend_logs:/app/logs
+      # EasyOCR (and any other ML engine) downloads model weights to
+      # the container user's home directory on first use. Without this
+      # volume, those downloads live in the container's writable layer
+      # and are lost every time the container is recreated (a rebuild,
+      # `docker compose down` + `up`, etc.) -- forcing a multi-minute
+      # re-download on the next OCR call, which can trip nginx's
+      # proxy_read_timeout if it lands on top of normal OCR processing
+      # time. Persisting this means the download only ever happens
+      # once across the life of the deployment.
+      - backend_model_cache:/home/efdi
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    # Not exposed to the host directly by default -- the frontend's
+    # nginx proxies to it over the internal compose network. Uncomment
+    # to reach the API directly (e.g. for /api/docs) without going
+    # through the frontend.
+    # ports:
+    #   - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      BACKEND_HOST: backend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+
+volumes:
+  postgres_data:
+  backend_uploads:
+  backend_intake:
+  backend_logs:
+  backend_model_cache:

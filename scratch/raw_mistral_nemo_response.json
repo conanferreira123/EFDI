@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "LLMFieldItem": {
+      "value": "",
+      "confidence": 0.0,
+      "source_quote": ""
+    }
+  },
+  "document_id": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "batch1-OOO1",
+    "confidence": 0.95,
+    "source_quote": "batch1-OOO1.jpg"
+  },
+  "document_type": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "Invoice",
+    "confidence": 0.99,
+    "source_quote": "Invoice no: 51109338"
+  },
+  "document_category": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "company_code": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "company_name": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "Andrews; Kirby and Valdez Becker Ltd",
+    "confidence": 0.98,
+    "source_quote": "Seller: Client: Andrews; Kirby and Valdez Becker Ltd"
+  },
+  "fiscal_year": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "location_code": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "vertical_code": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "document_source": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "Google Cloud Storage (batch1-OOO1.jpg)",
+    "confidence": 0.95,
+    "source_quote": "https:Ilstorage googleapis com/kagglesdsdataldatasets/5773627/11739593/batch_I/batch_I/batch1_I/batch1-OOO1 jpg"
+  },
+  "barcode": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "currency": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "GBP",
+    "confidence": 0.85,
+    "source_quote": "IBAN: GBZSMCRLO6841367619257"
+  },
+  "document_date": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "2013-04-13",
+    "confidence": 0.99,
+    "source_quote": "Date Of issue: 04/13/2013"
+  },
+  "ocr_confidence_score": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": "Overall Score: None, Confidence: None"
+  },
+  "processing_status": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "validation_status": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "vendor_code": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "vendor_name": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "Andrews; Kirby and Valdez",
+    "confidence": 0.98,
+    "source_quote": "Seller: Andrews; Kirby and Valdez"
+  },
+  "invoice_number": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "51109338",
+    "confidence": 0.99,
+    "source_quote": "Invoice no: 51109338"
+  },
+  "invoice_date": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "2013-04-13",
+    "confidence": 0.99,
+    "source_quote": "Date Of issue: 04/13/2013"
+  },
+  "invoice_amount": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "expense_category": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "Hardware/IT Equipment",
+    "confidence": 0.8,
+    "source_quote": "Items listed include Dell Desktops, AMD Gaming Computers, Optiplex, etc."
+  },
+  "cost_center": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "department": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": null,
+    "confidence": 0.0,
+    "source_quote": null
+  },
+  "tax_amount": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "204.19",
+    "confidence": 0.85,
+    "source_quote": "Total 640,17 564,02 204,19"
+  },
+  "net_amount": {
+    "$ref": "#/$defs/LLMFieldItem",
+    "value": "564.02",
+    "confidence": 0.85,
+    "source_quote": "Total 640,17 564,02 204,19"
+  }
+}

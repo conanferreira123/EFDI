@@ -1,0 +1,61 @@
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Gzip the text-based assets Vite emits (JS/CSS/HTML/SVG) -- the
+    # production build is already minified, gzip just shrinks the
+    # over-the-wire transfer further for clients that support it.
+    gzip on;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 1024;
+
+    # API requests are proxied to the backend service. The frontend's
+    # own code (src/services/client.ts) always calls relative /api/v1/...
+    # paths -- it never hardcodes a backend hostname -- specifically so
+    # this single nginx rule is the only place that needs to know where
+    # the backend actually lives. BACKEND_HOST is templated in via
+    # envsubst at container startup (see docker-entrypoint.sh), not
+    # hardcoded here, so the same image works whether the backend
+    # service is named "backend" (docker-compose), a Kubernetes service
+    # DNS name, or anything else.
+    location /api/ {
+        proxy_pass http://${BACKEND_HOST}:8000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        # Uploads can be large (up to MAX_UPLOAD_SIZE_MB on the backend,
+        # default 25MB per file, more for bulk) -- this must be >= that
+        # limit or nginx will reject the upload before it ever reaches
+        # the backend's own size check.
+        client_max_body_size 50M;
+        # OCR (especially EasyOCR on CPU) and other pipeline steps can
+        # genuinely take 60-90+ seconds on modest hardware. nginx's
+        # default proxy timeouts (60s) are too short for that, causing
+        # a 504 even though the backend request succeeds and completes
+        # normally -- the response just never makes it back to the
+        # browser before nginx gives up waiting.
+        proxy_connect_timeout 180s;
+        proxy_send_timeout 180s;
+        proxy_read_timeout 180s;
+    }
+    
+
+    # SPA fallback: any path that isn't a real static file (i.e. every
+    # client-side route like /documents/42) serves index.html so React
+    # Router can handle it, instead of nginx 404ing on a direct URL
+    # visit or page refresh.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Static assets get a long cache lifetime -- Vite fingerprints
+    # filenames with a content hash, so a new deploy naturally gets new
+    # filenames and old cached assets are never served stale.
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}

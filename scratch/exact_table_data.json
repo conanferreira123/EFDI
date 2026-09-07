@@ -1,0 +1,1265 @@
+{
+  "headers": [
+    "item_number",
+    "unit_price",
+    "gross_amount"
+  ],
+  "columns": {
+    "item_number": {
+      "x_min": 0.0,
+      "x_max": 522.5,
+      "header_text": "ITEMS",
+      "cx": 373.0
+    },
+    "unit_price": {
+      "x_min": 522.5,
+      "x_max": 771.0,
+      "header_text": "Nct price",
+      "cx": 672.0
+    },
+    "gross_amount": {
+      "x_min": 771.0,
+      "x_max": 1240.0,
+      "header_text": "Gross",
+      "cx": 870.0
+    }
+  },
+  "line_items": [
+    {
+      "item_number": "DUAL CORE Lompuler WIndOWS 10 4/B/16G8 RAK",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": null,
+      "confidence": 0.6252,
+      "raw_blocks": [
+        {
+          "text": "DUAL CORE",
+          "confidence": 0.9990536509184927,
+          "bounding_box": [
+            [
+              452.0,
+              796.0
+            ],
+            [
+              504.0,
+              796.0
+            ],
+            [
+              504.0,
+              806.0
+            ],
+            [
+              452.0,
+              806.0
+            ]
+          ]
+        },
+        {
+          "text": "Lompuler",
+          "confidence": 0.6796038413663159,
+          "bounding_box": [
+            [
+              392.0,
+              798.0
+            ],
+            [
+              436.0,
+              798.0
+            ],
+            [
+              436.0,
+              806.0
+            ],
+            [
+              392.0,
+              806.0
+            ]
+          ]
+        },
+        {
+          "text": "WIndOWS 10 4/B/16G8 RAK",
+          "confidence": 0.1970672475418322,
+          "bounding_box": [
+            [
+              392.0,
+              808.0
+            ],
+            [
+              516.0,
+              808.0
+            ],
+            [
+              516.0,
+              818.0
+            ],
+            [
+              392.0,
+              818.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "Thln Clent 7520 Compute AMD GX-212jC 12GHz 4G8 RAK",
+      "description": "TESTED WIREAD BELOWI",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "5,00 DuS 188,75",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "207,63",
+      "confidence": 0.5695,
+      "raw_blocks": [
+        {
+          "text": "Thln Clent",
+          "confidence": 0.35607218684744285,
+          "bounding_box": [
+            [
+              430.0,
+              830.0
+            ],
+            [
+              478.0,
+              830.0
+            ],
+            [
+              478.0,
+              838.0
+            ],
+            [
+              430.0,
+              838.0
+            ]
+          ]
+        },
+        {
+          "text": "7520",
+          "confidence": 0.14734502136707306,
+          "bounding_box": [
+            [
+              405.0,
+              832.0
+            ],
+            [
+              427.0,
+              829.0
+            ],
+            [
+              428.0,
+              838.0
+            ],
+            [
+              406.0,
+              841.0
+            ]
+          ]
+        },
+        {
+          "text": "Compute",
+          "confidence": 0.9974749289341369,
+          "bounding_box": [
+            [
+              479.0,
+              829.0
+            ],
+            [
+              520.0,
+              829.0
+            ],
+            [
+              520.0,
+              841.0
+            ],
+            [
+              479.0,
+              841.0
+            ]
+          ]
+        },
+        {
+          "text": "AMD GX-212jC 12GHz 4G8 RAK",
+          "confidence": 0.29470034888420477,
+          "bounding_box": [
+            [
+              390.0,
+              842.0
+            ],
+            [
+              536.0,
+              842.0
+            ],
+            [
+              536.0,
+              852.0
+            ],
+            [
+              390.0,
+              852.0
+            ]
+          ]
+        },
+        {
+          "text": "5,00",
+          "confidence": 0.921825110912323,
+          "bounding_box": [
+            [
+              560.0,
+              830.0
+            ],
+            [
+              582.0,
+              830.0
+            ],
+            [
+              582.0,
+              840.0
+            ],
+            [
+              560.0,
+              840.0
+            ]
+          ]
+        },
+        {
+          "text": "DuS",
+          "confidence": 0.01920180423397959,
+          "bounding_box": [
+            [
+              670.0,
+              832.0
+            ],
+            [
+              694.0,
+              832.0
+            ],
+            [
+              694.0,
+              840.0
+            ],
+            [
+              670.0,
+              840.0
+            ]
+          ]
+        },
+        {
+          "text": "188,75",
+          "confidence": 0.9321639843645256,
+          "bounding_box": [
+            [
+              730.0,
+              830.0
+            ],
+            [
+              762.0,
+              830.0
+            ],
+            [
+              762.0,
+              842.0
+            ],
+            [
+              730.0,
+              842.0
+            ]
+          ]
+        },
+        {
+          "text": "207,63",
+          "confidence": 0.8869835354893547,
+          "bounding_box": [
+            [
+              852.0,
+              830.0
+            ],
+            [
+              884.0,
+              830.0
+            ],
+            [
+              884.0,
+              840.0
+            ],
+            [
+              852.0,
+              840.0
+            ]
+          ]
+        },
+        {
+          "text": "TESTED WIREAD BELOWI",
+          "confidence": 0.5469532470180287,
+          "bounding_box": [
+            [
+              392.0,
+              852.0
+            ],
+            [
+              502.0,
+              852.0
+            ],
+            [
+              502.0,
+              862.0
+            ],
+            [
+              392.0,
+              862.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "desktop cumputet gaming",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "400 00 400 ,00",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "440,00",
+      "confidence": 0.681,
+      "raw_blocks": [
+        {
+          "text": "desktop",
+          "confidence": 0.9446970873644513,
+          "bounding_box": [
+            [
+              440.0,
+              876.0
+            ],
+            [
+              474.0,
+              876.0
+            ],
+            [
+              474.0,
+              884.0
+            ],
+            [
+              440.0,
+              884.0
+            ]
+          ]
+        },
+        {
+          "text": "cumputet",
+          "confidence": 0.535117811602803,
+          "bounding_box": [
+            [
+              478.0,
+              876.0
+            ],
+            [
+              520.0,
+              876.0
+            ],
+            [
+              520.0,
+              884.0
+            ],
+            [
+              478.0,
+              884.0
+            ]
+          ]
+        },
+        {
+          "text": "gaming",
+          "confidence": 0.9991481488032916,
+          "bounding_box": [
+            [
+              391.0,
+              875.0
+            ],
+            [
+              424.0,
+              875.0
+            ],
+            [
+              424.0,
+              886.0
+            ],
+            [
+              391.0,
+              886.0
+            ]
+          ]
+        },
+        {
+          "text": "400 00",
+          "confidence": 0.47385780697633056,
+          "bounding_box": [
+            [
+              664.0,
+              876.0
+            ],
+            [
+              694.0,
+              876.0
+            ],
+            [
+              694.0,
+              884.0
+            ],
+            [
+              664.0,
+              884.0
+            ]
+          ]
+        },
+        {
+          "text": "400 ,00",
+          "confidence": 0.16350147120602018,
+          "bounding_box": [
+            [
+              730.0,
+              876.0
+            ],
+            [
+              760.0,
+              876.0
+            ],
+            [
+              760.0,
+              884.0
+            ],
+            [
+              730.0,
+              884.0
+            ]
+          ]
+        },
+        {
+          "text": "440,00",
+          "confidence": 0.9693954574725037,
+          "bounding_box": [
+            [
+              854.0,
+              876.0
+            ],
+            [
+              886.0,
+              876.0
+            ],
+            [
+              886.0,
+              886.0
+            ],
+            [
+              854.0,
+              886.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "12 Core Gaming Computcr Desktop PC Tover Alorcable",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "40489 394,07 coch",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "534.4",
+      "confidence": 0.3589,
+      "raw_blocks": [
+        {
+          "text": "40489",
+          "confidence": 0.19381810102332367,
+          "bounding_box": [
+            [
+              664.0,
+              900.0
+            ],
+            [
+              694.0,
+              900.0
+            ],
+            [
+              694.0,
+              908.0
+            ],
+            [
+              664.0,
+              908.0
+            ]
+          ]
+        },
+        {
+          "text": "394,07",
+          "confidence": 0.2120682997473148,
+          "bounding_box": [
+            [
+              730.0,
+              900.0
+            ],
+            [
+              760.0,
+              900.0
+            ],
+            [
+              760.0,
+              908.0
+            ],
+            [
+              730.0,
+              908.0
+            ]
+          ]
+        },
+        {
+          "text": "coch",
+          "confidence": 0.5157905220985413,
+          "bounding_box": [
+            [
+              600.0,
+              900.0
+            ],
+            [
+              622.0,
+              900.0
+            ],
+            [
+              622.0,
+              910.0
+            ],
+            [
+              600.0,
+              910.0
+            ]
+          ]
+        },
+        {
+          "text": "534.4",
+          "confidence": 0.4041089417360806,
+          "bounding_box": [
+            [
+              852.0,
+              900.0
+            ],
+            [
+              884.0,
+              900.0
+            ],
+            [
+              884.0,
+              908.0
+            ],
+            [
+              852.0,
+              908.0
+            ]
+          ]
+        },
+        {
+          "text": "12 Core Gaming Computcr",
+          "confidence": 0.5942940323112975,
+          "bounding_box": [
+            [
+              392.0,
+              900.0
+            ],
+            [
+              510.0,
+              900.0
+            ],
+            [
+              510.0,
+              910.0
+            ],
+            [
+              392.0,
+              910.0
+            ]
+          ]
+        },
+        {
+          "text": "Desktop PC Tover Alorcable",
+          "confidence": 0.23333638210574043,
+          "bounding_box": [
+            [
+              392.0,
+              910.0
+            ],
+            [
+              518.0,
+              910.0
+            ],
+            [
+              518.0,
+              920.0
+            ],
+            [
+              392.0,
+              920.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "GAMING Pc 8G8 AMD Vega",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "RGB",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": null,
+      "confidence": 0.7183,
+      "raw_blocks": [
+        {
+          "text": "GAMING Pc 8G8 AMD",
+          "confidence": 0.657312985553846,
+          "bounding_box": [
+            [
+              392.0,
+              920.0
+            ],
+            [
+              486.0,
+              920.0
+            ],
+            [
+              486.0,
+              930.0
+            ],
+            [
+              392.0,
+              930.0
+            ]
+          ]
+        },
+        {
+          "text": "Vega",
+          "confidence": 0.5032181143760681,
+          "bounding_box": [
+            [
+              488.0,
+              919.0
+            ],
+            [
+              510.0,
+              922.0
+            ],
+            [
+              509.0,
+              931.0
+            ],
+            [
+              487.0,
+              928.0
+            ]
+          ]
+        },
+        {
+          "text": "RGB",
+          "confidence": 0.9943127789354511,
+          "bounding_box": [
+            [
+              512.0,
+              920.0
+            ],
+            [
+              534.0,
+              920.0
+            ],
+            [
+              534.0,
+              930.0
+            ],
+            [
+              512.0,
+              930.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "Custom Build Dell Optiplex 9020 sl ZUGHZ Desklop",
+      "description": "CompulerPC",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "109,95 221.99",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "1090 220,95",
+      "confidence": 0.5127,
+      "raw_blocks": [
+        {
+          "text": "109,95",
+          "confidence": 0.6380007193047372,
+          "bounding_box": [
+            [
+              730.0,
+              944.0
+            ],
+            [
+              760.0,
+              944.0
+            ],
+            [
+              760.0,
+              952.0
+            ],
+            [
+              730.0,
+              952.0
+            ]
+          ]
+        },
+        {
+          "text": "221.99",
+          "confidence": 0.537151164890798,
+          "bounding_box": [
+            [
+              664.0,
+              944.0
+            ],
+            [
+              696.0,
+              944.0
+            ],
+            [
+              696.0,
+              954.0
+            ],
+            [
+              664.0,
+              954.0
+            ]
+          ]
+        },
+        {
+          "text": "Custom Build Dell Optiplex 9020",
+          "confidence": 0.699153473799737,
+          "bounding_box": [
+            [
+              392.0,
+              944.0
+            ],
+            [
+              536.0,
+              944.0
+            ],
+            [
+              536.0,
+              954.0
+            ],
+            [
+              392.0,
+              954.0
+            ]
+          ]
+        },
+        {
+          "text": "sl",
+          "confidence": 0.08818924705440084,
+          "bounding_box": [
+            [
+              416.0,
+              956.0
+            ],
+            [
+              440.0,
+              956.0
+            ],
+            [
+              440.0,
+              964.0
+            ],
+            [
+              416.0,
+              964.0
+            ]
+          ]
+        },
+        {
+          "text": "ZUGHZ Desklop",
+          "confidence": 0.3330668135758053,
+          "bounding_box": [
+            [
+              450.0,
+              956.0
+            ],
+            [
+              518.0,
+              956.0
+            ],
+            [
+              518.0,
+              964.0
+            ],
+            [
+              450.0,
+              964.0
+            ]
+          ]
+        },
+        {
+          "text": "1090",
+          "confidence": 0.33028900623321533,
+          "bounding_box": [
+            [
+              798.0,
+              944.0
+            ],
+            [
+              820.0,
+              944.0
+            ],
+            [
+              820.0,
+              954.0
+            ],
+            [
+              798.0,
+              954.0
+            ]
+          ]
+        },
+        {
+          "text": "220,95",
+          "confidence": 0.9628207799048483,
+          "bounding_box": [
+            [
+              852.0,
+              944.0
+            ],
+            [
+              884.0,
+              944.0
+            ],
+            [
+              884.0,
+              954.0
+            ],
+            [
+              852.0,
+              954.0
+            ]
+          ]
+        },
+        {
+          "text": "CompulerPC",
+          "confidence": 0.3980857109715953,
+          "bounding_box": [
+            [
+              392.0,
+              966.0
+            ],
+            [
+              450.0,
+              966.0
+            ],
+            [
+              450.0,
+              974.0
+            ],
+            [
+              392.0,
+              974.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "Optiplex 990 MT Cemputer PCOlad Core /7 JAGHZ 16G8",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "269,95 079,80",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "1040 187,78",
+      "confidence": 0.5873,
+      "raw_blocks": [
+        {
+          "text": "1040",
+          "confidence": 0.570716806398119,
+          "bounding_box": [
+            [
+              798.0,
+              988.0
+            ],
+            [
+              820.0,
+              988.0
+            ],
+            [
+              820.0,
+              998.0
+            ],
+            [
+              798.0,
+              998.0
+            ]
+          ]
+        },
+        {
+          "text": "187,78",
+          "confidence": 0.5338587145638142,
+          "bounding_box": [
+            [
+              852.0,
+              988.0
+            ],
+            [
+              886.0,
+              988.0
+            ],
+            [
+              886.0,
+              998.0
+            ],
+            [
+              852.0,
+              998.0
+            ]
+          ]
+        },
+        {
+          "text": "Optiplex 990 MT Cemputer",
+          "confidence": 0.5878654612021832,
+          "bounding_box": [
+            [
+              412.0,
+              987.0
+            ],
+            [
+              530.0,
+              987.0
+            ],
+            [
+              530.0,
+              1000.0
+            ],
+            [
+              412.0,
+              1000.0
+            ]
+          ]
+        },
+        {
+          "text": "PCOlad Core /7 JAGHZ 16G8",
+          "confidence": 0.11145220828996122,
+          "bounding_box": [
+            [
+              392.0,
+              1000.0
+            ],
+            [
+              524.0,
+              1000.0
+            ],
+            [
+              524.0,
+              1010.0
+            ],
+            [
+              392.0,
+              1010.0
+            ]
+          ]
+        },
+        {
+          "text": "269,95",
+          "confidence": 0.7253731035634763,
+          "bounding_box": [
+            [
+              664.0,
+              988.0
+            ],
+            [
+              696.0,
+              988.0
+            ],
+            [
+              696.0,
+              1000.0
+            ],
+            [
+              664.0,
+              1000.0
+            ]
+          ]
+        },
+        {
+          "text": "079,80",
+          "confidence": 0.9947379294398739,
+          "bounding_box": [
+            [
+              730.0,
+              988.0
+            ],
+            [
+              762.0,
+              988.0
+            ],
+            [
+              762.0,
+              1000.0
+            ],
+            [
+              730.0,
+              1000.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "HD Windows 10 Pro",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": null,
+      "confidence": 0.7056,
+      "raw_blocks": [
+        {
+          "text": "HD Windows 10 Pro",
+          "confidence": 0.7055569005291127,
+          "bounding_box": [
+            [
+              410.0,
+              1010.0
+            ],
+            [
+              496.0,
+              1010.0
+            ],
+            [
+              496.0,
+              1020.0
+            ],
+            [
+              410.0,
+              1020.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "Duo Desktop Dell Core Windowis XP Pro Lompulei",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": "168 00 840,00",
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": "924,00",
+      "confidence": 0.8011,
+      "raw_blocks": [
+        {
+          "text": "Duo Desktop",
+          "confidence": 0.8634869470201475,
+          "bounding_box": [
+            [
+              442.0,
+              1034.0
+            ],
+            [
+              498.0,
+              1034.0
+            ],
+            [
+              498.0,
+              1042.0
+            ],
+            [
+              442.0,
+              1042.0
+            ]
+          ]
+        },
+        {
+          "text": "Dell Core",
+          "confidence": 0.8175175433508047,
+          "bounding_box": [
+            [
+              392.0,
+              1034.0
+            ],
+            [
+              434.0,
+              1034.0
+            ],
+            [
+              434.0,
+              1044.0
+            ],
+            [
+              392.0,
+              1044.0
+            ]
+          ]
+        },
+        {
+          "text": "Windowis XP Pro",
+          "confidence": 0.6622422363974376,
+          "bounding_box": [
+            [
+              442.0,
+              1044.0
+            ],
+            [
+              514.0,
+              1044.0
+            ],
+            [
+              514.0,
+              1054.0
+            ],
+            [
+              442.0,
+              1054.0
+            ]
+          ]
+        },
+        {
+          "text": "Lompulei",
+          "confidence": 0.5650574680854732,
+          "bounding_box": [
+            [
+              392.0,
+              1046.0
+            ],
+            [
+              434.0,
+              1046.0
+            ],
+            [
+              434.0,
+              1054.0
+            ],
+            [
+              392.0,
+              1054.0
+            ]
+          ]
+        },
+        {
+          "text": "168 00",
+          "confidence": 0.8816917480374996,
+          "bounding_box": [
+            [
+              664.0,
+              1034.0
+            ],
+            [
+              694.0,
+              1034.0
+            ],
+            [
+              694.0,
+              1042.0
+            ],
+            [
+              664.0,
+              1042.0
+            ]
+          ]
+        },
+        {
+          "text": "840,00",
+          "confidence": 0.8178802978870094,
+          "bounding_box": [
+            [
+              730.0,
+              1034.0
+            ],
+            [
+              762.0,
+              1034.0
+            ],
+            [
+              762.0,
+              1042.0
+            ],
+            [
+              730.0,
+              1042.0
+            ]
+          ]
+        },
+        {
+          "text": "924,00",
+          "confidence": 0.9995626082722817,
+          "bounding_box": [
+            [
+              852.0,
+              1034.0
+            ],
+            [
+              886.0,
+              1034.0
+            ],
+            [
+              886.0,
+              1044.0
+            ],
+            [
+              852.0,
+              1044.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "item_number": "500G8",
+      "description": "",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "net_amount": null,
+      "vat_rate": null,
+      "gross_amount": null,
+      "confidence": 0.95,
+      "raw_blocks": [
+        {
+          "text": "500G8",
+          "confidence": 0.9500221350085762,
+          "bounding_box": [
+            [
+              418.0,
+              1056.0
+            ],
+            [
+              448.0,
+              1056.0
+            ],
+            [
+              448.0,
+              1064.0
+            ],
+            [
+              418.0,
+              1064.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "line_items_count": 10,
+  "table_region": {
+    "top": 718.0,
+    "bottom": 1092.0
+  },
+  "summary_blocks_count": 1
+}

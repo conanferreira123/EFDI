@@ -1,0 +1,63 @@
+Invoice no: 51109301
+Date of issue:
+03/07/2023
+Seller:
+Client:
+TechVision Distributors Pvt Ltd
+Raj Electronics Pvt Ltd
+Plot 14, MIDC Industrial Area, Andheri East
+42 MG Road
+Mumbai; Maharashtra
+400093
+Bengaluru, Karnataka
+560001
+Tax Id: 27AABCT1234F1Z5
+Tax Id: 901-95-4704
+GSTIN: 27AABCT1234F1Z5
+ITEMS
+No.
+Description
+UM
+Net Price
+Net Worth
+VAT %
+Gross
+Worth
+Garmin Fenix 7 Solar Multisport GPS
+9.00
+pcs
+74,120.00
+667,080.00
+10%
+733,788.00
+Apple Watch Series 9 GPS 45mm
+8.00
+pCs
+52,083.00
+416,664.00
+10%
+458,330.40
+Midnight
+3_
+Xiaomi 14 Pro 512GB White
+8.00
+pcs
+74,154.00
+593,232.00
+10%
+652,555.20
+SUMMARY
+VAT %
+Net Worth
+VAT
+Gross Worth
+10%
+1,676,976.00
+167,697.60
+1,844,673.60
+INR
+Total
+INR 1,676,976.00
+INR 1,844,673.60
+167,697.60
+Qty

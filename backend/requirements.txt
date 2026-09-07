@@ -1,0 +1,69 @@
+# Core application dependencies -- everything needed to boot the app
+# and run the full document pipeline with the "stub" OCR engine.
+#
+# Deliberately does NOT include PaddleOCR, EasyOCR, PaddlePaddle, or
+# torch: those are imported lazily inside app/ocr/paddle_engine.py and
+# app/ocr/easyocr_engine.py (never at module scope -- verified via AST
+# parse of every file in app/), so the application boots and the
+# entire pipeline runs correctly without them installed at all, as
+# long as OCR_DEFAULT_ENGINE=stub (the default). Verified: all 190
+# backend tests pass using ONLY this file's packages, including the
+# test that specifically checks PaddleOCR fails gracefully (422, not a
+# 500 or an import crash) when genuinely not installed.
+#
+# Install requirements-ocr.txt as well if you need real OCR (PaddleOCR
+# or EasyOCR) rather than placeholder stub output -- see that file and
+# requirements-ocr-torch-notes.txt for why torch needs special handling.
+
+# --- Web framework ---
+fastapi==0.137.2
+uvicorn==0.49.0
+gunicorn==23.0.0
+starlette==1.3.1
+python-multipart==0.0.32
+
+# --- Database ---
+SQLAlchemy==2.0.51
+alembic==1.18.4
+psycopg2-binary==2.9.12
+pgvector==0.3.6
+
+# --- Validation / config ---
+pydantic==2.13.4
+pydantic-settings==2.14.1
+pydantic_core==2.46.4
+email-validator==2.3.0
+python-dotenv==1.2.2
+
+# --- Auth ---
+python-jose==3.5.0
+bcrypt==5.0.0
+ecdsa==0.19.2
+rsa==4.9.1
+pyasn1==0.6.3
+
+# --- Document preprocessing (used regardless of OCR engine choice:
+#     PDF rasterization and image loading/denoise/deskew run before
+#     any engine-specific text recognition happens) ---
+PyMuPDF==1.27.2.3
+opencv-contrib-python==4.10.0.84
+numpy==2.3.5
+pillow==12.2.0
+
+# --- Transitive dependencies pinned explicitly for reproducible builds ---
+anyio==4.14.0
+click==8.4.1
+dnspython==2.8.0
+greenlet==3.5.2
+h11==0.16.0
+idna==3.18
+Mako==1.3.12
+MarkupSafe==3.0.3
+annotated-doc==0.0.4
+annotated-types==0.7.0
+six==1.17.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+scikit-learn==1.7.2
+joblib==1.5.2
+openpyxl==3.1.5

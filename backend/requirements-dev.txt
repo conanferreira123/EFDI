@@ -1,0 +1,5 @@
+# Development/test-only dependencies. Not needed to run the
+# application in production -- install on top of requirements.txt only
+# when running the test suite.
+pytest==9.1.0
+httpx==0.28.1

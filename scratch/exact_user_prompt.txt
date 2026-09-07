@@ -1,0 +1,46 @@
+=== PRIMARY DOCUMENT OCR TEXT ===
+"""
+8/30/26,3.38 PM batch1-OOO1.jpg (1654*2339) Invoice no: 51109338 Date Of issue: 04/13/2013 Seller: Client: Andrews; Kirby and Valdez Becker Ltd 58861 Gonzalez Prairie 8012 Stewart Summit Apt, 455 Lake Danielleturt; IN 57228 North Douglas; AZ 95355 Tax Ia; 945-82-2137 Tax Id; 942-80-0517 IBAN: GBZSMCRLO6841367619257 ITEMS Drscrintion Nct price Nct worh VAT [S] Gross Ctortn CLEARANCE Fast Delll Deskton 209,00 627O0 589,70 Lompuler DUAL CORE WIndOWS 10 4/B/16G8 RAK Thln Clent Compute 5,00 DuS 188,75 207,63 AMD GX-212jC 12GHz 4G8 RAK TESTED WIREAD BELOWI gaming desktop cumputet 400 00 400 ,00 440,00 12 Core Gaming Computcr coch 40489 394,07 534.4 Desktop PC Tover Alorcable GAMING Pc 8G8 AMD RGB Custom Build Dell Optiplex 9020 221.99 109,95 1090 220,95 sl ZUGHZ Desklop CompulerPC Optiplex 990 MT Cemputer 269,95 079,80 1040 187,78 PCOlad Core /7 JAGHZ 16G8 HD Windows 10 Pro Dell Core Duo Desktop 168 00 840,00 924,00 Lompulei Windowis XP Pro 500G8 SUMMARY 10* 540,17 564 07 204 19 Total 640,17 564,02 204,19 https:Ilstorage googleapis com/kagglesdsdataldatasets/5773627/11739593/batch_I/batch_I/batch1_I/batch1-OOO1 jpg?X-Goog-Algorithm-GOO 1/1 7520 Vega Vat Konh Grots Wonh
+"""
+
+=== SPATIAL PARTY & HEADER LAYOUT ===
+**Left Section (Vendor / Seller / Header):**
+8/30/26,3.38 PM
+Invoice no: 51109338
+Date Of issue:
+Seller:
+Andrews; Kirby and Valdez
+58861 Gonzalez Prairie
+Lake Danielleturt; IN 57228
+Tax Ia; 945-82-2137
+IBAN: GBZSMCRLO6841367619257
+ITEMS
+
+**Right Section (Customer / Buyer / Summary):**
+batch1-OOO1.jpg (1654*2339)
+04/13/2013
+Client:
+Becker Ltd
+8012 Stewart Summit Apt, 455
+North Douglas; AZ 95355
+Tax Id; 942-80-0517
+Nct price
+Nct worh
+VAT [S]
+
+=== RECONSTRUCTED LINE ITEMS TABLE ===
+| Item # | Description | Qty | Unit | Unit Price | Net Amount | Tax % | Gross Amount |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| DUAL CORE Lompuler WIndOWS 10 4/B/16G8 RAK |  |  |  |  |  |  |  |
+| Thln Clent 7520 Compute AMD GX-212jC 12GHz 4G8 RAK | TESTED WIREAD BELOWI |  |  | 5,00 DuS 188,75 |  |  | 207,63 |
+| desktop cumputet gaming |  |  |  | 400 00 400 ,00 |  |  | 440,00 |
+| 12 Core Gaming Computcr Desktop PC Tover Alorcable |  |  |  | 40489 394,07 coch |  |  | 534.4 |
+| GAMING Pc 8G8 AMD Vega |  |  |  | RGB |  |  |  |
+| Custom Build Dell Optiplex 9020 sl ZUGHZ Desklop | CompulerPC |  |  | 109,95 221.99 |  |  | 1090 220,95 |
+| Optiplex 990 MT Cemputer PCOlad Core /7 JAGHZ 16G8 |  |  |  | 269,95 079,80 |  |  | 1040 187,78 |
+| HD Windows 10 Pro |  |  |  |  |  |  |  |
+| Duo Desktop Dell Core Windowis XP Pro Lompulei |  |  |  | 168 00 840,00 |  |  | 924,00 |
+| 500G8 |  |  |  |  |  |  |  |
+
+=== OCR QUALITY SIGNALS ===
+Overall Score: None, Confidence: None

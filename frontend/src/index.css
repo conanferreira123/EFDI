@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* Enables the `dark` variant to key off a `.dark` class on an
+   ancestor (<html>, toggled by ThemeContext) rather than only the OS
+   `prefers-color-scheme` -- so the person can override the OS setting
+   with an explicit in-app choice. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  EFDI design tokens -- v3: bold modern SaaS.
+
+  Vivid indigo-purple-pink gradient as the primary brand color, clean
+  white/near-black surfaces (not warm paper), saturated status colors,
+  large radii. Same token names as before so every component that
+  already reads bg-paper-50 / text-ink-900 / border-ink-200 etc.
+  re-themes automatically -- only the literal values changed.
+*/
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
+
+  /* Sidebar: fixed brand chrome, a deep indigo-violet gradient rather
+     than a flat navy -- never inverted by dark mode. */
+  --color-sidebar: #150f2e;
+  --gradient-sidebar: linear-gradient(160deg, #1e1147 0%, #14102b 60%, #0d0a1f 100%);
+  --color-sidebar-active: #7c3aed;
+  --color-sidebar-border: #2e2354;
+  --color-sidebar-text: #f2eefc;
+  --color-sidebar-text-muted: #a99cd1;
+
+  --color-ink-950: #0b0e17;
+  --color-ink-900: #1e2230;
+  --color-ink-800: #2c3244;
+  --color-ink-700: #3f4759;
+  --color-ink-600: #565f74;
+  --color-ink-500: #717a8f;
+  --color-ink-400: #98a0b3;
+  --color-ink-300: #c1c6d1;
+  --color-ink-200: #dde0e8;
+  --color-ink-100: #eef0f4;
+  --color-ink-50: #f7f8fa;
+
+  --color-paper-50: #ffffff;
+  --color-paper-100: #f6f7fb;
+  --color-paper-200: #eceef5;
+
+  --color-seal-600: #6d28d9;
+  --color-seal-500: #7c3aed;
+  --color-seal-400: #a78bfa;
+  --color-seal-100: #ede9fe;
+  --color-seal-50: #f5f3ff;
+
+  --color-sage-600: #059669;
+  --color-sage-500: #10b981;
+  --color-sage-100: #d1fae5;
+  --color-sage-50: #ecfdf5;
+
+  --color-clay-600: #dc2626;
+  --color-clay-500: #ef4444;
+  --color-clay-100: #fee2e2;
+  --color-clay-50: #fef2f2;
+
+  --color-slate-warm-500: #6b7280;
+  --color-slate-warm-100: #f3f4f6;
+  --color-slate-warm-50: #f9fafb;
+}
+
+.dark {
+  --color-ink-950: #f7f8fb;
+  --color-ink-900: #eceef4;
+  --color-ink-800: #d6d9e3;
+  --color-ink-700: #b0b5c4;
+  --color-ink-600: #868da3;
+  --color-ink-500: #6b7286;
+  --color-ink-400: #545a6e;
+  --color-ink-300: #383d4d;
+  --color-ink-200: #262a37;
+  --color-ink-100: #191c26;
+  --color-ink-50: #12141c;
+
+  --color-paper-50: #0b0d14;
+  --color-paper-100: #12141d;
+  --color-paper-200: #1a1d29;
+
+  --color-seal-600: #a78bfa;
+  --color-seal-500: #8b5cf6;
+  --color-seal-400: #7c3aed;
+  --color-seal-100: #2e1f4d;
+  --color-seal-50: #1f1533;
+
+  --color-sage-600: #6ee7b7;
+  --color-sage-500: #34d399;
+  --color-sage-100: #052e21;
+  --color-sage-50: #031f16;
+
+  --color-clay-600: #fca5a5;
+  --color-clay-500: #f87171;
+  --color-clay-100: #3a1414;
+  --color-clay-50: #240d0d;
+
+  --color-slate-warm-500: #9ca3af;
+  --color-slate-warm-100: #262b33;
+  --color-slate-warm-50: #191d23;
+}
+
+@layer base {
+  body {
+    @apply bg-paper-100 text-ink-900 font-sans antialiased transition-colors duration-150;
+  }
+}
+
+@layer utilities {
+  .font-data {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* A vivid gradient hairline -- the brand signature carried into
+     every section divider, instead of a plain border color. */
+  .ledger-rule {
+    height: 3px;
+    background-image: var(--gradient-primary);
+    border-radius: 999px;
+    opacity: 0.85;
+  }
+}

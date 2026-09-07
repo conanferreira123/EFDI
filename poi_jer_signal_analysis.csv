@@ -1,0 +1,1351 @@
+filename,ground_truth,predicted_type,rule_description,matched_text,weight
+poi_invoice_001.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_001.pdf,POI,POI,PO number pattern,PO-994801,3.0
+poi_invoice_001.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1001,2.0
+poi_invoice_001.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_001.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_001.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_001.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_001.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_001.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_001.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_002.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_002.pdf,POI,POI,PO number pattern,PO-994802,3.0
+poi_invoice_002.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1002,2.0
+poi_invoice_002.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_002.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_002.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_002.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_002.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_002.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_002.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_003.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_003.pdf,POI,POI,PO number pattern,PO-994803,3.0
+poi_invoice_003.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1003,2.0
+poi_invoice_003.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_003.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_003.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_003.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_003.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_003.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_003.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_004.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_004.pdf,POI,POI,PO number pattern,PO-994804,3.0
+poi_invoice_004.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1004,2.0
+poi_invoice_004.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_004.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_004.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_004.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_004.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_004.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_004.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_005.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_005.pdf,POI,POI,PO number pattern,PO-994805,3.0
+poi_invoice_005.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1005,2.0
+poi_invoice_005.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_005.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_005.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_005.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_005.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_005.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_005.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_006.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_006.pdf,POI,POI,PO number pattern,PO-994806,3.0
+poi_invoice_006.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1006,2.0
+poi_invoice_006.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_006.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_006.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_006.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_006.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_006.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_006.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_007.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_007.pdf,POI,POI,PO number pattern,PO-994807,3.0
+poi_invoice_007.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1007,2.0
+poi_invoice_007.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_007.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_007.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_007.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_007.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_007.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_007.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_008.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_008.pdf,POI,POI,PO number pattern,PO-994808,3.0
+poi_invoice_008.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1008,2.0
+poi_invoice_008.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_008.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_008.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_008.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_008.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_008.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_008.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_009.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_009.pdf,POI,POI,PO number pattern,PO-994809,3.0
+poi_invoice_009.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1009,2.0
+poi_invoice_009.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_009.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_009.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_009.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_009.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_009.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_009.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_010.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_010.pdf,POI,POI,PO number pattern,PO-994810,3.0
+poi_invoice_010.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1010,2.0
+poi_invoice_010.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_010.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_010.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_010.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_010.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_010.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_010.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_011.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_011.pdf,POI,POI,PO number pattern,PO-994811,3.0
+poi_invoice_011.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1011,2.0
+poi_invoice_011.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_011.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_011.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_011.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_011.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_011.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_011.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_012.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_012.pdf,POI,POI,PO number pattern,PO-994812,3.0
+poi_invoice_012.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1012,2.0
+poi_invoice_012.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_012.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_012.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_012.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_012.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_012.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_012.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_013.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_013.pdf,POI,POI,PO number pattern,PO-994813,3.0
+poi_invoice_013.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1013,2.0
+poi_invoice_013.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_013.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_013.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_013.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_013.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_013.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_013.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_014.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_014.pdf,POI,POI,PO number pattern,PO-994814,3.0
+poi_invoice_014.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1014,2.0
+poi_invoice_014.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_014.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_014.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_014.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_014.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_014.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_014.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_015.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_015.pdf,POI,POI,PO number pattern,PO-994815,3.0
+poi_invoice_015.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1015,2.0
+poi_invoice_015.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_015.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_015.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_015.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_015.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_015.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_015.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_016.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_016.pdf,POI,POI,PO number pattern,PO-994816,3.0
+poi_invoice_016.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1016,2.0
+poi_invoice_016.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_016.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_016.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_016.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_016.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_016.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_016.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_017.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_017.pdf,POI,POI,PO number pattern,PO-994817,3.0
+poi_invoice_017.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1017,2.0
+poi_invoice_017.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_017.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_017.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_017.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_017.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_017.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_017.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_018.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_018.pdf,POI,POI,PO number pattern,PO-994818,3.0
+poi_invoice_018.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1018,2.0
+poi_invoice_018.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_018.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_018.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_018.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_018.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_018.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_018.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_019.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_019.pdf,POI,POI,PO number pattern,PO-994819,3.0
+poi_invoice_019.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1019,2.0
+poi_invoice_019.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_019.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_019.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_019.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_019.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_019.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_019.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_020.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_020.pdf,POI,POI,PO number pattern,PO-994820,3.0
+poi_invoice_020.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1020,2.0
+poi_invoice_020.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_020.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_020.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_020.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_020.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_020.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_020.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_021.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_021.pdf,POI,POI,PO number pattern,PO-994821,3.0
+poi_invoice_021.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1021,2.0
+poi_invoice_021.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_021.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_021.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_021.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_021.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_021.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_021.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_022.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_022.pdf,POI,POI,PO number pattern,PO-994822,3.0
+poi_invoice_022.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1022,2.0
+poi_invoice_022.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_022.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_022.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_022.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_022.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_022.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_022.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_023.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_023.pdf,POI,POI,PO number pattern,PO-994823,3.0
+poi_invoice_023.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1023,2.0
+poi_invoice_023.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_023.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_023.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_023.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_023.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_023.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_023.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_024.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_024.pdf,POI,POI,PO number pattern,PO-994824,3.0
+poi_invoice_024.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1024,2.0
+poi_invoice_024.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_024.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_024.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_024.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_024.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_024.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_024.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_025.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_025.pdf,POI,POI,PO number pattern,PO-994825,3.0
+poi_invoice_025.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1025,2.0
+poi_invoice_025.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_025.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_025.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_025.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_025.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_025.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_025.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_026.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_026.pdf,POI,POI,PO number pattern,PO-994826,3.0
+poi_invoice_026.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1026,2.0
+poi_invoice_026.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_026.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_026.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_026.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_026.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_026.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_026.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_027.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_027.pdf,POI,POI,PO number pattern,PO-994827,3.0
+poi_invoice_027.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1027,2.0
+poi_invoice_027.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_027.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_027.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_027.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_027.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_027.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_027.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_028.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_028.pdf,POI,POI,PO number pattern,PO-994828,3.0
+poi_invoice_028.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1028,2.0
+poi_invoice_028.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_028.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_028.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_028.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_028.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_028.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_028.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_029.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_029.pdf,POI,POI,PO number pattern,PO-994829,3.0
+poi_invoice_029.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1029,2.0
+poi_invoice_029.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_029.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_029.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_029.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_029.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_029.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_029.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_030.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_030.pdf,POI,POI,PO number pattern,PO-994830,3.0
+poi_invoice_030.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1030,2.0
+poi_invoice_030.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_030.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_030.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_030.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_030.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_030.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_030.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_031.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_031.pdf,POI,POI,PO number pattern,PO-994831,3.0
+poi_invoice_031.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1031,2.0
+poi_invoice_031.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_031.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_031.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_031.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_031.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_031.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_031.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_032.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_032.pdf,POI,POI,PO number pattern,PO-994832,3.0
+poi_invoice_032.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1032,2.0
+poi_invoice_032.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_032.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_032.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_032.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_032.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_032.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_032.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_033.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_033.pdf,POI,POI,PO number pattern,PO-994833,3.0
+poi_invoice_033.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1033,2.0
+poi_invoice_033.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_033.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_033.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_033.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_033.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_033.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_033.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_034.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_034.pdf,POI,POI,PO number pattern,PO-994834,3.0
+poi_invoice_034.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1034,2.0
+poi_invoice_034.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_034.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_034.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_034.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_034.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_034.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_034.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_035.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_035.pdf,POI,POI,PO number pattern,PO-994835,3.0
+poi_invoice_035.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1035,2.0
+poi_invoice_035.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_035.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_035.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_035.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_035.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_035.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_035.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_036.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_036.pdf,POI,POI,PO number pattern,PO-994836,3.0
+poi_invoice_036.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1036,2.0
+poi_invoice_036.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_036.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_036.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_036.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_036.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_036.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_036.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_037.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_037.pdf,POI,POI,PO number pattern,PO-994837,3.0
+poi_invoice_037.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1037,2.0
+poi_invoice_037.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_037.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_037.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_037.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_037.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_037.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_037.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_038.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_038.pdf,POI,POI,PO number pattern,PO-994838,3.0
+poi_invoice_038.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1038,2.0
+poi_invoice_038.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_038.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_038.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_038.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_038.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_038.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_038.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_039.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_039.pdf,POI,POI,PO number pattern,PO-994839,3.0
+poi_invoice_039.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1039,2.0
+poi_invoice_039.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_039.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_039.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_039.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_039.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_039.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_039.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_040.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_040.pdf,POI,POI,PO number pattern,PO-994840,3.0
+poi_invoice_040.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1040,2.0
+poi_invoice_040.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_040.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_040.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_040.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_040.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_040.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_040.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_041.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_041.pdf,POI,POI,PO number pattern,PO-994841,3.0
+poi_invoice_041.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1041,2.0
+poi_invoice_041.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_041.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_041.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_041.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_041.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_041.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_041.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_042.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_042.pdf,POI,POI,PO number pattern,PO-994842,3.0
+poi_invoice_042.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1042,2.0
+poi_invoice_042.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_042.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_042.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_042.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_042.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_042.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_042.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_043.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_043.pdf,POI,POI,PO number pattern,PO-994843,3.0
+poi_invoice_043.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1043,2.0
+poi_invoice_043.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_043.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_043.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_043.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_043.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_043.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_043.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_044.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_044.pdf,POI,POI,PO number pattern,PO-994844,3.0
+poi_invoice_044.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1044,2.0
+poi_invoice_044.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_044.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_044.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_044.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_044.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_044.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_044.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_045.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_045.pdf,POI,POI,PO number pattern,PO-994845,3.0
+poi_invoice_045.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1045,2.0
+poi_invoice_045.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_045.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_045.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_045.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_045.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_045.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_045.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_046.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_046.pdf,POI,POI,PO number pattern,PO-994846,3.0
+poi_invoice_046.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1046,2.0
+poi_invoice_046.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_046.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_046.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_046.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_046.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_046.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_046.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_047.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_047.pdf,POI,POI,PO number pattern,PO-994847,3.0
+poi_invoice_047.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1047,2.0
+poi_invoice_047.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_047.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_047.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_047.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_047.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_047.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_047.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_048.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_048.pdf,POI,POI,PO number pattern,PO-994848,3.0
+poi_invoice_048.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1048,2.0
+poi_invoice_048.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_048.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_048.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_048.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_048.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_048.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_048.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_049.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_049.pdf,POI,POI,PO number pattern,PO-994849,3.0
+poi_invoice_049.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1049,2.0
+poi_invoice_049.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_049.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_049.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_049.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_049.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_049.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_049.pdf,POI,POI,term 'GSTIN',gstin,1.0
+poi_invoice_050.pdf,POI,POI,phrase 'purchase order',purchase order,2.5
+poi_invoice_050.pdf,POI,POI,PO number pattern,PO-994850,3.0
+poi_invoice_050.pdf,POI,POI,invoice number pattern,Invoice Number: INV-2024-1050,2.0
+poi_invoice_050.pdf,POI,POI,phrase 'invoice number',invoice number,1.5
+poi_invoice_050.pdf,POI,POI,word 'invoice',invoice,1.0
+poi_invoice_050.pdf,POI,POI,term 'GRN',grn,1.5
+poi_invoice_050.pdf,POI,POI,vendor/seller indicator,Vendor,1.0
+poi_invoice_050.pdf,POI,POI,bill to/client indicator,Bill To,1.0
+poi_invoice_050.pdf,POI,POI,phrase 'tax invoice',tax invoice,1.0
+poi_invoice_050.pdf,POI,POI,term 'GSTIN',gstin,1.0
+jer_entry_001.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_001.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_001.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_001.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_001.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_001.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_001.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_001.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_001.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_001.pdf,JER,JER,JE number pattern,JE-1,2.0
+jer_entry_002.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_002.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_002.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_002.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_002.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_002.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_002.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_002.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_002.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_002.pdf,JER,JER,JE number pattern,JE-2,2.0
+jer_entry_003.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_003.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_003.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_003.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_003.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_003.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_003.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_003.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_003.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_003.pdf,JER,JER,JE number pattern,JE-3,2.0
+jer_entry_004.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_004.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_004.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_004.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_004.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_004.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_004.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_004.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_004.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_004.pdf,JER,JER,JE number pattern,JE-4,2.0
+jer_entry_005.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_005.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_005.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_005.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_005.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_005.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_005.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_005.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_005.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_005.pdf,JER,JER,JE number pattern,JE-5,2.0
+jer_entry_006.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_006.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_006.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_006.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_006.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_006.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_006.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_006.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_006.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_006.pdf,JER,JER,JE number pattern,JE-6,2.0
+jer_entry_007.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_007.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_007.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_007.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_007.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_007.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_007.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_007.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_007.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_007.pdf,JER,JER,JE number pattern,JE-7,2.0
+jer_entry_008.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_008.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_008.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_008.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_008.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_008.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_008.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_008.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_008.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_008.pdf,JER,JER,JE number pattern,JE-8,2.0
+jer_entry_009.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_009.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_009.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_009.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_009.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_009.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_009.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_009.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_009.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_009.pdf,JER,JER,JE number pattern,JE-9,2.0
+jer_entry_010.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_010.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_010.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_010.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_010.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_010.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_010.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_010.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_010.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_010.pdf,JER,JER,JE number pattern,JE-10,2.0
+jer_entry_011.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_011.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_011.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_011.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_011.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_011.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_011.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_011.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_011.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_011.pdf,JER,JER,JE number pattern,JE-11,2.0
+jer_entry_012.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_012.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_012.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_012.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_012.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_012.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_012.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_012.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_012.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_012.pdf,JER,JER,JE number pattern,JE-12,2.0
+jer_entry_013.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_013.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_013.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_013.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_013.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_013.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_013.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_013.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_013.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_013.pdf,JER,JER,JE number pattern,JE-13,2.0
+jer_entry_014.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_014.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_014.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_014.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_014.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_014.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_014.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_014.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_014.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_014.pdf,JER,JER,JE number pattern,JE-14,2.0
+jer_entry_015.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_015.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_015.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_015.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_015.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_015.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_015.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_015.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_015.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_015.pdf,JER,JER,JE number pattern,JE-15,2.0
+jer_entry_016.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_016.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_016.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_016.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_016.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_016.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_016.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_016.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_016.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_016.pdf,JER,JER,JE number pattern,JE-16,2.0
+jer_entry_017.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_017.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_017.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_017.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_017.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_017.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_017.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_017.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_017.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_017.pdf,JER,JER,JE number pattern,JE-17,2.0
+jer_entry_018.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_018.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_018.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_018.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_018.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_018.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_018.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_018.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_018.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_018.pdf,JER,JER,JE number pattern,JE-18,2.0
+jer_entry_019.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_019.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_019.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_019.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_019.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_019.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_019.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_019.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_019.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_019.pdf,JER,JER,JE number pattern,JE-19,2.0
+jer_entry_020.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_020.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_020.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_020.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_020.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_020.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_020.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_020.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_020.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_020.pdf,JER,JER,JE number pattern,JE-20,2.0
+jer_entry_021.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_021.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_021.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_021.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_021.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_021.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_021.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_021.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_021.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_021.pdf,JER,JER,JE number pattern,JE-21,2.0
+jer_entry_022.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_022.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_022.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_022.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_022.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_022.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_022.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_022.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_022.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_022.pdf,JER,JER,JE number pattern,JE-22,2.0
+jer_entry_023.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_023.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_023.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_023.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_023.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_023.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_023.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_023.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_023.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_023.pdf,JER,JER,JE number pattern,JE-23,2.0
+jer_entry_024.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_024.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_024.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_024.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_024.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_024.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_024.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_024.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_024.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_024.pdf,JER,JER,JE number pattern,JE-24,2.0
+jer_entry_025.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_025.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_025.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_025.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_025.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_025.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_025.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_025.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_025.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_025.pdf,JER,JER,JE number pattern,JE-25,2.0
+jer_entry_026.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_026.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_026.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_026.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_026.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_026.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_026.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_026.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_026.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_026.pdf,JER,JER,JE number pattern,JE-26,2.0
+jer_entry_027.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_027.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_027.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_027.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_027.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_027.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_027.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_027.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_027.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_027.pdf,JER,JER,JE number pattern,JE-27,2.0
+jer_entry_028.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_028.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_028.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_028.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_028.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_028.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_028.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_028.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_028.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_028.pdf,JER,JER,JE number pattern,JE-28,2.0
+jer_entry_029.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_029.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_029.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_029.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_029.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_029.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_029.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_029.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_029.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_029.pdf,JER,JER,JE number pattern,JE-29,2.0
+jer_entry_030.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_030.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_030.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_030.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_030.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_030.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_030.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_030.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_030.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_030.pdf,JER,JER,JE number pattern,JE-30,2.0
+jer_entry_031.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_031.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_031.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_031.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_031.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_031.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_031.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_031.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_031.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_031.pdf,JER,JER,JE number pattern,JE-31,2.0
+jer_entry_032.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_032.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_032.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_032.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_032.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_032.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_032.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_032.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_032.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_032.pdf,JER,JER,JE number pattern,JE-32,2.0
+jer_entry_033.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_033.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_033.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_033.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_033.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_033.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_033.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_033.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_033.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_033.pdf,JER,JER,JE number pattern,JE-33,2.0
+jer_entry_034.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_034.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_034.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_034.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_034.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_034.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_034.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_034.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_034.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_034.pdf,JER,JER,JE number pattern,JE-34,2.0
+jer_entry_035.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_035.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_035.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_035.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_035.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_035.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_035.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_035.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_035.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_035.pdf,JER,JER,JE number pattern,JE-35,2.0
+jer_entry_036.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_036.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_036.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_036.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_036.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_036.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_036.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_036.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_036.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_036.pdf,JER,JER,JE number pattern,JE-36,2.0
+jer_entry_037.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_037.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_037.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_037.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_037.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_037.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_037.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_037.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_037.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_037.pdf,JER,JER,JE number pattern,JE-37,2.0
+jer_entry_038.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_038.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_038.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_038.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_038.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_038.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_038.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_038.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_038.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_038.pdf,JER,JER,JE number pattern,JE-38,2.0
+jer_entry_039.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_039.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_039.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_039.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_039.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_039.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_039.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_039.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_039.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_039.pdf,JER,JER,JE number pattern,JE-39,2.0
+jer_entry_040.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_040.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_040.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_040.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_040.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_040.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_040.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_040.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_040.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_040.pdf,JER,JER,JE number pattern,JE-40,2.0
+jer_entry_041.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_041.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_041.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_041.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_041.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_041.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_041.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_041.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_041.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_041.pdf,JER,JER,JE number pattern,JE-41,2.0
+jer_entry_042.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_042.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_042.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_042.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_042.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_042.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_042.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_042.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_042.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_042.pdf,JER,JER,JE number pattern,JE-42,2.0
+jer_entry_043.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_043.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_043.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_043.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_043.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_043.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_043.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_043.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_043.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_043.pdf,JER,JER,JE number pattern,JE-43,2.0
+jer_entry_044.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_044.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_044.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_044.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_044.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_044.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_044.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_044.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_044.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_044.pdf,JER,JER,JE number pattern,JE-44,2.0
+jer_entry_045.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_045.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_045.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_045.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_045.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_045.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_045.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_045.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_045.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_045.pdf,JER,JER,JE number pattern,JE-45,2.0
+jer_entry_046.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_046.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_046.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_046.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_046.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_046.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_046.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_046.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_046.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_046.pdf,JER,JER,JE number pattern,JE-46,2.0
+jer_entry_047.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_047.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_047.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_047.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_047.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_047.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_047.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_047.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_047.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_047.pdf,JER,JER,JE number pattern,JE-47,2.0
+jer_entry_048.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_048.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_048.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_048.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_048.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_048.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_048.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_048.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_048.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_048.pdf,JER,JER,JE number pattern,JE-48,2.0
+jer_entry_049.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_049.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_049.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_049.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_049.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_049.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_049.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_049.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_049.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_049.pdf,JER,JER,JE number pattern,JE-49,2.0
+jer_entry_050.pdf,JER,JER,phrase 'journal entry',journal entry,3.0
+jer_entry_050.pdf,JER,JER,phrase 'journal voucher',journal voucher,2.5
+jer_entry_050.pdf,JER,JER,phrase 'gl account',gl account,2.5
+jer_entry_050.pdf,JER,JER,phrase 'gl account code',gl account code,3.0
+jer_entry_050.pdf,JER,JER,phrase 'general ledger',general ledger,2.0
+jer_entry_050.pdf,JER,JER,word 'debit',Debit,1.5
+jer_entry_050.pdf,JER,JER,word 'credit',Credit,1.5
+jer_entry_050.pdf,JER,JER,phrase 'posting date',posting date,1.5
+jer_entry_050.pdf,JER,JER,word 'narration',Narration,1.0
+jer_entry_050.pdf,JER,JER,JE number pattern,JE-50,2.0
+purchase_orders_10248.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10248.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10248.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10249.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10249.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10249.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10250.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10250.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10250.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10251.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10251.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10251.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10252.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10252.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10252.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10253.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10253.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10253.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10254.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10254.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10254.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10255.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10255.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10255.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10256.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10256.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10256.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10257.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10257.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10257.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10258.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10258.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10258.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10259.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10259.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10259.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10260.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10260.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10260.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10261.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10261.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10261.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10262.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10262.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10262.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10263.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10263.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10263.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10264.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10264.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10264.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10265.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10265.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10265.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10266.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10266.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10266.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10267.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10267.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10267.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10268.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10268.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10268.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10269.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10269.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10269.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10270.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10270.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10270.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10271.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10271.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10271.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+purchase_orders_10272.pdf,CONTROL_PO,MSI,word 'customer',Customer,1.5
+purchase_orders_10272.pdf,CONTROL_PO,MSI,phrase 'customer name',customer name,1.5
+purchase_orders_10272.pdf,CONTROL_PO,MSI,phrase 'order id',order id,1.5
+invoice_51109301.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109301,3.0
+invoice_51109301.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109301.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109301.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109301.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109301.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109301.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109301.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109301.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109302.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109302,3.0
+invoice_51109302.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109302.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109302.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109302.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109302.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109302.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109302.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109302.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109303.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109303,3.0
+invoice_51109303.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109303.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109303.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109303.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109303.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109303.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109303.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109303.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109304.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109304,3.0
+invoice_51109304.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109304.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109304.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109304.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109304.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109304.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109304.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109304.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109305.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109305,3.0
+invoice_51109305.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109305.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109305.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109305.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109305.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109305.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109305.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109305.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109306.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109306,3.0
+invoice_51109306.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109306.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109306.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109306.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109306.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109306.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109306.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109306.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109307.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109307,3.0
+invoice_51109307.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109307.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109307.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109307.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109307.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109307.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109307.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109307.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109308.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109308,3.0
+invoice_51109308.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109308.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109308.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109308.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109308.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109308.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109308.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109308.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109309.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109309,3.0
+invoice_51109309.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109309.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109309.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109309.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109309.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109309.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109309.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109309.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109310.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109310,3.0
+invoice_51109310.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109310.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109310.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109310.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109310.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109310.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109310.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109310.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109311.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109311,3.0
+invoice_51109311.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109311.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109311.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109311.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109311.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109311.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109311.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109311.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109312.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109312,3.0
+invoice_51109312.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109312.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109312.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109312.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109312.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109312.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109312.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109312.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109313.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109313,3.0
+invoice_51109313.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109313.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109313.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109313.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109313.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109313.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109313.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109313.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109314.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109314,3.0
+invoice_51109314.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109314.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109314.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109314.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109314.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109314.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109314.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109314.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109315.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109315,3.0
+invoice_51109315.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109315.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109315.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109315.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109315.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109315.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109315.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109315.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109316.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109316,3.0
+invoice_51109316.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109316.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109316.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109316.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109316.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109316.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109316.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109316.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109317.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109317,3.0
+invoice_51109317.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109317.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109317.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109317.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109317.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109317.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109317.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109317.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109318.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109318,3.0
+invoice_51109318.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109318.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109318.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109318.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109318.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109318.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109318.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109318.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109319.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109319,3.0
+invoice_51109319.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109319.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109319.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109319.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109319.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109319.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109319.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109319.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109320.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109320,3.0
+invoice_51109320.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109320.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109320.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109320.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109320.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109320.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109320.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109320.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109321.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109321,3.0
+invoice_51109321.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109321.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109321.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109321.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109321.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109321.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109321.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109321.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109322.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109322,3.0
+invoice_51109322.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109322.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109322.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109322.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109322.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109322.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109322.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109322.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109323.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109323,3.0
+invoice_51109323.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109323.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109323.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109323.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109323.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109323.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109323.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109323.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109324.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109324,3.0
+invoice_51109324.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109324.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109324.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109324.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109324.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109324.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109324.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109324.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+invoice_51109325.pdf,NPO,NPO,invoice number pattern,Invoice no: 51109325,3.0
+invoice_51109325.pdf,NPO,NPO,phrase 'invoice no',Invoice no,2.5
+invoice_51109325.pdf,NPO,NPO,word 'invoice',invoice,1.5
+invoice_51109325.pdf,NPO,NPO,phrase 'bill to / client',Client,2.0
+invoice_51109325.pdf,NPO,NPO,word 'vendor / seller',Seller,2.0
+invoice_51109325.pdf,NPO,NPO,term 'GSTIN',gstin,1.5
+invoice_51109325.pdf,NPO,NPO,term 'Tax Id',Tax Id,1.5
+invoice_51109325.pdf,NPO,NPO,phrase 'date of issue',date of issue,1.5
+invoice_51109325.pdf,NPO,NPO,phrase 'amount due / total summary',Net Worth,1.5
+company_invoice_10248.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10248.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10249.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10249.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10250.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10250.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10251.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10251.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10252.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10252.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10253.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10253.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10254.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10254.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10255.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10255.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10256.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10256.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10257.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10257.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10258.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10258.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10259.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10259.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10260.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10260.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10261.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10261.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10262.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10262.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10263.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10263.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10264.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10264.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10265.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10265.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10266.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10266.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10267.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10267.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10268.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10268.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10269.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10269.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10270.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10270.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10271.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10271.pdf,MSI,MSI,phrase 'order id',order id,1.5
+company_invoice_10272.pdf,MSI,MSI,word 'customer',Customer,1.5
+company_invoice_10272.pdf,MSI,MSI,phrase 'order id',order id,1.5
