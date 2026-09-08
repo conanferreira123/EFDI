@@ -206,20 +206,24 @@ def normalize_amount(raw_value: str | None) -> str | None:
     """
     Strip currency symbols/thousands-separators from a raw extracted
     amount string and return a plain numeric string (e.g.
-    "Rs. 15,000.00" -> "15000.00"). Returns None if no digits are
-    present at all.
+    "Rs. 15,000.00" -> "15000.00", "1 394,67" -> "1394.67",
+    "5 640,17" -> "5640.17", "689,70" -> "689.70"). Returns None if no
+    digits are present at all.
     """
     if not raw_value:
         return None
-    match = _AMOUNT_PATTERN.search(raw_value)
-    if not match:
+    raw_str = str(raw_value).strip()
+    from app.ocr.normalization import parse_numeric
+    num = parse_numeric(raw_str)
+    if num is None:
         return None
-    cleaned = match.group(0).replace(",", "")
-    try:
-        float(cleaned)  # validate it's actually numeric
-    except ValueError:
-        return None
-    return cleaned
+    if "." in raw_str or "," in raw_str:
+        if raw_str.endswith(".00") or raw_str.endswith(",00"):
+            return f"{num:.2f}"
+        if num == int(num) and not (raw_str.endswith(".0") or raw_str.endswith(",0")):
+            return str(int(num))
+        return f"{num:.2f}"
+    return str(int(num)) if num == int(num) else f"{num:.2f}"
 
 
 def extract_date_field(text: str, labels: list[str]) -> ExtractedField:

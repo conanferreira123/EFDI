@@ -10465,3 +10465,1147 @@ payment_terms            agreed
 2026-09-07 12:19:14 | INFO     | app.services.document_service | Document uploaded: id=1084 filename=test.pdf by_user=auditdocowner_325b545b
 2026-09-07 12:19:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/documents/upload "HTTP/1.1 201 Created"
 2026-09-07 12:19:15 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/audit/documents/1084/logs "HTTP/1.1 200 OK"
+2026-09-08 10:54:01 | INFO     | app.services.auth_service | New user registered: username=diag_3177ca1d role=FINANCE_ANALYST
+2026-09-08 10:54:01 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/auth/register "HTTP/1.1 201 Created"
+2026-09-08 10:54:01 | INFO     | app.services.auth_service | User logged in: username=diag_3177ca1d
+2026-09-08 10:54:01 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-09-08 10:54:01 | INFO     | app.services.document_service | Document uploaded: id=2207 filename=batch1-0001.pdf by_user=diag_3177ca1d
+2026-09-08 10:54:01 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/documents/upload "HTTP/1.1 201 Created"
+2026-09-08 10:54:12 | INFO     | app.ocr.easyocr_engine | Loading EasyOCR engine (langs=['en'], gpu=False)...
+2026-09-08 10:54:12 | WARNING  | easyocr.easyocr | Using CPU. Note: This module is much faster with a GPU.
+2026-09-08 10:54:15 | INFO     | app.ocr.easyocr_engine | EasyOCR engine loaded successfully.
+2026-09-08 10:54:45 | INFO     | app.services.ocr_service | OCR completed: document_id=2207 engine=easyocr pages=1 avg_confidence=0.87 time_ms=43334 status=OCR_COMPLETED
+2026-09-08 10:54:45 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/ocr/documents/2207/run "HTTP/1.1 201 Created"
+2026-09-08 10:54:45 | INFO     | app.services.classification_service | Document classified: document_id=2207 type=NPO confidence=0.62 engine=rule_based
+2026-09-08 10:54:45 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/classification/documents/2207/classify "HTTP/1.1 201 Created"
+2026-09-08 10:54:45 | INFO     | app.extraction.llm_extractor | LLM extractor initialized: provider=mistral model=mistral-small-2603 api_base=https://api.mistral.ai/v1 api_key_configured=True
+2026-09-08 10:54:46 | INFO     | app.extraction.llm_extractor | LLM extractor initialized: provider=mistral model=open-mistral-nemo api_base=https://api.mistral.ai/v1 api_key_configured=True
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION START
+============================================================
+document_id: 2207
+document_type: NPO
+engine: hybrid
+field_count: 25
+rule_engine_status: OK
+llm_engine_status: OK
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: document_type
+
+FINAL
+  value: NPO
+  confidence: 0.95
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: document_category
+
+FINAL
+  value: Invoice
+  confidence: 0.98
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: company_name
+
+FINAL
+  value: Becker Ltd
+  confidence: 0.99
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: document_source
+
+FINAL
+  value: batch1-0001.jpg
+  confidence: 0.99
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: currency
+
+FINAL
+  value: USD
+  confidence: 0.95
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: document_date
+
+FINAL
+  value: 2013-04-13
+  confidence: 0.99
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: vendor_name
+
+FINAL
+  value: Kirby and Valdez Andrews_
+  confidence: 0.98
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: invoice_number
+
+RULE-BASED
+  value: 51109338
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 51109338
+  confidence: 0.99
+  provenance: llm
+
+NORMALIZED
+  rule_based: 51109338
+  llm: 51109338
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: invoice_number
+
+FINAL
+  value: 51109338
+  confidence: 1.00
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: invoice_date
+
+FINAL
+  value: 2013-04-13
+  confidence: 0.99
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: invoice_amount
+
+RULE-BASED
+  value: 5204.20
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 5640.17
+  confidence: 0.95
+  provenance: llm
+
+NORMALIZED
+  rule_based: 5204.20
+  llm: 5640.17
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: invoice_amount
+
+FINAL
+  value: 5204.20
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 5640.17
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: tax_amount
+
+RULE-BASED
+  value: 2564.03
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 620.19
+  confidence: 0.95
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2564.03
+  llm: 620.19
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: tax_amount
+
+FINAL
+  value: 2564.03
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 620.19
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: net_amount
+
+RULE-BASED
+  value: 2640.17
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 5019.98
+  confidence: 0.85
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2640.17
+  llm: 5019.98
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: net_amount
+
+FINAL
+  value: 2640.17
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 5019.98
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION COMPLETE
+============================================================
+document_id: 2207
+
+agreed_fields: 1
+rule_based_fields: 0
+llm_fields: 8
+reconciled_fields: 3
+unresolved_conflicts: 0
+not_found_fields: 13
+============================================================
+HYBRID EXTRACTION -- FINAL DECISIONS
+============================================================
+Document ID: 2207
+Document Type: NPO
+
+Field                    RULE-BASED           LLM-BASED            FINAL               
+----------------------------------------------------------------------------------------
+document_id              -                    -                    -                   
+document_type            -                    NPO                  NPO                 
+document_category        -                    Invoice              Invoice             
+company_code             -                    -                    -                   
+company_name             -                    Becker Ltd           Becker Ltd          
+fiscal_year              -                    -                    -                   
+location_code            -                    -                    -                   
+vertical_code            -                    -                    -                   
+document_source          -                    batch1-0001.jpg      batch1-0001.jpg     
+barcode                  -                    -                    -                   
+currency                 -                    USD                  USD                 
+document_date            -                    2013-04-13           2013-04-13          
+ocr_confidence_score     -                    -                    -                   
+processing_status        -                    -                    -                   
+validation_status        -                    -                    -                   
+vendor_code              -                    -                    -                   
+vendor_name              -                    Kirby and Valdez ... Kirby and Valdez ...
+invoice_number           51109338             51109338             51109338            
+invoice_date             -                    2013-04-13           2013-04-13          
+invoice_amount           5204.20              5640.17              5204.20             
+expense_category         -                    -                    -                   
+cost_center              -                    -                    -                   
+department               -                    -                    -                   
+tax_amount               2564.03              620.19               2564.03             
+net_amount               2640.17              5019.98              2640.17             
+============================================================
+FINAL PROVENANCE
+============================================================
+Field                    PROVENANCE              
+--------------------------------------------------
+document_id              not_found               
+document_type            llm                     
+document_category        llm                     
+company_code             not_found               
+company_name             llm                     
+fiscal_year              not_found               
+location_code            not_found               
+vertical_code            not_found               
+document_source          llm                     
+barcode                  not_found               
+currency                 llm                     
+document_date            llm                     
+ocr_confidence_score     not_found               
+processing_status        not_found               
+validation_status        not_found               
+vendor_code              not_found               
+vendor_name              llm                     
+invoice_number           agreed                  
+invoice_date             llm                     
+invoice_amount           reconciled_table_verified
+expense_category         not_found               
+cost_center              not_found               
+department               not_found               
+tax_amount               reconciled_table_verified
+net_amount               reconciled_table_verified
+============================================================
+2026-09-08 10:54:56 | INFO     | app.extraction.llm_extractor | LLM extractor initialized: provider=mistral model=mistral-small-2603 api_base=https://api.mistral.ai/v1 api_key_configured=True
+2026-09-08 10:54:56 | INFO     | app.extraction.parallel_orchestrator | HYBRID EXTRACTION
+  Rule-Based: enabled
+  LLM-Based: enabled
+  LLM provider: mistral
+  model: mistral-small-2603
+  document_type: NPO
+2026-09-08 10:54:57 | ERROR    | app.extraction.llm_extractor | LLM extraction failed: HTTP Error 429: Too Many Requests. Falling back to rule-based extractor.
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION START
+============================================================
+document_id: 2207
+document_type: NPO
+engine: hybrid
+field_count: 25
+rule_engine_status: OK
+llm_engine_status: OK
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: invoice_number
+
+RULE-BASED
+  value: 51109338
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 51109338
+  confidence: 0.80
+  provenance: llm
+
+NORMALIZED
+  rule_based: 51109338
+  llm: 51109338
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: invoice_number
+
+FINAL
+  value: 51109338
+  confidence: 0.85
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: invoice_amount
+
+RULE-BASED
+  value: 5204.20
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 5204.20
+  confidence: 0.82
+  provenance: llm
+
+NORMALIZED
+  rule_based: 5204.20
+  llm: 5204.20
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: invoice_amount
+
+FINAL
+  value: 5204.20
+  confidence: 0.87
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: tax_amount
+
+RULE-BASED
+  value: 2564.03
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 2564.03
+  confidence: 0.80
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2564.03
+  llm: 2564.03
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: tax_amount
+
+FINAL
+  value: 2564.03
+  confidence: 0.85
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2207
+Field: net_amount
+
+RULE-BASED
+  value: 2640.17
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 2640.17
+  confidence: 0.82
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2640.17
+  llm: 2640.17
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2207
+Field: net_amount
+
+FINAL
+  value: 2640.17
+  confidence: 0.87
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 10:54:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION COMPLETE
+============================================================
+document_id: 2207
+
+agreed_fields: 4
+rule_based_fields: 0
+llm_fields: 0
+reconciled_fields: 0
+unresolved_conflicts: 0
+not_found_fields: 21
+============================================================
+HYBRID EXTRACTION -- FINAL DECISIONS
+============================================================
+Document ID: 2207
+Document Type: NPO
+
+Field                    RULE-BASED           LLM-BASED            FINAL               
+----------------------------------------------------------------------------------------
+document_id              -                    -                    -                   
+document_type            -                    -                    -                   
+document_category        -                    -                    -                   
+company_code             -                    -                    -                   
+company_name             -                    -                    -                   
+fiscal_year              -                    -                    -                   
+location_code            -                    -                    -                   
+vertical_code            -                    -                    -                   
+document_source          -                    -                    -                   
+barcode                  -                    -                    -                   
+currency                 -                    -                    -                   
+document_date            -                    -                    -                   
+ocr_confidence_score     -                    -                    -                   
+processing_status        -                    -                    -                   
+validation_status        -                    -                    -                   
+vendor_code              -                    -                    -                   
+vendor_name              -                    -                    -                   
+invoice_number           51109338             51109338             51109338            
+invoice_date             -                    -                    -                   
+invoice_amount           5204.20              5204.20              5204.20             
+expense_category         -                    -                    -                   
+cost_center              -                    -                    -                   
+department               -                    -                    -                   
+tax_amount               2564.03              2564.03              2564.03             
+net_amount               2640.17              2640.17              2640.17             
+============================================================
+FINAL PROVENANCE
+============================================================
+Field                    PROVENANCE              
+--------------------------------------------------
+document_id              not_found               
+document_type            not_found               
+document_category        not_found               
+company_code             not_found               
+company_name             not_found               
+fiscal_year              not_found               
+location_code            not_found               
+vertical_code            not_found               
+document_source          not_found               
+barcode                  not_found               
+currency                 not_found               
+document_date            not_found               
+ocr_confidence_score     not_found               
+processing_status        not_found               
+validation_status        not_found               
+vendor_code              not_found               
+vendor_name              not_found               
+invoice_number           agreed                  
+invoice_date             not_found               
+invoice_amount           agreed                  
+expense_category         not_found               
+cost_center              not_found               
+department               not_found               
+tax_amount               agreed                  
+net_amount               agreed                  
+============================================================
+2026-09-08 10:54:57 | INFO     | app.services.extraction_service | Document extracted: document_id=2207 type=NPO fields=4/25 confidence=0.86
+2026-09-08 10:54:57 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/extraction/documents/2207/extract "HTTP/1.1 201 Created"
+2026-09-08 11:25:37 | INFO     | app.services.auth_service | New user registered: username=diag_4e98b850 role=FINANCE_ANALYST
+2026-09-08 11:25:37 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/auth/register "HTTP/1.1 201 Created"
+2026-09-08 11:25:37 | INFO     | app.services.auth_service | User logged in: username=diag_4e98b850
+2026-09-08 11:25:37 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-09-08 11:25:38 | INFO     | app.services.document_service | Document uploaded: id=2208 filename=batch1-0001.pdf by_user=diag_4e98b850
+2026-09-08 11:25:38 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/documents/upload "HTTP/1.1 201 Created"
+2026-09-08 11:25:47 | INFO     | app.ocr.easyocr_engine | Loading EasyOCR engine (langs=['en'], gpu=False)...
+2026-09-08 11:25:47 | WARNING  | easyocr.easyocr | Using CPU. Note: This module is much faster with a GPU.
+2026-09-08 11:25:49 | INFO     | app.ocr.easyocr_engine | EasyOCR engine loaded successfully.
+2026-09-08 11:26:15 | INFO     | app.services.ocr_service | OCR completed: document_id=2208 engine=easyocr pages=1 avg_confidence=0.87 time_ms=36705 status=OCR_COMPLETED
+2026-09-08 11:26:15 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/ocr/documents/2208/run "HTTP/1.1 201 Created"
+2026-09-08 11:26:15 | INFO     | app.services.classification_service | Document classified: document_id=2208 type=NPO confidence=0.62 engine=rule_based
+2026-09-08 11:26:15 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/classification/documents/2208/classify "HTTP/1.1 201 Created"
+2026-09-08 11:26:15 | INFO     | app.extraction.llm_extractor | LLM extractor initialized: provider=mistral model=ministral-8b-latest api_base=https://api.mistral.ai/v1 api_key_configured=True
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION START
+============================================================
+document_id: 2208
+document_type: NPO
+engine: hybrid
+field_count: 25
+rule_engine_status: OK
+llm_engine_status: OK
+============================================================
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: invoice_number
+
+FINAL
+  value: 51109338
+  confidence: 0.80
+  provenance: rule_based
+  conflict_value: null
+
+DECISION
+  RULE-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: invoice_amount
+
+FINAL
+  value: 5204.20
+  confidence: 0.82
+  provenance: rule_based
+  conflict_value: null
+
+DECISION
+  RULE-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: tax_amount
+
+FINAL
+  value: 2564.03
+  confidence: 0.80
+  provenance: rule_based
+  conflict_value: null
+
+DECISION
+  RULE-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: net_amount
+
+FINAL
+  value: 2640.17
+  confidence: 0.82
+  provenance: rule_based
+  conflict_value: null
+
+DECISION
+  RULE-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:26:57 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION COMPLETE
+============================================================
+document_id: 2208
+
+agreed_fields: 0
+rule_based_fields: 4
+llm_fields: 0
+reconciled_fields: 0
+unresolved_conflicts: 0
+not_found_fields: 21
+============================================================
+HYBRID EXTRACTION -- FINAL DECISIONS
+============================================================
+Document ID: 2208
+Document Type: NPO
+
+Field                    RULE-BASED           LLM-BASED            FINAL               
+----------------------------------------------------------------------------------------
+document_id              -                    -                    -                   
+document_type            -                    -                    -                   
+document_category        -                    -                    -                   
+company_code             -                    -                    -                   
+company_name             -                    -                    -                   
+fiscal_year              -                    -                    -                   
+location_code            -                    -                    -                   
+vertical_code            -                    -                    -                   
+document_source          -                    -                    -                   
+barcode                  -                    -                    -                   
+currency                 -                    -                    -                   
+document_date            -                    -                    -                   
+ocr_confidence_score     -                    -                    -                   
+processing_status        -                    -                    -                   
+validation_status        -                    -                    -                   
+vendor_code              -                    -                    -                   
+vendor_name              -                    -                    -                   
+invoice_number           51109338             -                    51109338            
+invoice_date             -                    -                    -                   
+invoice_amount           5204.20              -                    5204.20             
+expense_category         -                    -                    -                   
+cost_center              -                    -                    -                   
+department               -                    -                    -                   
+tax_amount               2564.03              -                    2564.03             
+net_amount               2640.17              -                    2640.17             
+============================================================
+FINAL PROVENANCE
+============================================================
+Field                    PROVENANCE              
+--------------------------------------------------
+document_id              not_found               
+document_type            not_found               
+document_category        not_found               
+company_code             not_found               
+company_name             not_found               
+fiscal_year              not_found               
+location_code            not_found               
+vertical_code            not_found               
+document_source          not_found               
+barcode                  not_found               
+currency                 not_found               
+document_date            not_found               
+ocr_confidence_score     not_found               
+processing_status        not_found               
+validation_status        not_found               
+vendor_code              not_found               
+vendor_name              not_found               
+invoice_number           rule_based              
+invoice_date             not_found               
+invoice_amount           rule_based              
+expense_category         not_found               
+cost_center              not_found               
+department               not_found               
+tax_amount               rule_based              
+net_amount               rule_based              
+============================================================
+2026-09-08 11:26:58 | INFO     | app.extraction.llm_extractor | LLM extractor initialized: provider=mistral model=ministral-8b-latest api_base=https://api.mistral.ai/v1 api_key_configured=True
+2026-09-08 11:26:58 | INFO     | app.extraction.parallel_orchestrator | HYBRID EXTRACTION
+  Rule-Based: enabled
+  LLM-Based: enabled
+  LLM provider: mistral
+  model: ministral-8b-latest
+  document_type: NPO
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION START
+============================================================
+document_id: 2208
+document_type: NPO
+engine: hybrid
+field_count: 25
+rule_engine_status: OK
+llm_engine_status: OK
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: document_type
+
+FINAL
+  value: NPO
+  confidence: 0.95
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: company_name
+
+FINAL
+  value: Becker Ltd
+  confidence: 0.98
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: document_source
+
+FINAL
+  value: batch1-0001.jpg
+  confidence: 0.99
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: currency
+
+FINAL
+  value: USD
+  confidence: 0.85
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: document_date
+
+FINAL
+  value: 2013-04-13
+  confidence: 0.98
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: vendor_name
+
+FINAL
+  value: Kirby and Valdez Andrews_
+  confidence: 0.98
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2208
+Field: invoice_number
+
+RULE-BASED
+  value: 51109338
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 51109338
+  confidence: 0.99
+  provenance: llm
+
+NORMALIZED
+  rule_based: 51109338
+  llm: 51109338
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: invoice_number
+
+FINAL
+  value: 51109338
+  confidence: 1.00
+  provenance: agreed
+  conflict_value: null
+
+DECISION
+  BOTH ENGINES AGREED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: invoice_date
+
+FINAL
+  value: 2013-08-30
+  confidence: 0.95
+  provenance: llm
+  conflict_value: null
+
+DECISION
+  LLM-BASED RESULT ACCEPTED
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2208
+Field: invoice_amount
+
+RULE-BASED
+  value: 5204.20
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 5640.17
+  confidence: 0.85
+  provenance: llm
+
+NORMALIZED
+  rule_based: 5204.20
+  llm: 5640.17
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: invoice_amount
+
+FINAL
+  value: 5204.20
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 5640.17
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2208
+Field: tax_amount
+
+RULE-BASED
+  value: 2564.03
+  confidence: 0.80
+  provenance: rule_based
+
+LLM-BASED
+  value: 6204.19
+  confidence: 0.80
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2564.03
+  llm: 6204.19
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: tax_amount
+
+FINAL
+  value: 2564.03
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 6204.19
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION INPUT
+============================================================
+Document ID: 2208
+Field: net_amount
+
+RULE-BASED
+  value: 2640.17
+  confidence: 0.82
+  provenance: rule_based
+
+LLM-BASED
+  value: 6401.70
+  confidence: 0.80
+  provenance: llm
+
+NORMALIZED
+  rule_based: 2640.17
+  llm: 6401.70
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION RESULT
+============================================================
+Document ID: 2208
+Field: net_amount
+
+FINAL
+  value: 2640.17
+  confidence: 0.88
+  provenance: reconciled_table_verified
+  conflict_value: 6401.70
+
+DECISION
+  TABLE-VERIFIED RECONCILIATION
+============================================================
+2026-09-08 11:27:11 | INFO     | app.extraction.reconciliation | 
+============================================================
+RECONCILIATION COMPLETE
+============================================================
+document_id: 2208
+
+agreed_fields: 1
+rule_based_fields: 0
+llm_fields: 7
+reconciled_fields: 3
+unresolved_conflicts: 0
+not_found_fields: 14
+============================================================
+HYBRID EXTRACTION -- FINAL DECISIONS
+============================================================
+Document ID: 2208
+Document Type: NPO
+
+Field                    RULE-BASED           LLM-BASED            FINAL               
+----------------------------------------------------------------------------------------
+document_id              -                    -                    -                   
+document_type            -                    NPO                  NPO                 
+document_category        -                    -                    -                   
+company_code             -                    -                    -                   
+company_name             -                    Becker Ltd           Becker Ltd          
+fiscal_year              -                    -                    -                   
+location_code            -                    -                    -                   
+vertical_code            -                    -                    -                   
+document_source          -                    batch1-0001.jpg      batch1-0001.jpg     
+barcode                  -                    -                    -                   
+currency                 -                    USD                  USD                 
+document_date            -                    2013-04-13           2013-04-13          
+ocr_confidence_score     -                    -                    -                   
+processing_status        -                    -                    -                   
+validation_status        -                    -                    -                   
+vendor_code              -                    -                    -                   
+vendor_name              -                    Kirby and Valdez ... Kirby and Valdez ...
+invoice_number           51109338             51109338             51109338            
+invoice_date             -                    2013-08-30           2013-08-30          
+invoice_amount           5204.20              5640.17              5204.20             
+expense_category         -                    -                    -                   
+cost_center              -                    -                    -                   
+department               -                    -                    -                   
+tax_amount               2564.03              6204.19              2564.03             
+net_amount               2640.17              6401.70              2640.17             
+============================================================
+FINAL PROVENANCE
+============================================================
+Field                    PROVENANCE              
+--------------------------------------------------
+document_id              not_found               
+document_type            llm                     
+document_category        not_found               
+company_code             not_found               
+company_name             llm                     
+fiscal_year              not_found               
+location_code            not_found               
+vertical_code            not_found               
+document_source          llm                     
+barcode                  not_found               
+currency                 llm                     
+document_date            llm                     
+ocr_confidence_score     not_found               
+processing_status        not_found               
+validation_status        not_found               
+vendor_code              not_found               
+vendor_name              llm                     
+invoice_number           agreed                  
+invoice_date             llm                     
+invoice_amount           reconciled_table_verified
+expense_category         not_found               
+cost_center              not_found               
+department               not_found               
+tax_amount               reconciled_table_verified
+net_amount               reconciled_table_verified
+============================================================
+2026-09-08 11:27:11 | INFO     | app.services.extraction_service | Document extracted: document_id=2208 type=NPO fields=11/25 confidence=0.94
+2026-09-08 11:27:11 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/extraction/documents/2208/extract "HTTP/1.1 201 Created"

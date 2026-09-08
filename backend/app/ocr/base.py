@@ -29,9 +29,16 @@ class OCRPageResult:
 
     page_number: int
     blocks: list[OCRTextBlock] = field(default_factory=list)
+    custom_full_text: str | None = None
 
     @property
     def full_text(self) -> str:
+        if self.custom_full_text is not None:
+            return self.custom_full_text
+        return "\n".join(block.text for block in self.blocks)
+
+    @property
+    def legacy_full_text(self) -> str:
         return "\n".join(block.text for block in self.blocks)
 
     @property
@@ -47,10 +54,17 @@ class OCRResult:
 
     pages: list[OCRPageResult] = field(default_factory=list)
     engine_name: str = ""
+    custom_full_text: str | None = None
 
     @property
     def full_text(self) -> str:
+        if self.custom_full_text is not None:
+            return self.custom_full_text
         return "\n\n".join(page.full_text for page in self.pages)
+
+    @property
+    def legacy_full_text(self) -> str:
+        return "\n\n".join(page.legacy_full_text for page in self.pages)
 
     @property
     def average_confidence(self) -> float:

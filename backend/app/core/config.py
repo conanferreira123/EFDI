@@ -63,6 +63,7 @@ class Settings(BaseSettings):
     # for environments without network access to real model weights;
     # set to "paddleocr" or "easyocr" once weights are available.
     OCR_DEFAULT_ENGINE: str = "easyocr"
+    ENABLE_STRUCTURED_FULL_TEXT: bool = True
 
     # --- Extraction & LLM ---
     EXTRACTION_DEFAULT_ENGINE: str = "hybrid"
