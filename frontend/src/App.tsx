@@ -9,6 +9,7 @@ import {RegisterPage } from "@/pages/RegisterPage";
 import { DocumentsListPage } from "@/pages/DocumentsListPage";
 import { UploadPage } from "@/pages/UploadPage";
 import { DocumentDetailPage } from "@/pages/DocumentDetailPage";
+import { GlobalChatPage } from "@/pages/GlobalChatPage";
 import { AuditLogPage } from "@/pages/AuditLogPage";
 import { UsersPage } from "@/pages/UsersPage";
 
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
         path: "/upload",
         element: <UploadPage />,
         handle: { title: "Upload" },
+      },
+      {
+        path: "/chat",
+        element: <GlobalChatPage />,
+        handle: { title: "Ask AI" },
       },
       {
         path: "/audit",

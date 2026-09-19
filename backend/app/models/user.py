@@ -31,7 +31,7 @@ class User(Base, TimestampMixin):
         "Document",
         back_populates="uploaded_by_user",
         foreign_keys="Document.uploaded_by",
-        lazy="selectin",
+        lazy="select",
     )
 
     # Added in Phase 9 now that AuditLog exists, following the same

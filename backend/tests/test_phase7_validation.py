@@ -155,11 +155,10 @@ def _setup_pipeline(token: str, document_type: str, fields: dict, *, salt: bytes
 
 
 CLEAN_POI_FIELDS = {
-    "fiscal_year": "FY2026", "company_name": "Our Co", "currency": "INR",
-    "document_date": "2026-06-15", "po_number": "PO-2026-789",
+    "currency": "INR", "po_number": "PO-2026-789",
     "invoice_number": "INV-2026-001", "invoice_date": "2026-06-15",
-    "invoice_amount": "25000.00", "tax_amount": "4500.00", "net_amount": "20500.00",
-    "vendor_code": "V-1001", "vendor_name": "Acme Corp",
+    "grand_total_amount": "25000.00", "total_tax_amount": "4500.00", "subtotal_net_amount": "20500.00",
+    "vendor_code": "V-1001", "seller_name": "Acme Corp", "buyer_name": "Our Co",
 }
 
 
@@ -176,7 +175,7 @@ def test_mandatory_fields_only_reference_valid_schema_keys():
 
 def test_get_mandatory_fields_includes_common_and_specific():
     mandatory = get_mandatory_fields("POI")
-    assert "fiscal_year" in mandatory  # common
+    assert "currency" in mandatory  # common
     assert "po_number" in mandatory  # POI-specific
 
 
@@ -216,13 +215,13 @@ def test_date_validator_skips_missing_field():
 # --- Amount format validator ---
 
 def test_amount_validator_flags_negative_amount():
-    fields = {"invoice_amount": {"value": "-100.00"}}
+    fields = {"grand_total_amount": {"value": "-100.00"}}
     issues = validate_amount_fields(fields, "POI")
     assert len(issues) == 1
 
 
 def test_amount_validator_passes_valid_amount():
-    fields = {"invoice_amount": {"value": "25000.00"}}
+    fields = {"grand_total_amount": {"value": "25000.00"}}
     assert validate_amount_fields(fields, "POI") == []
 
 
@@ -248,7 +247,7 @@ def test_tax_id_validator_ignores_ordinary_short_codes():
 # --- Business rules ---
 
 def test_business_rule_poi_amount_mismatch_is_warning():
-    fields = {"invoice_amount": {"value": "25000.00"}, "tax_amount": {"value": "4500.00"}, "net_amount": {"value": "15000.00"}}
+    fields = {"grand_total_amount": {"value": "25000.00"}, "total_tax_amount": {"value": "4500.00"}, "subtotal_net_amount": {"value": "15000.00"}}
     issues = validate_business_rules(fields, "POI")
     assert len(issues) == 1
     assert issues[0].severity.value == "WARNING"

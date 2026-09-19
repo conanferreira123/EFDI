@@ -18,6 +18,7 @@ Rule going forward: every new model module added in later phases
 (AuditLog in Phase 9, etc.) must be imported here too.
 """
 from app.models.audit_log import AuditLog  # noqa: F401
+from app.models.chat import ChatMessage, ChatSession  # noqa: F401
 from app.models.classification_result import ClassificationResult  # noqa: F401
 from app.models.document import Document  # noqa: F401
 from app.models.document_chunk import DocumentChunk  # noqa: F401
@@ -36,4 +37,5 @@ __all__ = [
     "User", "Document", "OCRResult", "ClassificationResult", "ExtractionResult",
     "ValidationResult", "WorkflowHistory", "AuditLog", "TrainingExample", "UserRole", "DocumentType",
     "DocumentStatus", "AuditAction", "DocumentChunk", "VendorKnowledge", "SystemSetting",
+    "ChatSession", "ChatMessage",
 ]

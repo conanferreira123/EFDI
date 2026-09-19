@@ -374,6 +374,15 @@ class ReconciliationEngine:
             "\n".join(prov_lines),
         )
 
+        # For hierarchical NPO documents, preserve canonical dot-paths, collections (line_items, taxes),
+        # and root canonical payload from LLM or Rule engine
+        if doc_type == "NPO":
+            source_res = llm_result if (llm_result and "canonical" in llm_result.fields) else rule_result
+            if source_res:
+                for k, v in source_res.fields.items():
+                    if ("." in k or k in ("line_items", "taxes", "canonical")) and k not in reconciled_fields:
+                        reconciled_fields[k] = v
+
         return ExtractionResultData(
             document_type=doc_type,
             fields=reconciled_fields,

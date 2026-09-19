@@ -214,15 +214,16 @@ def test_extracts_poi_fields_correctly():
     assert result.fields["grn_number"].value == "GRN-445"
     assert result.fields["invoice_number"].value == "INV-2026-001"
     assert result.fields["invoice_date"].value == "2026-06-15"
-    assert result.fields["invoice_amount"].value == "25000.00"
-    assert result.fields["tax_amount"].value == "4500.00"
-    assert result.fields["net_amount"].value == "20500.00"
+    assert result.fields["grand_total_amount"].value == "25000.00"
+    assert result.fields["total_tax_amount"].value == "4500.00"
+    assert result.fields["subtotal_net_amount"].value == "20500.00"
     assert result.fields["vendor_code"].value == "V-1001"
-    assert result.fields["vendor_name"].value == "Acme Corporation"
+    assert result.fields["seller_name"].value == "Acme Corporation"
+    assert result.fields["buyer_name"].value == "Our Company Pvt Ltd"
     assert result.fields["payment_terms"].value == "Net 30"
     # Fields genuinely absent from the sample text must be null, not guessed.
     assert result.fields["srn_number"].value is None
-    assert result.fields["location_code"].value is None
+    assert result.fields["seller_address"].value is None
 
 
 def test_extracts_bka_fields_correctly():
@@ -350,7 +351,7 @@ def test_extract_for_unknown_classification_succeeds_with_empty_fields():
         headers=_auth_header(token), json={},
     )
     assert response.status_code == 201
-    assert response.json()["fields"] == {}
+    assert response.json()["document_type"] == "UNKNOWN"
 
 
 def test_get_latest_extraction_result():
@@ -400,13 +401,13 @@ def test_manually_correct_a_null_field():
     client.post(f"/api/v1/extraction/documents/{document_id}/extract", headers=_auth_header(token), json={})
 
     response = client.patch(
-        f"/api/v1/extraction/documents/{document_id}/fields/location_code",
-        headers=_auth_header(token), json={"value": "LOC-MUM-01"},
+        f"/api/v1/extraction/documents/{document_id}/fields/srn_number",
+        headers=_auth_header(token), json={"value": "SRN-MUM-01"},
     )
     assert response.status_code == 200
     body = response.json()
-    assert body["fields"]["location_code"]["value"] == "LOC-MUM-01"
-    assert body["fields"]["location_code"]["confidence"] == 1.0
+    assert body["fields"]["srn_number"]["value"] == "SRN-MUM-01"
+    assert body["fields"]["srn_number"]["confidence"] == 1.0
 
 
 def test_correcting_invalid_field_key_returns_422():

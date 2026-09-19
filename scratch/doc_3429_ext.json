@@ -1,0 +1,860 @@
+{
+  "created_at": "2026-09-15T12:07:29.941397+05:30",
+  "updated_at": "2026-09-15T12:07:29.941401+05:30",
+  "id": 912,
+  "document_id": 3429,
+  "document_type": "NPO",
+  "engine_name": "llm_based",
+  "fields": {
+    "taxes": {
+      "value": [],
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "currency": {
+      "value": "USD",
+      "confidence": 0.99,
+      "matched_text": "$",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "canonical": {
+      "value": {
+        "buyer": {
+          "name": {
+            "value": "Beta Solutions LLC",
+            "is_found": true,
+            "confidence": 0.95,
+            "provenance": "llm",
+            "matched_text": "Beta Solutions LLC",
+            "conflict_value": null
+          },
+          "tax_id": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "address": {
+            "value": "456 Market St, Boston, MA",
+            "is_found": true,
+            "confidence": 0.88,
+            "provenance": "llm",
+            "matched_text": "456 Market St",
+            "conflict_value": null
+          }
+        },
+        "taxes": [],
+        "seller": {
+          "name": {
+            "value": "Acme Corp Global",
+            "is_found": true,
+            "confidence": 0.96,
+            "provenance": "llm",
+            "matched_text": "Acme Corp Global",
+            "conflict_value": null
+          },
+          "tax_id": {
+            "value": "US123456789",
+            "is_found": true,
+            "confidence": 0.9,
+            "provenance": "llm",
+            "matched_text": "Tax ID: US123456789",
+            "conflict_value": null
+          },
+          "address": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "totals": {
+          "discount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "rounding": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "shipping": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "subtotal": {
+            "value": "1000.00",
+            "is_found": true,
+            "confidence": 0.95,
+            "provenance": "llm",
+            "matched_text": "Subtotal: $1,000.00",
+            "conflict_value": null
+          },
+          "total_tax": {
+            "value": "150.00",
+            "is_found": true,
+            "confidence": 0.94,
+            "provenance": "llm",
+            "matched_text": "Tax: $150.00",
+            "conflict_value": null
+          },
+          "grand_total": {
+            "value": "1150.00",
+            "is_found": true,
+            "confidence": 0.97,
+            "provenance": "llm",
+            "matched_text": "Total: $1,150.00",
+            "conflict_value": null
+          },
+          "other_charges": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "payment": {
+          "iban": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "due_date": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "swift_bic": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "bank_account": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "payment_terms": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "payment_method": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "remittance_reference": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "line_items": [],
+        "references": {
+          "po_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "order_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "contract_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "other_reference": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "delivery_note_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "invoice_information": {
+          "currency": {
+            "value": "USD",
+            "is_found": true,
+            "confidence": 0.99,
+            "provenance": "llm",
+            "matched_text": "$",
+            "conflict_value": null
+          },
+          "invoice_date": {
+            "value": "2026-06-15",
+            "is_found": true,
+            "confidence": 0.95,
+            "provenance": "llm",
+            "matched_text": "Date: 15/06/2026",
+            "conflict_value": null
+          },
+          "document_type": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "invoice_number": {
+            "value": "INV-2026-9001",
+            "is_found": true,
+            "confidence": 0.98,
+            "provenance": "llm",
+            "matched_text": "Invoice: INV-2026-9001",
+            "conflict_value": null
+          }
+        }
+      },
+      "confidence": 0.95,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer.name": {
+      "value": "Beta Solutions LLC",
+      "confidence": 0.95,
+      "matched_text": "Beta Solutions LLC",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer_name": {
+      "value": "Beta Solutions LLC",
+      "confidence": 0.95,
+      "matched_text": "Beta Solutions LLC",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "line_items": {
+      "value": [],
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller.name": {
+      "value": "Acme Corp Global",
+      "confidence": 0.96,
+      "matched_text": "Acme Corp Global",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller_name": {
+      "value": "Acme Corp Global",
+      "confidence": 0.96,
+      "matched_text": "Acme Corp Global",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer.tax_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer_tax_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_date": {
+      "value": "2026-06-15",
+      "confidence": 0.95,
+      "matched_text": "Date: 15/06/2026",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.iban": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer.address": {
+      "value": "456 Market St, Boston, MA",
+      "confidence": 0.88,
+      "matched_text": "456 Market St",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "buyer_address": {
+      "value": "456 Market St, Boston, MA",
+      "confidence": 0.88,
+      "matched_text": "456 Market St",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller.tax_id": {
+      "value": "US123456789",
+      "confidence": 0.9,
+      "matched_text": "Tax ID: US123456789",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller_tax_id": {
+      "value": "US123456789",
+      "confidence": 0.9,
+      "matched_text": "Tax ID: US123456789",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_number": {
+      "value": "INV-2026-9001",
+      "confidence": 0.98,
+      "matched_text": "Invoice: INV-2026-9001",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller.address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "seller_address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.discount": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.rounding": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.shipping": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.subtotal": {
+      "value": "1000.00",
+      "confidence": 0.95,
+      "matched_text": "Subtotal: $1,000.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.due_date": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "total_tax_amount": {
+      "value": "150.00",
+      "confidence": 0.94,
+      "matched_text": "Tax: $150.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.total_tax": {
+      "value": "150.00",
+      "confidence": 0.94,
+      "matched_text": "Tax: $150.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.swift_bic": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "grand_total_amount": {
+      "value": "1150.00",
+      "confidence": 0.97,
+      "matched_text": "Total: $1,150.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.grand_total": {
+      "value": "1150.00",
+      "confidence": 0.97,
+      "matched_text": "Total: $1,150.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "subtotal_net_amount": {
+      "value": "1000.00",
+      "confidence": 0.95,
+      "matched_text": "Subtotal: $1,000.00",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.bank_account": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "references.po_number": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "totals.other_charges": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.payment_terms": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.payment_method": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "references.order_number": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "references.contract_number": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "references.other_reference": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_information.currency": {
+      "value": "USD",
+      "confidence": 0.99,
+      "matched_text": "$",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "payment.remittance_reference": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "references.delivery_note_number": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_information.invoice_date": {
+      "value": "2026-06-15",
+      "confidence": 0.95,
+      "matched_text": "Date: 15/06/2026",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_information.document_type": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "invoice_information.invoice_number": {
+      "value": "INV-2026-9001",
+      "confidence": 0.98,
+      "matched_text": "Invoice: INV-2026-9001",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    }
+  },
+  "overall_confidence": 0.9,
+  "fields_found_count": 6,
+  "fields_total_count": 15,
+  "canonical": {
+    "buyer": {
+      "name": {
+        "value": "Beta Solutions LLC",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "Beta Solutions LLC",
+        "conflict_value": null
+      },
+      "tax_id": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "address": {
+        "value": "456 Market St, Boston, MA",
+        "is_found": true,
+        "confidence": 0.88,
+        "provenance": "llm",
+        "matched_text": "456 Market St",
+        "conflict_value": null
+      }
+    },
+    "taxes": [],
+    "seller": {
+      "name": {
+        "value": "Acme Corp Global",
+        "is_found": true,
+        "confidence": 0.96,
+        "provenance": "llm",
+        "matched_text": "Acme Corp Global",
+        "conflict_value": null
+      },
+      "tax_id": {
+        "value": "US123456789",
+        "is_found": true,
+        "confidence": 0.9,
+        "provenance": "llm",
+        "matched_text": "Tax ID: US123456789",
+        "conflict_value": null
+      },
+      "address": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "totals": {
+      "discount": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "rounding": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "shipping": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "subtotal": {
+        "value": "1000.00",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "Subtotal: $1,000.00",
+        "conflict_value": null
+      },
+      "total_tax": {
+        "value": "150.00",
+        "is_found": true,
+        "confidence": 0.94,
+        "provenance": "llm",
+        "matched_text": "Tax: $150.00",
+        "conflict_value": null
+      },
+      "grand_total": {
+        "value": "1150.00",
+        "is_found": true,
+        "confidence": 0.97,
+        "provenance": "llm",
+        "matched_text": "Total: $1,150.00",
+        "conflict_value": null
+      },
+      "other_charges": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "payment": {
+      "iban": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "due_date": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "swift_bic": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "bank_account": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "payment_terms": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "payment_method": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "remittance_reference": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "line_items": [],
+    "references": {
+      "po_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "order_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "contract_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "other_reference": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "delivery_note_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "invoice_information": {
+      "currency": {
+        "value": "USD",
+        "is_found": true,
+        "confidence": 0.99,
+        "provenance": "llm",
+        "matched_text": "$",
+        "conflict_value": null
+      },
+      "invoice_date": {
+        "value": "2026-06-15",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "Date: 15/06/2026",
+        "conflict_value": null
+      },
+      "document_type": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "invoice_number": {
+        "value": "INV-2026-9001",
+        "is_found": true,
+        "confidence": 0.98,
+        "provenance": "llm",
+        "matched_text": "Invoice: INV-2026-9001",
+        "conflict_value": null
+      }
+    }
+  }
+}

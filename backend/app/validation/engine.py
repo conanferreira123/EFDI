@@ -18,6 +18,7 @@ from app.validation.business_rules import validate_business_rules
 from app.validation.duplicate_detection import validate_duplicate_document
 from app.validation.field_validators import (
     validate_amount_fields,
+    validate_currency_fields,
     validate_date_fields,
     validate_required_fields,
     validate_tax_id_format,
@@ -30,6 +31,7 @@ ALL_FIELD_VALIDATORS = [
     validate_required_fields,
     validate_date_fields,
     validate_amount_fields,
+    validate_currency_fields,
     validate_tax_id_format,
 ]
 
@@ -58,6 +60,6 @@ def run_validation(db: Session, document: Document, document_type: str, fields: 
         report.issues.extend(validator_fn(fields, document_type))
 
     report.issues.extend(validate_business_rules(fields, document_type))
-    report.issues.extend(validate_duplicate_document(db, document))
+    report.issues.extend(validate_duplicate_document(db, document, fields))
 
     return report

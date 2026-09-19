@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.exceptions import NotFoundException, ValidationFailedException
-from app.extraction.base import ExtractionContext
+from app.extraction.base import ExtractedField, ExtractionContext
 from app.extraction.factory import get_extraction_engine
 from app.extraction.field_schemas import get_full_field_schema
 from app.extraction.primitives import normalize_amount, normalize_date
@@ -111,6 +111,48 @@ class ExtractionService:
                 document.id, result_data, page_count=page_count
             )
 
+        # Populate authoritative system metadata fields from document/application records
+        result_data.fields["document_id"] = ExtractedField(
+            value=str(document.id) if document.id is not None else None,
+            confidence=1.0 if document.id is not None else 0.0,
+            matched_text=None,
+            provenance="system",
+        )
+        result_data.fields["processing_status"] = ExtractedField(
+            value=DocumentStatus.EXTRACTED.value,
+            confidence=1.0,
+            matched_text=None,
+            provenance="system",
+        )
+        result_data.fields["validation_status"] = ExtractedField(
+            value=document.validation_status or "PENDING",
+            confidence=1.0 if document.validation_status else 0.0,
+            matched_text=None,
+            provenance="system",
+        )
+        result_data.fields["company_code"] = ExtractedField(
+            value=document.company_code,
+            confidence=1.0 if document.company_code else 0.0,
+            matched_text=None,
+            provenance="system",
+        )
+
+        full_schema_keys = {f.key for f in get_full_field_schema(document_type)}
+        if "vendor_code" in full_schema_keys:
+            result_data.fields["vendor_code"] = ExtractedField(
+                value=document.vendor_code,
+                confidence=1.0 if document.vendor_code else 0.0,
+                matched_text=None,
+                provenance="system",
+            )
+        if "customer_code" in full_schema_keys:
+            result_data.fields["customer_code"] = ExtractedField(
+                value=getattr(document, "customer_code", None),
+                confidence=1.0 if getattr(document, "customer_code", None) else 0.0,
+                matched_text=None,
+                provenance="system",
+            )
+
         fields_payload = {
             key: {
                 "value": f.value,
@@ -160,29 +202,36 @@ class ExtractionService:
         if not extraction_result:
             raise NotFoundException("Extraction result for document", document_id)
 
+        is_npo = extraction_result.document_type == "NPO"
         if field_key not in extraction_result.fields:
-            raise ValidationFailedException(
-                f"Field '{field_key}' is not part of this document's extraction schema."
-            )
+            if is_npo:
+                from app.extraction.field_schemas import (
+                    NPO_IMPORTANT_OPTIONAL_PATHS,
+                    NPO_MANDATORY_CORE_PATHS,
+                    NPO_SYSTEM_METADATA_PATHS,
+                )
+                valid_npo_paths = NPO_MANDATORY_CORE_PATHS | NPO_IMPORTANT_OPTIONAL_PATHS | NPO_SYSTEM_METADATA_PATHS
+                if field_key not in valid_npo_paths:
+                    raise ValidationFailedException(
+                        f"Field '{field_key}' is not part of this document's extraction schema."
+                    )
+            else:
+                raise ValidationFailedException(
+                    f"Field '{field_key}' is not part of this document's extraction schema."
+                )
 
-        # A manual correction must be normalized the same way automatic
-        # extraction normalizes a value -- otherwise a user typing a
-        # perfectly valid date like "21/03/2012" gets stored verbatim
-        # and then rejected by validation, which requires ISO format
-        # (validation assumes extraction already normalized it, which
-        # was true for automatic extraction but not for this manual
-        # path). Look up the field's declared type and apply the same
-        # normalize_date/normalize_amount used during extraction; if
-        # normalization fails, fall back to the raw value so the user's
-        # input is never silently discarded -- validation will then
-        # correctly flag it as a format error for them to fix.
         schema = get_full_field_schema(extraction_result.document_type)
         field_def = next((f for f in schema if f.key == field_key), None)
         normalized_value = value
-        if field_def and value:
-            if field_def.field_type == "date":
+        if value:
+            # Check type from schema or infer from dot-path leaf
+            is_date = (field_def and field_def.field_type == "date") or "date" in field_key
+            is_amount = (field_def and field_def.field_type == "amount") or any(
+                term in field_key for term in ("total", "amount", "price", "subtotal", "tax_rate")
+            )
+            if is_date:
                 normalized_value = normalize_date(value) or value
-            elif field_def.field_type == "amount":
+            elif is_amount:
                 normalized_value = normalize_amount(value) or value
 
         updated = self.extraction_repo.update_field(extraction_result, field_key, normalized_value)
@@ -209,10 +258,19 @@ class ExtractionService:
 
         rows = []
         for key, field_data in extraction_result.fields.items():
+            # Skip internal raw container keys in flat export rows unless individually requested
+            if key in ("canonical", "_canonical"):
+                continue
+
+            val = field_data.get("value")
+            if isinstance(val, (list, dict)):
+                import json
+                val = json.dumps(val)
+
             rows.append({
                 "key": key,
                 "label": label_by_key.get(key, key),
-                "value": field_data.get("value"),
+                "value": val,
                 "confidence": field_data.get("confidence"),
                 "is_found": field_data.get("is_found", False),
             })

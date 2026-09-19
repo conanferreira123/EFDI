@@ -28,11 +28,11 @@ from app.workflow.state_machine import (
 client = TestClient(app)
 
 CLEAN_POI_FIELDS = {
-    "fiscal_year": "FY2026", "company_name": "Our Co", "currency": "INR",
-    "document_date": "2026-06-15", "po_number": "PO-2026-789",
+    "buyer_name": "Our Co", "currency": "INR",
+    "po_number": "PO-2026-789",
     "invoice_number": "INV-2026-001", "invoice_date": "2026-06-15",
-    "invoice_amount": "25000.00", "tax_amount": "4500.00", "net_amount": "20500.00",
-    "vendor_code": "V-1001", "vendor_name": "Acme Corp",
+    "grand_total_amount": "25000.00", "total_tax_amount": "4500.00", "subtotal_net_amount": "20500.00",
+    "vendor_code": "V-1001", "seller_name": "Acme Corp",
 }
 
 

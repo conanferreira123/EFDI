@@ -6,29 +6,50 @@ import { ConfidenceBar } from "@/components/confidence-bar";
 import { extractionApi } from "@/services/pipeline";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { useToast } from "@/components/ui/toast";
-import type { ExtractedField } from "@/types/api";
+import { fieldLabel } from "@/lib/format";
+import type { CanonicalNPO, ExtractedField } from "@/types/api";
+import { NPOInvoiceReview } from "@/components/npo-invoice-review";
 
 interface ExtractionFieldsProps {
   documentId: number;
+  documentType?: string;
   fields: Record<string, ExtractedField>;
+  canonical?: CanonicalNPO | null;
   onFieldUpdated: () => void;
 }
 
-function fieldLabel(key: string): string {
-  return key
-    .split("_")
-    .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-export function ExtractionFields({ documentId, fields, onFieldUpdated }: ExtractionFieldsProps) {
+export function ExtractionFields({
+  documentId,
+  documentType,
+  fields,
+  canonical,
+  onFieldUpdated,
+}: ExtractionFieldsProps) {
   const showError = useApiErrorToast();
   const { push } = useToast();
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [draftValue, setDraftValue] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  const entries = Object.entries(fields);
+  // If this is an NPO invoice or has canonical representation, render the AP-friendly NPO review
+  const isNpo = (documentType || "").toUpperCase() === "NPO" || Boolean(canonical) || Boolean(fields.canonical);
+  if (isNpo) {
+    return (
+      <NPOInvoiceReview
+        documentId={documentId}
+        fields={fields}
+        canonical={canonical || (fields.canonical?.value as CanonicalNPO)}
+        onFieldUpdated={onFieldUpdated}
+      />
+    );
+  }
+
+  const entries = Object.entries(fields).filter(([key, field]) => {
+    if (key === "line_items" || key === "_line_items" || key === "taxes" || key === "canonical") return false;
+    if (Array.isArray(field)) return false;
+    if (!field || typeof field !== "object") return false;
+    return true;
+  });
 
   async function handleSave(key: string) {
     setIsSaving(true);
@@ -69,8 +90,8 @@ export function ExtractionFields({ documentId, fields, onFieldUpdated }: Extract
                     className="h-8"
                   />
                 ) : (
-                  <span className={`font-data ${!field.value ? "italic text-ink-400" : "text-ink-900"}`}>
-                    {field.value ?? "Not found"}
+                  <span className={`font-data ${field.value == null ? "italic text-ink-400" : "text-ink-900"}`}>
+                    {field.value != null ? String(field.value) : "Not found"}
                   </span>
                 )}
               </td>
@@ -93,7 +114,7 @@ export function ExtractionFields({ documentId, fields, onFieldUpdated }: Extract
                     variant="ghost"
                     onClick={() => {
                       setEditingKey(key);
-                      setDraftValue(field.value ?? "");
+                      setDraftValue(field.value != null ? String(field.value) : "");
                     }}
                   >
                     <Pencil className="h-3.5 w-3.5 text-ink-400" />

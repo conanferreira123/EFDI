@@ -176,6 +176,19 @@ class OCRService:
             # Update document status accordingly
             self.document_repo.update_status(document, final_status)
 
+            # Trigger non-blocking RAG ingestion hook after successful OCR_COMPLETED
+            if final_status == DocumentStatus.OCR_COMPLETED.value:
+                try:
+                    from app.services.rag_ingestion_service import get_rag_ingestion_service
+
+                    get_rag_ingestion_service().ingest_document_async(document.id)
+                except Exception as rag_err:
+                    logger.warning(
+                        "Failed to trigger async RAG ingestion for document %s: %s",
+                        document.id,
+                        rag_err,
+                    )
+
             # Log enriched OCR completed event
             audit_service.log(
                 action=AuditAction.OCR_COMPLETED,

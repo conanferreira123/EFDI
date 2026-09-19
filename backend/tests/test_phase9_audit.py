@@ -24,11 +24,11 @@ from app.repositories.ocr_result_repository import OCRResultRepository
 client = TestClient(app)
 
 CLEAN_POI_FIELDS = {
-    "fiscal_year": "FY2026", "company_name": "Our Co", "currency": "INR",
-    "document_date": "2026-06-15", "po_number": "PO-2026-789",
+    "buyer_name": "Our Co", "currency": "INR",
+    "po_number": "PO-2026-789",
     "invoice_number": "INV-2026-001", "invoice_date": "2026-06-15",
-    "invoice_amount": "25000.00", "tax_amount": "4500.00", "net_amount": "20500.00",
-    "vendor_code": "V-1001", "vendor_name": "Acme Corp",
+    "grand_total_amount": "25000.00", "total_tax_amount": "4500.00", "subtotal_net_amount": "20500.00",
+    "vendor_code": "V-1001", "seller_name": "Acme Corp",
 }
 
 
@@ -288,7 +288,7 @@ def test_field_correction_is_audited():
     document_id = _setup_extracted_document(token)
 
     response = client.patch(
-        f"/api/v1/extraction/documents/{document_id}/fields/vendor_name",
+        f"/api/v1/extraction/documents/{document_id}/fields/seller_name",
         headers=_auth_header(token), json={"value": "Corrected Vendor Inc."},
     )
     assert response.status_code == 200
@@ -297,7 +297,7 @@ def test_field_correction_is_audited():
     correction_logs = [l for l in logs if l["action"] == AuditAction.EXTRACTION_FIELD_CORRECTED.value]
     assert len(correction_logs) == 1
     assert correction_logs[0]["user_id"] == user["id"]
-    assert correction_logs[0]["details"]["field_key"] == "vendor_name"
+    assert correction_logs[0]["details"]["field_key"] == "seller_name"
     assert correction_logs[0]["details"]["new_value"] == "Corrected Vendor Inc."
 
 

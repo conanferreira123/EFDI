@@ -78,22 +78,22 @@ def test_llm_extractor_european_amounts_and_provenance():
             "confidence": 0.95,
             "source_quote": "Invoice Date: 15.06.2026",
         },
-        "vendor_name": {
+        "seller_name": {
             "value": "Dell Computer GmbH",
             "confidence": 0.94,
             "source_quote": "Dell Computer GmbH",
         },
-        "net_amount": {
+        "subtotal_net_amount": {
             "value": "1 394,67",
             "confidence": 0.96,
             "source_quote": "Net Amount: 1 394,67",
         },
-        "tax_amount": {
+        "total_tax_amount": {
             "value": "139,47",
             "confidence": 0.94,
             "source_quote": "Tax Amount: 139,47",
         },
-        "invoice_amount": {
+        "grand_total_amount": {
             "value": "1 534,14",
             "confidence": 0.97,
             "source_quote": "Total Gross: 1 534,14",
@@ -116,15 +116,15 @@ def test_llm_extractor_european_amounts_and_provenance():
         # Normalized values
         assert result.fields["invoice_number"].value == "INV-51109301"
         assert result.fields["invoice_date"].value == "2026-06-15"  # normalized to ISO
-        assert result.fields["vendor_name"].value == "Dell Computer GmbH"
-        assert result.fields["net_amount"].value == "1394.67"       # European normalized
-        assert result.fields["tax_amount"].value == "139.47"        # European normalized
-        assert result.fields["invoice_amount"].value == "1534.14"   # European normalized
+        assert result.fields["seller_name"].value == "Dell Computer GmbH"
+        assert result.fields["subtotal_net_amount"].value == "1394.67"       # European normalized
+        assert result.fields["total_tax_amount"].value == "139.47"        # European normalized
+        assert result.fields["grand_total_amount"].value == "1534.14"   # European normalized
         assert result.fields["currency"].value == "EUR"
 
         # Raw provenance preserved in matched_text
-        assert result.fields["net_amount"].matched_text == "Net Amount: 1 394,67"
-        assert result.fields["invoice_amount"].matched_text == "Total Gross: 1 534,14"
+        assert result.fields["subtotal_net_amount"].matched_text == "Net Amount: 1 394,67"
+        assert result.fields["grand_total_amount"].matched_text == "Total Gross: 1 534,14"
 
 
 def test_missing_values_and_no_hallucination():
@@ -152,8 +152,8 @@ def test_missing_values_and_no_hallucination():
         assert result.fields["po_number"].value is None
         assert result.fields["po_number"].confidence == 0.0
         assert result.fields["po_number"].matched_text is None
-        assert result.fields["invoice_amount"].value is None
-        assert result.fields["invoice_amount"].confidence == 0.0
+        assert result.fields["grand_total_amount"].value is None
+        assert result.fields["grand_total_amount"].confidence == 0.0
 
 
 def test_schema_validation_and_malformed_response_handling():

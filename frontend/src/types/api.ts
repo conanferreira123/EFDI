@@ -152,10 +152,106 @@ export interface ClassificationResultResponse {
 // --- Extraction (app/schemas/extraction.py) ---
 
 export interface ExtractedField {
-  value: string | null;
+  value: unknown;
   confidence: number;
-  matched_text: string | null;
+  matched_text?: string | null;
   is_found: boolean;
+  provenance?: string;
+  conflict_value?: string | null;
+}
+
+export type FieldValueOrWrapper =
+  | ExtractedField
+  | {
+      value: unknown;
+      confidence?: number;
+      is_found?: boolean;
+      provenance?: string;
+      matched_text?: string | null;
+      conflict_value?: string | null;
+    }
+  | string
+  | number
+  | null;
+
+export interface NPOLineItem {
+  line_number?: FieldValueOrWrapper;
+  description?: FieldValueOrWrapper;
+  quantity?: FieldValueOrWrapper;
+  uom?: FieldValueOrWrapper;
+  unit_of_measure?: FieldValueOrWrapper;
+  unit_price?: FieldValueOrWrapper;
+  net_amount?: FieldValueOrWrapper;
+  tax_rate?: FieldValueOrWrapper;
+  tax_amount?: FieldValueOrWrapper;
+  gross_amount?: FieldValueOrWrapper;
+  confidence?: number;
+  source_quote?: string | null;
+  [key: string]: unknown;
+}
+
+export interface NPOTaxItem {
+  tax_type?: FieldValueOrWrapper;
+  tax_rate?: FieldValueOrWrapper;
+  rate_percentage?: FieldValueOrWrapper;
+  taxable_amount?: FieldValueOrWrapper;
+  tax_amount?: FieldValueOrWrapper;
+  exemption_reason?: FieldValueOrWrapper;
+  confidence?: number;
+  source_quote?: string | null;
+  [key: string]: unknown;
+}
+
+export interface CanonicalNPO {
+  invoice_information?: {
+    invoice_number?: ExtractedField | { value: string | null; confidence?: number };
+    invoice_date?: ExtractedField | { value: string | null; confidence?: number };
+    currency?: ExtractedField | { value: string | null; confidence?: number };
+    document_type?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
+  seller?: {
+    name?: ExtractedField | { value: string | null; confidence?: number };
+    tax_id?: ExtractedField | { value: string | null; confidence?: number };
+    address?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
+  buyer?: {
+    name?: ExtractedField | { value: string | null; confidence?: number };
+    tax_id?: ExtractedField | { value: string | null; confidence?: number };
+    address?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
+  line_items?: NPOLineItem[];
+  taxes?: NPOTaxItem[];
+  totals?: {
+    subtotal?: ExtractedField | { value: string | null; confidence?: number };
+    total_tax?: ExtractedField | { value: string | null; confidence?: number };
+    grand_total?: ExtractedField | { value: string | null; confidence?: number };
+    discount?: ExtractedField | { value: string | null; confidence?: number };
+    shipping?: ExtractedField | { value: string | null; confidence?: number };
+    other_charges?: ExtractedField | { value: string | null; confidence?: number };
+    rounding?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
+  payment?: {
+    payment_terms?: ExtractedField | { value: string | null; confidence?: number };
+    due_date?: ExtractedField | { value: string | null; confidence?: number };
+    payment_method?: ExtractedField | { value: string | null; confidence?: number };
+    bank_account?: ExtractedField | { value: string | null; confidence?: number };
+    iban?: ExtractedField | { value: string | null; confidence?: number };
+    swift_bic?: ExtractedField | { value: string | null; confidence?: number };
+    remittance_reference?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
+  references?: {
+    po_number?: ExtractedField | { value: string | null; confidence?: number };
+    contract_number?: ExtractedField | { value: string | null; confidence?: number };
+    delivery_note_number?: ExtractedField | { value: string | null; confidence?: number };
+    order_number?: ExtractedField | { value: string | null; confidence?: number };
+    other_reference?: ExtractedField | { value: string | null; confidence?: number };
+    [key: string]: unknown;
+  };
 }
 
 export interface ExtractionResultResponse {
@@ -167,6 +263,7 @@ export interface ExtractionResultResponse {
   overall_confidence: number;
   fields_found_count: number;
   fields_total_count: number;
+  canonical?: CanonicalNPO | null;
   created_at: string;
   updated_at: string;
 }

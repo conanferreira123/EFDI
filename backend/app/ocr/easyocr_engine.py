@@ -94,9 +94,10 @@ class EasyOCREngine(OCREngine):
 
         # detail=1 returns [(bbox, text, confidence), ...]. bbox is a
         # list of 4 [x, y] corner points (already in the polygon format
-        # our OCRTextBlock expects). add_margin=0.0 prevents bounding box
-        # expansion that introduces underline/period artifacts.
-        results = reader.readtext(image, detail=1, add_margin=0.0)
+        # our OCRTextBlock expects). add_margin=0.10 provides sufficient
+        # bounding box padding around CRAFT detections to prevent clipping
+        # of leading characters (currency symbols, digits) before CRNN recognition.
+        results = reader.readtext(image, detail=1, add_margin=0.10)
 
         blocks: list[OCRTextBlock] = []
         for bbox, text, confidence in results:

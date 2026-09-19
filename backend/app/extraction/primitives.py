@@ -226,7 +226,45 @@ def normalize_amount(raw_value: str | None) -> str | None:
     return str(int(num)) if num == int(num) else f"{num:.2f}"
 
 
+_CURRENCY_LOOKUP = {
+    "$": "USD",
+    "€": "EUR",
+    "£": "GBP",
+    "₹": "INR",
+    "rs": "INR",
+    "rs.": "INR",
+    "inr": "INR",
+    "usd": "USD",
+    "eur": "EUR",
+    "gbp": "GBP",
+    "jpy": "JPY",
+    "¥": "JPY",
+    "c$": "CAD",
+    "cad": "CAD",
+    "a$": "AUD",
+    "aud": "AUD",
+    "chf": "CHF",
+}
+
+
+def normalize_currency(raw_value: str | None) -> str | None:
+    """Normalize currency symbols, abbreviations, and names to 3-letter ISO code."""
+    if not raw_value:
+        return None
+    cleaned = str(raw_value).strip()
+    lower_cleaned = cleaned.lower()
+    if lower_cleaned in _CURRENCY_LOOKUP:
+        return _CURRENCY_LOOKUP[lower_cleaned]
+    for sym, code in _CURRENCY_LOOKUP.items():
+        if sym in lower_cleaned:
+            return code
+    if len(cleaned) == 3 and cleaned.isalpha():
+        return cleaned.upper()
+    return None
+
+
 def extract_date_field(text: str, labels: list[str]) -> ExtractedField:
+
     """Extract a field by label, then normalize the captured value as a date."""
     raw_field = extract_by_labels(text, labels)
     if not raw_field.is_found:

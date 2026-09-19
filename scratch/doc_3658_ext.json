@@ -1,0 +1,182 @@
+{
+  "created_at": "2026-09-15T12:59:46.243629+05:30",
+  "updated_at": "2026-09-15T12:59:46.243637+05:30",
+  "id": 1069,
+  "document_id": 3658,
+  "document_type": "MSI",
+  "engine_name": "hybrid",
+  "fields": {
+    "barcode": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "currency": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "due_date": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "tax_rate": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "buyer_name": {
+      "value": "Test",
+      "confidence": 1.0,
+      "matched_text": "Customer Name: Test",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "document_id": {
+      "value": "3658",
+      "confidence": 1.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "seller_name": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "buyer_tax_id": {
+      "value": "C-1",
+      "confidence": 0.95,
+      "matched_text": "Customer Code: C-1",
+      "is_found": true,
+      "provenance": "llm",
+      "conflict_value": null
+    },
+    "company_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "buyer_address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "customer_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "payment_terms": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "seller_tax_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "seller_address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "total_tax_amount": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "processing_status": {
+      "value": "EXTRACTED",
+      "confidence": 1.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "validation_status": {
+      "value": "PENDING",
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "grand_total_amount": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "sales_invoice_date": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "subtotal_net_amount": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "sales_invoice_number": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    }
+  },
+  "overall_confidence": 0.79,
+  "fields_found_count": 5,
+  "fields_total_count": 21,
+  "canonical": null
+}

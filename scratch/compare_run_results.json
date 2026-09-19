@@ -1,0 +1,759 @@
+{
+  "doc1": {
+    "filename": "batch1-0001.pdf",
+    "doc_type": "NPO",
+    "db_found": 11,
+    "db_total": 25,
+    "raw_llm": {
+      "$defs": {
+        "LLMFieldItem": {
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number"
+            },
+            "source_quote": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "properties": {
+        "document_id": {
+          "value": "batch1-0001.jpg",
+          "confidence": 0.95,
+          "source_quote": "batch1-0001.jpg (1654*2339)"
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 0.99,
+          "source_quote": null
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Becker Ltd",
+          "confidence": 0.98,
+          "source_quote": "Client:\nBecker Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "Google Cloud Storage (OCR Image)",
+          "confidence": 0.95,
+          "source_quote": "https Ilstorage-googleapis com/kagglesdsdataldatasets/5773627/11739593/batch_1/batch1-0001.jpg"
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "USD",
+          "confidence": 0.99,
+          "source_quote": null
+        },
+        "document_date": {
+          "value": "2013-04-13",
+          "confidence": 0.99,
+          "source_quote": "04/13/2013"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": "Unprocessed",
+          "confidence": 0.85,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "Kirby and Valdez Andrews_",
+          "confidence": 0.95,
+          "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+        },
+        "invoice_number": {
+          "value": "51109338",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109338"
+        },
+        "invoice_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "invoice_amount": {
+          "value": "5640.17",
+          "confidence": 0.95,
+          "source_quote": "5 5 640,17"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "6204.19",
+          "confidence": 0.95,
+          "source_quote": "6 204,19"
+        },
+        "net_amount": {
+          "value": "5640.17",
+          "confidence": 0.95,
+          "source_quote": "640,17"
+        }
+      },
+      "title": "NPOExtractionPayload"
+    },
+    "llm_error": null,
+    "db_fields": {
+      "barcode": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "currency": {
+        "value": "USD",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "USD",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "department": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "net_amount": {
+        "value": "2640.17",
+        "is_found": true,
+        "confidence": 0.88,
+        "provenance": "reconciled_table_verified",
+        "matched_text": "Table Reconstructed Line Items Net Total",
+        "conflict_value": "5640.17",
+        "manually_entered": false
+      },
+      "tax_amount": {
+        "value": "2564.03",
+        "is_found": true,
+        "confidence": 0.88,
+        "provenance": "reconciled_table_verified",
+        "matched_text": "Table Reconstructed Derived Tax Total",
+        "conflict_value": "6204.19",
+        "manually_entered": false
+      },
+      "cost_center": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_id": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "fiscal_year": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vendor_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vendor_name": {
+        "value": "Kirby and Valdez Andrews_",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "Seller:\nKirby and Valdez\nAndrews_",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "company_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "company_name": {
+        "value": "Becker Ltd",
+        "is_found": true,
+        "confidence": 0.99,
+        "provenance": "llm",
+        "matched_text": "Client:\nBecker Ltd",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "invoice_date": {
+        "value": "2013-08-30",
+        "is_found": true,
+        "confidence": 0.95,
+        "provenance": "llm",
+        "matched_text": "8/30/26, 3.38 PM",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_date": {
+        "value": "2013-04-13",
+        "is_found": true,
+        "confidence": 0.99,
+        "provenance": "llm",
+        "matched_text": "04/13/2013",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_type": {
+        "value": "NPO",
+        "is_found": true,
+        "confidence": 0.99,
+        "provenance": "llm",
+        "matched_text": "NPO",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "location_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vertical_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "invoice_amount": {
+        "value": "5204.20",
+        "is_found": true,
+        "confidence": 0.88,
+        "provenance": "reconciled_table_verified",
+        "matched_text": "Table Reconstructed Line Items Gross Total",
+        "conflict_value": "5640.17",
+        "manually_entered": false
+      },
+      "invoice_number": {
+        "value": "51109338",
+        "is_found": true,
+        "confidence": 0.8,
+        "provenance": "rule_based",
+        "matched_text": "Invoice no: 51109338",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_source": {
+        "value": "batch1-0001.jpg",
+        "is_found": true,
+        "confidence": 0.99,
+        "provenance": "llm",
+        "matched_text": "batch1-0001.jpg (1654*2339)",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "expense_category": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_category": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "processing_status": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "validation_status": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "ocr_confidence_score": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      }
+    }
+  },
+  "doc2": {
+    "filename": "invoice_51109301.pdf",
+    "doc_type": "NPO",
+    "db_found": 4,
+    "db_total": 25,
+    "raw_llm": {
+      "$defs": {
+        "LLMFieldItem": {
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number"
+            },
+            "source_quote": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "properties": {
+        "document_id": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 1.0,
+          "source_quote": "=== HEADER & METADATA ==="
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Raj Electronics Pvt Ltd",
+          "confidence": 0.95,
+          "source_quote": "--- BUYER COLUMN ---\nClient:\nRaj Electronics Pvt Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "Invoice",
+          "confidence": 0.95,
+          "source_quote": "=== HEADER & METADATA ===\nInvoice no: 51109301"
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "INR",
+          "confidence": 1.0,
+          "source_quote": "INR 1,676,976.00\nINR 1,844,673.60"
+        },
+        "document_date": {
+          "value": "2023-07-03",
+          "confidence": 1.0,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "TechVision Distributors Pvt Ltd",
+          "confidence": 1.0,
+          "source_quote": "--- SELLER COLUMN ---\nSeller:\nTechVision Distributors Pvt Ltd"
+        },
+        "invoice_number": {
+          "value": "51109301",
+          "confidence": 1.0,
+          "source_quote": "Invoice no: 51109301"
+        },
+        "invoice_date": {
+          "value": "2023-07-03",
+          "confidence": 1.0,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "invoice_amount": {
+          "value": "1844673.60",
+          "confidence": 1.0,
+          "source_quote": "INR 1,844,673.60"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "167697.60",
+          "confidence": 1.0,
+          "source_quote": "VAT\n167,697.60"
+        },
+        "net_amount": {
+          "value": "1676976.00",
+          "confidence": 1.0,
+          "source_quote": "Net Worth\n1,676,976.00"
+        }
+      }
+    },
+    "llm_error": null,
+    "db_fields": {
+      "barcode": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "currency": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "department": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "net_amount": {
+        "value": "1676976.00",
+        "is_found": true,
+        "confidence": 0.82,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Line Items Net Total",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "tax_amount": {
+        "value": "167697.60",
+        "is_found": true,
+        "confidence": 0.8,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Derived Tax Total",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "cost_center": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_id": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "fiscal_year": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vendor_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vendor_name": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "company_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "company_name": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "invoice_date": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_date": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_type": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "location_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "vertical_code": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "invoice_amount": {
+        "value": "1844673.60",
+        "is_found": true,
+        "confidence": 0.82,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Line Items Gross Total",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "invoice_number": {
+        "value": "51109301",
+        "is_found": true,
+        "confidence": 0.8,
+        "provenance": "rule_based",
+        "matched_text": "Invoice no: 51109301",
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_source": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "expense_category": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "document_category": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "processing_status": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "validation_status": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      },
+      "ocr_confidence_score": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "not_found",
+        "matched_text": null,
+        "conflict_value": null,
+        "manually_entered": false
+      }
+    }
+  }
+}

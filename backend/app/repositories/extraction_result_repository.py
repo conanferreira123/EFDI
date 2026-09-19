@@ -61,18 +61,46 @@ class ExtractionResultRepository:
         Manually correct/fill a single field, marking it as
         human-entered (confidence 1.0, no matched_text since it wasn't
         OCR-matched). Mutates the JSONB fields dict in place.
+        For NPO documents, keeps canonical dot-paths, root canonical dictionary,
+        and flat legacy aliases synchronized.
         """
+        from app.extraction.field_schemas import map_npo_canonical_to_flat, map_npo_flat_to_canonical
+
         fields = dict(extraction_result.fields)
-        fields[field_key] = {
+        field_payload = {
             "value": value,
             "confidence": 1.0,
             "matched_text": None,
             "is_found": True,
             "manually_entered": True,
+            "provenance": "manual",
         }
+        fields[field_key] = field_payload
+
+        # Synchronize dual canonical and flat keys for NPO
+        if extraction_result.document_type == "NPO":
+            canon_path = map_npo_flat_to_canonical(field_key)
+            flat_key = map_npo_canonical_to_flat(field_key)
+
+            if canon_path != field_key:
+                fields[canon_path] = field_payload
+            if flat_key != field_key:
+                fields[flat_key] = field_payload
+
+            # Update root canonical dictionary if present
+            if "canonical" in fields and isinstance(fields["canonical"].get("value"), dict):
+                canon_dict = dict(fields["canonical"]["value"])
+                if "." in canon_path:
+                    sec, leaf = canon_path.split(".", 1)
+                    if sec in canon_dict and isinstance(canon_dict[sec], dict):
+                        canon_dict[sec] = dict(canon_dict[sec])
+                        canon_dict[sec][leaf] = field_payload
+                        fields["canonical"] = dict(fields["canonical"])
+                        fields["canonical"]["value"] = canon_dict
+
         extraction_result.fields = fields
 
-        found_count = sum(1 for f in fields.values() if f.get("is_found"))
+        found_count = sum(1 for f in fields.values() if isinstance(f, dict) and f.get("is_found"))
         extraction_result.fields_found_count = found_count
 
         self.db.commit()

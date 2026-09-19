@@ -30,21 +30,13 @@ by the client independently of the extraction schema itself.
 # Common fields mandatory across (almost) every document type.
 # COMMON_MANDATORY_DEFAULT applies unless overridden per type below.
 COMMON_MANDATORY_DEFAULT: set[str] = {
-    "fiscal_year",
-    "company_name",
     "currency",
-    "document_date",
 }
 
 COMMON_OPTIONAL_DEFAULT: set[str] = {
     "document_id",
-    "document_category",
     "company_code",
-    "location_code",
-    "vertical_code",
-    "document_source",
     "barcode",
-    "ocr_confidence_score",
     "processing_status",
     "validation_status",
 }
@@ -54,27 +46,27 @@ COMMON_OPTIONAL_DEFAULT: set[str] = {
 # above unless a type explicitly overrides them (none currently do).
 MANDATORY_FIELDS: dict[str, set[str]] = {
     "POI": {
-        "po_number", "invoice_number", "invoice_date", "invoice_amount",
-        "vendor_code", "vendor_name",
+        "po_number", "invoice_number", "invoice_date", "grand_total_amount",
+        "vendor_code", "seller_name", "buyer_name",
     },
     "NPO": {
-        "invoice_number", "invoice_date", "invoice_amount",
-        "vendor_code", "vendor_name",
+        "invoice_number", "invoice_date", "grand_total_amount",
+        "seller_name", "buyer_name",
     },
     "DPR": {
-        "request_number", "request_date", "vendor_code", "vendor_name",
-        "po_number", "requested_amount",
+        "request_number", "request_date", "vendor_code", "seller_name",
+        "buyer_name", "po_number", "requested_amount",
     },
     "IMA": {
         "employee_id", "employee_name", "claim_number", "claim_date", "claim_amount",
     },
     "MSI": {
-        "customer_code", "customer_name", "sales_invoice_number",
-        "sales_invoice_date", "invoice_amount",
+        "customer_code", "buyer_name", "sales_invoice_number",
+        "sales_invoice_date", "grand_total_amount",
     },
     "PSI": {
         "pis_number", "pis_date", "bank_name",
-        "customer_code", "customer_name", "deposit_amount",
+        "customer_code", "buyer_name", "deposit_amount",
     },
     "JER": {
         "journal_entry_number", "posting_date", "gl_account_code",
@@ -97,4 +89,23 @@ def get_mandatory_fields(document_type: str) -> set[str]:
 
 
 def is_field_mandatory(document_type: str, field_key: str) -> bool:
+    """Return whether a field (flat key or canonical dot-path) is mandatory for the document type."""
+    from app.extraction.field_schemas import (
+        NPO_MANDATORY_CORE_PATHS,
+        map_npo_canonical_to_flat,
+        map_npo_flat_to_canonical,
+    )
+
+    doc_type_upper = (document_type or "").upper()
+    if doc_type_upper == "NPO":
+        if field_key in NPO_MANDATORY_CORE_PATHS:
+            return True
+        flat_key = map_npo_canonical_to_flat(field_key)
+        if flat_key in get_mandatory_fields("NPO"):
+            return True
+        canonical_path = map_npo_flat_to_canonical(field_key)
+        if canonical_path in NPO_MANDATORY_CORE_PATHS:
+            return True
+        return False
+
     return field_key in get_mandatory_fields(document_type)
