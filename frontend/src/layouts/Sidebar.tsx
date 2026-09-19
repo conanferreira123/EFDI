@@ -5,6 +5,7 @@ import {
   FolderSearch,
   ScrollText,
   Users,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -21,6 +22,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { to: "/documents", label: "Documents", icon: LayoutDashboard },
   { to: "/upload", label: "Upload", icon: Upload },
+  { to: "/chat", label: "Ask AI", icon: Sparkles },
   {
     to: "/audit",
     label: "Audit Log",

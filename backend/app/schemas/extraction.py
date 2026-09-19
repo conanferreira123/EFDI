@@ -1,14 +1,18 @@
 """
 Pydantic schemas for data extraction.
 """
+from typing import Any
+from pydantic import computed_field
 from app.schemas.base import BaseSchema, TimestampSchema
 
 
 class ExtractedFieldSchema(BaseSchema):
-    value: str | None
+    value: Any = None
     confidence: float
     matched_text: str | None = None
     is_found: bool
+    provenance: str | None = None
+    conflict_value: str | None = None
 
 
 class ExtractionResultResponse(TimestampSchema):
@@ -20,6 +24,14 @@ class ExtractionResultResponse(TimestampSchema):
     overall_confidence: float
     fields_found_count: int
     fields_total_count: int
+
+    @computed_field
+    @property
+    def canonical(self) -> dict[str, Any] | None:
+        """Expose the canonical hierarchical structure for NPO documents when available."""
+        if self.document_type == "NPO" and "canonical" in self.fields:
+            return self.fields["canonical"].value
+        return None
 
 
 class ExtractRequest(BaseSchema):

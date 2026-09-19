@@ -65,9 +65,9 @@ def test_system_prompt_builder():
     sys_prompt = LLMContextBuilder.build_system_prompt("POI")
     assert "document type 'POI'" in sys_prompt
     assert "- invoice_number" in sys_prompt
-    assert "- vendor_name" in sys_prompt
+    assert "- seller_name" in sys_prompt
     assert "EXTRACTION GUIDELINES:" in sys_prompt
-    assert "Dates must be normalized to ISO format (YYYY-MM-DD)" in sys_prompt
+    assert "Dates: Normalize to ISO format (YYYY-MM-DD)" in sys_prompt
 
 
 def test_user_prompt_builder_full_context():
@@ -127,8 +127,8 @@ def test_llm_extractor_execution_with_context_builder():
     mock_llm_response = {
         "invoice_number": {"value": "INV-2026-999", "confidence": 0.98, "source_quote": "Number: INV-2026-999"},
         "invoice_date": {"value": "15/06/2026", "confidence": 0.95, "source_quote": "Date: 15/06/2026"},
-        "invoice_amount": {"value": "50,000.00", "confidence": 0.96, "source_quote": "Amount: 50,000.00 INR"},
-        "vendor_name": {"value": None, "confidence": 0.0, "source_quote": None},
+        "grand_total_amount": {"value": "50,000.00", "confidence": 0.96, "source_quote": "Amount: 50,000.00 INR"},
+        "seller_name": {"value": None, "confidence": 0.0, "source_quote": None},
     }
 
     with patch.object(extractor, "_call_llm_api", return_value=mock_llm_response) as mock_api:
@@ -144,9 +144,9 @@ def test_llm_extractor_execution_with_context_builder():
         # Date is normalized to ISO YYYY-MM-DD
         assert res.fields["invoice_date"].value == "2026-06-15"
         # Amount is normalized to plain numeric string
-        assert res.fields["invoice_amount"].value == "50000.00"
-        assert res.fields["vendor_name"].value is None
-        assert res.fields["vendor_name"].is_found is False
+        assert res.fields["grand_total_amount"].value == "50000.00"
+        assert res.fields["seller_name"].value is None
+        assert res.fields["seller_name"].is_found is False
 
 
 def test_llm_extractor_fallback_when_unconfigured():

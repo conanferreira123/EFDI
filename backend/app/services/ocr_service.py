@@ -27,7 +27,7 @@ from app.models.ocr_result import OCRResult
 from app.ocr.adaptive_preprocessing import AdaptivePreprocessor
 from app.ocr.base import OCRPageResult, OCRResult as OCRResultData
 from app.ocr.factory import get_ocr_engine
-from app.ocr.layout import order_blocks_spatially
+from app.ocr.layout import build_structured_page, generate_structured_full_text, order_blocks_spatially
 from app.ocr.normalization import normalize_table_data
 from app.ocr.preprocessing import load_image_bytes, preprocess_for_ocr, rasterize_pdf
 from app.ocr.quality_scoring import calculate_quality_score
@@ -89,6 +89,7 @@ class OCRService:
 
             result_data = OCRResultData(engine_name=engine.name)
             raw_blocks = []
+            structured_pages = []
 
             for page_number, page_image in enumerate(preprocessed_pages, start=1):
                 raw_extracted_blocks = engine.extract_text_blocks(page_image)
@@ -109,13 +110,30 @@ class OCRService:
                     ],
                 })
 
-                # Apply spatial reading order / column decomposition for structured full_text
+                # Reconstruct table and build structured page intermediate representation
+                table_obj = reconstruct_table(
+                    raw_extracted_blocks, page_width=page_w, page_height=page_h
+                )
+                structured_page = build_structured_page(
+                    raw_extracted_blocks,
+                    table=table_obj,
+                    page_width=page_w,
+                    page_height=page_h,
+                    page_number=page_number,
+                )
+                structured_pages.append(structured_page)
+
                 ordered_blocks = order_blocks_spatially(
                     raw_extracted_blocks, page_width=page_w, page_height=page_h
                 )
                 result_data.pages.append(
                     OCRPageResult(page_number=page_number, blocks=ordered_blocks)
                 )
+
+            # Generate structured full_text from structured document representation
+            if getattr(settings, "ENABLE_STRUCTURED_FULL_TEXT", True):
+                structured_full_text = generate_structured_full_text(structured_pages)
+                result_data.custom_full_text = structured_full_text
 
             elapsed_ms = int((time.monotonic() - start_time) * 1000)
 
@@ -157,6 +175,19 @@ class OCRService:
 
             # Update document status accordingly
             self.document_repo.update_status(document, final_status)
+
+            # Trigger non-blocking RAG ingestion hook after successful OCR_COMPLETED
+            if final_status == DocumentStatus.OCR_COMPLETED.value:
+                try:
+                    from app.services.rag_ingestion_service import get_rag_ingestion_service
+
+                    get_rag_ingestion_service().ingest_document_async(document.id)
+                except Exception as rag_err:
+                    logger.warning(
+                        "Failed to trigger async RAG ingestion for document %s: %s",
+                        document.id,
+                        rag_err,
+                    )
 
             # Log enriched OCR completed event
             audit_service.log(

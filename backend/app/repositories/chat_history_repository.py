@@ -1,0 +1,100 @@
+"""Chat History Repository.
+
+Persists and retrieves chat sessions, user/assistant conversation turns,
+tool calls, and citations.
+"""
+from typing import List, Optional
+from sqlalchemy import delete, select
+from sqlalchemy.orm import Session
+
+from app.models.chat import ChatMessage, ChatSession
+
+
+class ChatHistoryRepository:
+    """Data access repository for ChatSession and ChatMessage entities."""
+
+    def __init__(self, db: Session) -> None:
+        self.db = db
+
+    def get_or_create_document_session(self, user_id: int, document_id: int) -> ChatSession:
+        """Get existing session for this user and document, or create a new one."""
+        stmt = (
+            select(ChatSession)
+            .where(
+                ChatSession.user_id == user_id,
+                ChatSession.document_id == document_id,
+                ChatSession.session_type == "DOCUMENT",
+            )
+            .order_by(ChatSession.created_at.desc())
+        )
+        session = self.db.scalars(stmt).first()
+        if not session:
+            session = ChatSession(
+                user_id=user_id,
+                document_id=document_id,
+                session_type="DOCUMENT",
+                title=f"Document {document_id} Assistant",
+            )
+            self.db.add(session)
+            self.db.flush()
+        return session
+
+    def get_or_create_global_session(
+        self, user_id: int, title: Optional[str] = None
+    ) -> ChatSession:
+        """Get or create a portfolio-wide global chat session."""
+        stmt = (
+            select(ChatSession)
+            .where(
+                ChatSession.user_id == user_id,
+                ChatSession.session_type == "GLOBAL",
+            )
+            .order_by(ChatSession.updated_at.desc())
+        )
+        session = self.db.scalars(stmt).first()
+        if not session:
+            session = ChatSession(
+                user_id=user_id,
+                document_id=None,
+                session_type="GLOBAL",
+                title=title or "Global Financial Assistant",
+            )
+            self.db.add(session)
+            self.db.flush()
+        return session
+
+    def add_message(
+        self,
+        session_id: int,
+        role: str,
+        content: str,
+        tool_calls: Optional[dict | list] = None,
+        citations: Optional[list] = None,
+    ) -> ChatMessage:
+        """Append a message turn to the chat session."""
+        msg = ChatMessage(
+            session_id=session_id,
+            role=role,
+            content=content,
+            tool_calls=tool_calls,
+            citations=citations,
+        )
+        self.db.add(msg)
+        self.db.flush()
+        return msg
+
+    def get_session_history(self, session_id: int, limit: int = 50) -> List[ChatMessage]:
+        """Fetch chronological message history for a session."""
+        stmt = (
+            select(ChatMessage)
+            .where(ChatMessage.session_id == session_id)
+            .order_by(ChatMessage.created_at.asc())
+            .limit(limit)
+        )
+        return list(self.db.scalars(stmt).all())
+
+    def clear_session_history(self, session_id: int) -> int:
+        """Delete all messages belonging to a chat session."""
+        stmt = delete(ChatMessage).where(ChatMessage.session_id == session_id)
+        result = self.db.execute(stmt)
+        return result.rowcount

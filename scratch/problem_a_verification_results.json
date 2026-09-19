@@ -1,0 +1,384 @@
+{
+  "doc1": {
+    "filename": "batch1-0001.pdf",
+    "llm_executed": true,
+    "http_status": 200,
+    "raw_response": {
+      "document_id": {
+        "value": "batch1-0001",
+        "confidence": 0.99,
+        "source_quote": "batch1-0001.jpg"
+      },
+      "document_type": {
+        "value": "NPO",
+        "confidence": 0.99,
+        "source_quote": null
+      },
+      "document_category": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "company_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "company_name": {
+        "value": "Becker Ltd",
+        "confidence": 0.99,
+        "source_quote": "Client:\nBecker Ltd"
+      },
+      "fiscal_year": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "location_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vertical_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "document_source": {
+        "value": "batch1-0001.jpg",
+        "confidence": 0.99,
+        "source_quote": "batch1-0001.jpg (1654*2339)"
+      },
+      "barcode": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "currency": {
+        "value": "USD",
+        "confidence": 0.95,
+        "source_quote": null
+      },
+      "document_date": {
+        "value": "2013-04-13",
+        "confidence": 0.99,
+        "source_quote": "04/13/2013"
+      },
+      "ocr_confidence_score": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": "Overall Score: None, Confidence: None"
+      },
+      "processing_status": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "validation_status": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vendor_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vendor_name": {
+        "value": "Kirby and Valdez Andrews_",
+        "confidence": 0.85,
+        "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+      },
+      "invoice_number": {
+        "value": "51109338",
+        "confidence": 0.99,
+        "source_quote": "Invoice no: 51109338"
+      },
+      "invoice_date": {
+        "value": "2026-08-30",
+        "confidence": 0.99,
+        "source_quote": "8/30/26, 3.38 PM"
+      },
+      "invoice_amount": {
+        "value": "5640.17",
+        "confidence": 0.85,
+        "source_quote": "5 5 640,17"
+      },
+      "expense_category": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "cost_center": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "department": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "tax_amount": {
+        "value": "620.42",
+        "confidence": 0.85,
+        "source_quote": "204,19"
+      },
+      "net_amount": {
+        "value": "5640.17",
+        "confidence": 0.85,
+        "source_quote": "640,17"
+      }
+    },
+    "raw_keys": [
+      "document_id",
+      "document_type",
+      "document_category",
+      "company_code",
+      "company_name",
+      "fiscal_year",
+      "location_code",
+      "vertical_code",
+      "document_source",
+      "barcode",
+      "currency",
+      "document_date",
+      "ocr_confidence_score",
+      "processing_status",
+      "validation_status",
+      "vendor_code",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "expense_category",
+      "cost_center",
+      "department",
+      "tax_amount",
+      "net_amount"
+    ],
+    "has_properties": false,
+    "has_type": false,
+    "has_defs": false,
+    "pydantic_fields_count": 12,
+    "pydantic_fields": [
+      "document_id",
+      "document_type",
+      "company_name",
+      "document_source",
+      "currency",
+      "document_date",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "tax_amount",
+      "net_amount"
+    ],
+    "final_extracted_count": 12,
+    "final_extracted_fields": [
+      "document_id",
+      "document_type",
+      "company_name",
+      "document_source",
+      "currency",
+      "document_date",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "tax_amount",
+      "net_amount"
+    ]
+  },
+  "doc2": {
+    "filename": "invoice_51109301.pdf",
+    "llm_executed": true,
+    "http_status": 200,
+    "raw_response": {
+      "document_id": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "document_type": {
+        "value": "NPO",
+        "confidence": 0.99,
+        "source_quote": "=== HEADER & METADATA ==="
+      },
+      "document_category": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "company_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "company_name": {
+        "value": "Raj Electronics Pvt Ltd",
+        "confidence": 0.99,
+        "source_quote": "Client:\nRaj Electronics Pvt Ltd"
+      },
+      "fiscal_year": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "location_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vertical_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "document_source": {
+        "value": "OCR Document",
+        "confidence": 0.85,
+        "source_quote": null
+      },
+      "barcode": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.99,
+        "source_quote": "INR"
+      },
+      "document_date": {
+        "value": "2023-07-03",
+        "confidence": 0.99,
+        "source_quote": "Date of issue:\n03/07/2023"
+      },
+      "ocr_confidence_score": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": "Overall Score: None, Confidence: None"
+      },
+      "processing_status": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "validation_status": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vendor_code": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "vendor_name": {
+        "value": "TechVision Distributors Pvt Ltd",
+        "confidence": 0.99,
+        "source_quote": "Seller:\nTechVision Distributors Pvt Ltd"
+      },
+      "invoice_number": {
+        "value": "51109301",
+        "confidence": 0.99,
+        "source_quote": "Invoice no: 51109301"
+      },
+      "invoice_date": {
+        "value": "2023-07-03",
+        "confidence": 0.99,
+        "source_quote": "Date of issue:\n03/07/2023"
+      },
+      "invoice_amount": {
+        "value": "1844673.60",
+        "confidence": 0.99,
+        "source_quote": "INR 1,844,673.60"
+      },
+      "expense_category": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "cost_center": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "department": {
+        "value": null,
+        "confidence": 0.0,
+        "source_quote": null
+      },
+      "tax_amount": {
+        "value": "167697.60",
+        "confidence": 0.99,
+        "source_quote": "VAT\n167,697.60"
+      },
+      "net_amount": {
+        "value": "1676976.00",
+        "confidence": 0.99,
+        "source_quote": "Net Worth\n1,676,976.00"
+      }
+    },
+    "raw_keys": [
+      "document_id",
+      "document_type",
+      "document_category",
+      "company_code",
+      "company_name",
+      "fiscal_year",
+      "location_code",
+      "vertical_code",
+      "document_source",
+      "barcode",
+      "currency",
+      "document_date",
+      "ocr_confidence_score",
+      "processing_status",
+      "validation_status",
+      "vendor_code",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "expense_category",
+      "cost_center",
+      "department",
+      "tax_amount",
+      "net_amount"
+    ],
+    "has_properties": false,
+    "has_type": false,
+    "has_defs": false,
+    "pydantic_fields_count": 11,
+    "pydantic_fields": [
+      "document_type",
+      "company_name",
+      "document_source",
+      "currency",
+      "document_date",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "tax_amount",
+      "net_amount"
+    ],
+    "final_extracted_count": 11,
+    "final_extracted_fields": [
+      "document_type",
+      "company_name",
+      "document_source",
+      "currency",
+      "document_date",
+      "vendor_name",
+      "invoice_number",
+      "invoice_date",
+      "invoice_amount",
+      "tax_amount",
+      "net_amount"
+    ]
+  }
+}

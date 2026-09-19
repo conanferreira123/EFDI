@@ -63,24 +63,44 @@ def _get_bbox_bounds(bbox: List[List[float]]) -> Tuple[float, float, float, floa
 class TableReconstructor:
     """
     Downstream 2D geometric analyzer that detects table headers, derives
-    column intervals, clusters rows by vertical alignment, and merges
-    multiline descriptions.
+    accurate non-overlapping column intervals, clusters rows by vertical overlap,
+    stitches split numeric tokens, and merges multiline descriptions.
     """
 
     HEADER_KEYWORDS = {
-        "item_number": ["NO.", "NO_", "NO", "SL NO", "ITEM NO", "SR NO", "POS", "ITEM"],
-        "description": ["DESCRIPTION", "ITEM DESCRIPTION", "PARTICULARS", "PRODUCT"],
-        "quantity": ["QTY", "QUANTITY", "MENGE"],
-        "unit": ["UM", "UNIT", "UOM", "EINHEIT"],
-        "unit_price": ["NET PRICE", "UNIT PRICE", "PRICE", "RATE", "PREIS"],
-        "net_amount": ["NET WORTH", "NET AMOUNT", "AMOUNT", "TAXABLE VALUE", "BETRAG"],
-        "vat_rate": ["VAT %", "VAT%", "TAX %", "TAX%", "GST %", "GST%", "MWST"],
-        "gross_amount": ["GROSS WORTH", "GROSS AMOUNT", "GROSS", "TOTAL AMOUNT", "GESAMT"]
+        "item_number": [
+            "NO.", "NO_", "NO", "SL NO", "ITEM NO", "SR NO", "POS", "POS.", "POS NO",
+            "ITEM", "ARTICLE", "ART.", "SR.", "SL.", "NO#", "#"
+        ],
+        "description": [
+            "DESCRIPTION", "ITEM DESCRIPTION", "PARTICULARS", "PRODUCT", "ITEMS",
+            "DESIGNATION", "BEZEICHNUNG", "ARTIKEL", "DETAILS", "PRODUCT DESCRIPTION"
+        ],
+        "quantity": ["QTY", "QUANTITY", "MENGE", "ANZAHL", "QTY.", "MENGE (STK)"],
+        "unit": ["UM", "UNIT", "UOM", "EINHEIT", "U/M", "MEASURE", "UNIT OF MEASURE"],
+        "unit_price": [
+            "NET PRICE", "UNIT PRICE", "PRICE", "RATE", "PREIS", "EINZELPREIS",
+            "NETTO-PREIS", "UNIT COST", "PRICE/UNIT", "PRICE (NET)"
+        ],
+        "net_amount": [
+            "NET WORTH", "NET AMOUNT", "AMOUNT", "TAXABLE VALUE", "BETRAG",
+            "NETTOBETRAG", "NET", "TOTAL NET", "BASE AMOUNT", "NET PRICE TOTAL"
+        ],
+        "vat_rate": [
+            "VAT [%]", "VAT[%]", "VAT %", "VAT%", "TAX %", "TAX%", "GST %", "GST%",
+            "MWST", "MWST%", "MWST %", "VAT RATE", "TAX RATE", "RATE %", "MWST. %",
+            "VAT", "MWST.", "TAX RATE %"
+        ],
+        "gross_amount": [
+            "GROSS WORTH", "GROSS AMOUNT", "GROSS", "TOTAL AMOUNT", "GESAMT",
+            "BRUTTOBETRAG", "BRUTTO", "TOTAL", "LINE TOTAL", "GROSS TOTAL"
+        ]
     }
 
     SUMMARY_KEYWORDS = [
         "TOTAL", "SUBTOTAL", "GRAND TOTAL", "SUMMARY", "BANK DETAILS",
-        "TERMS & CONDITIONS", "PAYMENT TERMS", "NOTES", "THANK YOU", "GESAMTBETRAG"
+        "TERMS & CONDITIONS", "PAYMENT TERMS", "NOTES", "THANK YOU",
+        "GESAMTBETRAG", "TAX TOTAL", "VAT TOTAL", "BALANCE DUE", "AMOUNT DUE"
     ]
 
     def __init__(
@@ -130,14 +150,17 @@ class TableReconstructor:
 
         header_candidates = []
         for eb in enriched:
-            # Header must be below the top 15% of the page
-            if eb["y0"] > self.page_height * 0.15:
+            # Table headers usually appear in upper half of page (below top 5% metadata)
+            if eb["y0"] > self.page_height * 0.05:
                 text_up = eb["text"].upper()
                 for kw, col_name in all_header_kws:
-                    if kw == text_up or text_up.startswith(kw + " ") or text_up.endswith(" " + kw) or (" " + kw + " ") in text_up:
-                        header_candidates.append((col_name, eb))
-                        break
-                    elif kw == text_up or (len(kw) >= 4 and (text_up.startswith(kw) or text_up.endswith(kw))):
+                    if (
+                        kw == text_up
+                        or text_up.startswith(kw + " ")
+                        or text_up.endswith(" " + kw)
+                        or (" " + kw + " ") in text_up
+                        or (len(kw) >= 3 and (text_up.startswith(kw) or text_up.endswith(kw)))
+                    ):
                         header_candidates.append((col_name, eb))
                         break
 
@@ -145,48 +168,72 @@ class TableReconstructor:
             return ReconstructedTable()
 
         # Cluster candidate header blocks into the primary table header band
-        # Find the band with the highest number of unique column headers
         header_candidates.sort(key=lambda x: x[1]["cy"])
-        best_band = []
+        best_band: List[Tuple[str, Dict[str, Any]]] = []
         for seed in header_candidates:
             band = [
                 (col, eb) for col, eb in header_candidates
-                if abs(eb["cy"] - seed[1]["cy"]) <= 35.0
+                if abs(eb["cy"] - seed[1]["cy"]) <= 40.0
             ]
             unique_cols = len(set(col for col, _ in band))
             if unique_cols > len(set(col for col, _ in best_band)):
                 best_band = band
 
-        if not best_band:
+        # Require at least 2 distinct recognized column headers to qualify as a structured table
+        if len(set(col for col, _ in best_band)) < 2:
             return ReconstructedTable()
 
         header_top_y = min(eb["y0"] for _, eb in best_band)
-        header_bottom_y = max(eb["y1"] for _, eb in best_band) + 30.0
+        header_bottom_y = max(eb["y1"] for _, eb in best_band) + 15.0
 
-        # 2. Derive Column Horizontal Intervals dynamically
-        cols_by_name = {}
+        # 2. Derive Precise, Non-Overlapping Column Horizontal Intervals
+        cols_by_name: Dict[str, Dict[str, Any]] = {}
         for col_name, eb in best_band:
             if col_name not in cols_by_name:
                 cols_by_name[col_name] = eb
+            else:
+                # Merge multi-token header bounding box if same column
+                existing = cols_by_name[col_name]
+                existing["x0"] = min(existing["x0"], eb["x0"])
+                existing["x1"] = max(existing["x1"], eb["x1"])
+                existing["cx"] = (existing["x0"] + existing["x1"]) / 2.0
+                existing["text"] = existing["text"] + " " + eb["text"]
 
         sorted_cols = sorted(cols_by_name.items(), key=lambda x: x[1]["cx"])
-        columns = {}
+        columns: Dict[str, Dict[str, Any]] = {}
         for i, (col_name, eb) in enumerate(sorted_cols):
-            prev_cx = sorted_cols[i - 1][1]["cx"] if i > 0 else 0.0
+            prev_eb = sorted_cols[i - 1][1] if i > 0 else None
             next_eb = sorted_cols[i + 1][1] if i < len(sorted_cols) - 1 else None
 
-            # For description column, expand right boundary up to next column's left edge
-            x_min = (prev_cx + eb["cx"]) / 2.0 if i > 0 else 0.0
-            if col_name == "description" and next_eb:
-                x_max = next_eb["x0"] - 5.0
+            # Calculate robust boundaries using inter-column gutters and centers
+            if i == 0:
+                x_min = 0.0
             else:
-                x_max = (eb["cx"] + next_eb["cx"]) / 2.0 if next_eb else self.page_width
+                # Midpoint between previous column right edge and current column left edge
+                if prev_eb and prev_eb["x1"] < eb["x0"]:
+                    x_min = (prev_eb["x1"] + eb["x0"]) / 2.0
+                else:
+                    x_min = (prev_eb["cx"] + eb["cx"]) / 2.0 if prev_eb else 0.0
+
+            if i == len(sorted_cols) - 1:
+                x_max = self.page_width
+            else:
+                if next_eb and eb["x1"] < next_eb["x0"]:
+                    x_max = (eb["x1"] + next_eb["x0"]) / 2.0
+                else:
+                    x_max = (eb["cx"] + next_eb["cx"]) / 2.0 if next_eb else self.page_width
+
+            # For description column specifically, preserve room up to next column start
+            if col_name == "description" and next_eb:
+                x_max = min(x_max, next_eb["x0"] - 2.0)
 
             columns[col_name] = {
-                "x_min": round(x_min, 1),
-                "x_max": round(x_max, 1),
+                "x_min": round(float(x_min), 1),
+                "x_max": round(float(x_max), 1),
                 "header_text": eb["text"],
-                "cx": round(eb["cx"], 1)
+                "cx": round(float(eb["cx"]), 1),
+                "x0": round(float(eb["x0"]), 1),
+                "x1": round(float(eb["x1"]), 1),
             }
 
         # 3. Detect End of Table (Summary / Totals / Footer section)
@@ -200,10 +247,10 @@ class TableReconstructor:
                         table_end_y = eb["y0"]
                         summary_blocks.append(eb)
 
-        # 4. Extract Body Blocks strictly within table boundaries
+        # 4. Extract Body Blocks strictly within table boundaries (excluding headers and totals)
         body_blocks = [
             eb for eb in enriched
-            if eb["y0"] >= header_bottom_y and eb["y1"] <= (table_end_y + 5)
+            if eb["y0"] >= header_bottom_y and eb["y1"] <= (table_end_y + 8.0)
             and eb["text"] != ""
         ]
 
@@ -216,51 +263,80 @@ class TableReconstructor:
                 summary_blocks_count=len(summary_blocks)
             )
 
-        # 5. Cluster Body Blocks into Row Lines
+        # 5. Cluster Body Blocks into Row Lines using Vertical Overlap and Jitter Tolerance
         body_blocks.sort(key=lambda x: (x["cy"], x["x0"]))
-        row_lines = []
-        curr_line = []
-        curr_y = None
-        y_tolerance = 16.0
+        row_lines: List[List[Dict[str, Any]]] = []
+        curr_line: List[Dict[str, Any]] = []
+        curr_y_min: Optional[float] = None
+        curr_y_max: Optional[float] = None
 
         for b in body_blocks:
-            if curr_y is None:
-                curr_y = b["cy"]
+            if not curr_line:
                 curr_line.append(b)
-            elif abs(b["cy"] - curr_y) <= y_tolerance:
-                curr_line.append(b)
-                curr_y = sum(x["cy"] for x in curr_line) / len(curr_line)
+                curr_y_min = b["y0"]
+                curr_y_max = b["y1"]
             else:
-                row_lines.append(curr_line)
-                curr_line = [b]
-                curr_y = b["cy"]
-        if curr_line:
-            row_lines.append(curr_line)
+                # Vertical overlap check with active row line
+                line_h = max(curr_y_max - curr_y_min, b["h"], 10.0)
+                y_overlap = min(curr_y_max, b["y1"]) - max(curr_y_min, b["y0"])
+                avg_cy = sum(x["cy"] for x in curr_line) / len(curr_line)
 
-        # 6. Assemble Structured Line Items with Multiline Description Merging
-        line_items = []
+                if y_overlap > 0.3 * line_h or abs(b["cy"] - avg_cy) <= max(14.0, line_h * 0.65):
+                    curr_line.append(b)
+                    curr_y_min = min(curr_y_min, b["y0"])
+                    curr_y_max = max(curr_y_max, b["y1"])
+                else:
+                    row_lines.append(sorted(curr_line, key=lambda x: x["x0"]))
+                    curr_line = [b]
+                    curr_y_min = b["y0"]
+                    curr_y_max = b["y1"]
+
+        if curr_line:
+            row_lines.append(sorted(curr_line, key=lambda x: x["x0"]))
+
+        # 6. Assign Blocks to Cells and Assemble Structured Line Items
+        line_items: List[StructuredLineItem] = []
         current_item: Optional[StructuredLineItem] = None
 
         for line in row_lines:
-            cells = {}
+            cells: Dict[str, Dict[str, Any]] = {}
             for b in line:
-                for col_name, col_info in columns.items():
-                    if col_info["x_min"] <= b["cx"] <= col_info["x_max"]:
-                        if col_name in cells:
-                            cells[col_name]["text"] += " " + b["text"]
-                            cells[col_name]["confidences"].append(b["confidence"])
-                            cells[col_name]["blocks"].append(b["raw"])
-                        else:
-                            cells[col_name] = {
-                                "text": b["text"],
-                                "confidences": [b["confidence"]],
-                                "blocks": [b["raw"]],
-                                "y0": b["y0"], "y1": b["y1"], "cx": b["cx"]
-                            }
-                        break
+                best_col: Optional[str] = None
+                best_overlap: float = 0.0
 
-            # A line starts a new line item if it contains numeric fields (qty, price, net, gross) or an item number
-            has_numeric_data = any(k in cells for k in ["quantity", "unit_price", "net_amount", "gross_amount"])
+                for col_name, col_info in columns.items():
+                    # Check horizontal overlap
+                    overlap_x0 = max(col_info["x_min"], b["x0"])
+                    overlap_x1 = min(col_info["x_max"], b["x1"])
+                    overlap = max(0.0, overlap_x1 - overlap_x0)
+
+                    # Also evaluate center containment
+                    if col_info["x_min"] <= b["cx"] <= col_info["x_max"]:
+                        overlap += 10.0  # Preference for center-contained column
+
+                    if overlap > best_overlap:
+                        best_overlap = overlap
+                        best_col = col_name
+
+                if best_col is not None and best_overlap > 0.0:
+                    if best_col in cells:
+                        # Number / text token stitching within the same cell
+                        cells[best_col]["text"] += " " + b["text"]
+                        cells[best_col]["confidences"].append(b["confidence"])
+                        cells[best_col]["blocks"].append(b["raw"])
+                    else:
+                        cells[best_col] = {
+                            "text": b["text"],
+                            "confidences": [b["confidence"]],
+                            "blocks": [b["raw"]],
+                            "y0": b["y0"], "y1": b["y1"], "cx": b["cx"]
+                        }
+
+            # Check if this line begins a new primary line item or is a multiline continuation
+            has_numeric_data = any(
+                k in cells and bool(cells[k]["text"].strip())
+                for k in ["quantity", "unit_price", "net_amount", "gross_amount", "vat_rate"]
+            )
             has_item_num = "item_number" in cells and any(c.isdigit() for c in cells["item_number"]["text"])
 
             if has_numeric_data or has_item_num:
@@ -287,6 +363,7 @@ class TableReconstructor:
                 # Multiline description continuation line
                 desc_extra = cells.get("description", {}).get("text", "")
                 if not desc_extra:
+                    # If not explicitly in description column, join all text on this continuation line
                     desc_extra = " ".join(b["text"] for b in line)
 
                 if current_item and desc_extra:

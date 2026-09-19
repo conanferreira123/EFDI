@@ -25,23 +25,11 @@ def extract_common_fields(
 ) -> dict[str, ExtractedField]:
     return {
         "document_id": extract_field_hybrid(text, ["Document ID", "Doc ID", "DOCID"], raw_blocks, field_type="code"),
-        "document_category": extract_by_labels(text, ["Document Category"]),
-        "company_code": extract_field_hybrid(text, ["Company Code", "COCODE", "CO CODE"], raw_blocks, field_type="code"),
-        "company_name": extract_field_hybrid(text, ["Company Name"], raw_blocks, field_type="text"),
-        "fiscal_year": extract_by_labels(text, ["Fiscal Year", "FY"]),
-        "location_code": extract_by_labels(text, ["Location Code", "LOC CODE"]),
-        "vertical_code": extract_by_labels(text, ["Vertical Code"]),
-        "document_source": extract_by_labels(text, ["Document Source", "Doc Source"]),
-        "barcode": extract_by_labels(text, ["Barcode", "Bar Code"]),
-        "currency": extract_by_labels(text, ["Currency"]),
-        "document_date": extract_date_hybrid(text, ["Document Date", "Doc Date"], raw_blocks),
         "processing_status": extract_by_labels(text, ["Processing Status"]),
         "validation_status": extract_by_labels(text, ["Validation Status"]),
-        # document_type and ocr_confidence_score are populated by the
-        # service layer (from the classification result and the OCR
-        # result respectively), not extracted from text -- they are
-        # already known, structured values elsewhere in the pipeline,
-        # not something to re-derive via regex.
+        "company_code": extract_field_hybrid(text, ["Company Code", "COCODE", "CO CODE"], raw_blocks, field_type="code"),
+        "currency": extract_by_labels(text, ["Currency"]),
+        "barcode": extract_by_labels(text, ["Barcode", "Bar Code"]),
     }
 
 
@@ -55,15 +43,21 @@ def extract_poi_fields(
 ) -> dict[str, ExtractedField]:
     return {
         "vendor_code": extract_field_hybrid(text, ["Vendor Code"], raw_blocks, field_type="code"),
-        "vendor_name": extract_field_hybrid(text, ["Vendor Name", "Vendor"], raw_blocks, field_type="text"),
         "po_number": extract_field_hybrid(text, ["PO Number", "Purchase Order Number", "PO No"], raw_blocks, field_type="code"),
         "grn_number": extract_field_hybrid(text, ["GRN Number", "GRN No", "GRN"], raw_blocks, field_type="code"),
         "srn_number": extract_field_hybrid(text, ["SRN Number", "SRN No", "SRN"], raw_blocks, field_type="code"),
         "invoice_number": extract_field_hybrid(text, ["Invoice Number", "Invoice No"], raw_blocks, field_type="code"),
         "invoice_date": extract_date_hybrid(text, ["Invoice Date"], raw_blocks),
-        "invoice_amount": extract_amount_hybrid(text, ["Invoice Amount", "Total Amount"], raw_blocks, table_data, role="invoice_amount"),
-        "tax_amount": extract_amount_hybrid(text, ["Tax Amount", "GST Amount", "Tax"], raw_blocks, table_data, role="tax_amount"),
-        "net_amount": extract_amount_hybrid(text, ["Net Amount"], raw_blocks, table_data, role="net_amount"),
+        "seller_name": extract_field_hybrid(text, ["Seller Name", "Vendor Name", "Vendor", "Supplier"], raw_blocks, field_type="text"),
+        "seller_address": extract_field_hybrid(text, ["Seller Address", "Vendor Address", "Supplier Address"], raw_blocks, field_type="text"),
+        "seller_tax_id": extract_field_hybrid(text, ["Seller Tax ID", "Vendor Tax ID", "GSTIN", "VAT", "Tax ID"], raw_blocks, field_type="code"),
+        "buyer_name": extract_field_hybrid(text, ["Buyer Name", "Customer Name", "Bill To", "Company Name"], raw_blocks, field_type="text"),
+        "buyer_address": extract_field_hybrid(text, ["Buyer Address", "Customer Address", "Bill To Address"], raw_blocks, field_type="text"),
+        "buyer_tax_id": extract_field_hybrid(text, ["Buyer Tax ID", "Customer Tax ID", "Buyer GSTIN"], raw_blocks, field_type="code"),
+        "subtotal_net_amount": extract_amount_hybrid(text, ["Subtotal Net Amount", "Net Amount", "Subtotal"], raw_blocks, table_data, role="subtotal_net_amount"),
+        "tax_rate": extract_amount_hybrid(text, ["Tax Rate", "GST Rate", "VAT Rate"], raw_blocks, table_data, role="tax_rate"),
+        "total_tax_amount": extract_amount_hybrid(text, ["Total Tax Amount", "Tax Amount", "GST Amount", "Tax"], raw_blocks, table_data, role="total_tax_amount"),
+        "grand_total_amount": extract_amount_hybrid(text, ["Grand Total Amount", "Invoice Amount", "Total Amount", "Gross Amount"], raw_blocks, table_data, role="grand_total_amount"),
         "payment_terms": extract_by_labels(text, ["Payment Terms"]),
     }
 
@@ -75,15 +69,18 @@ def extract_npo_fields(
 ) -> dict[str, ExtractedField]:
     return {
         "vendor_code": extract_field_hybrid(text, ["Vendor Code"], raw_blocks, field_type="code"),
-        "vendor_name": extract_field_hybrid(text, ["Vendor Name", "Vendor"], raw_blocks, field_type="text"),
         "invoice_number": extract_field_hybrid(text, ["Invoice Number", "Invoice No"], raw_blocks, field_type="code"),
         "invoice_date": extract_date_hybrid(text, ["Invoice Date"], raw_blocks),
-        "invoice_amount": extract_amount_hybrid(text, ["Invoice Amount", "Amount Due", "Total Amount"], raw_blocks, table_data, role="invoice_amount"),
-        "expense_category": extract_by_labels(text, ["Expense Category"]),
-        "cost_center": extract_by_labels(text, ["Cost Center", "Cost Centre"]),
-        "department": extract_by_labels(text, ["Department"]),
-        "tax_amount": extract_amount_hybrid(text, ["Tax Amount", "GST Amount"], raw_blocks, table_data, role="tax_amount"),
-        "net_amount": extract_amount_hybrid(text, ["Net Amount"], raw_blocks, table_data, role="net_amount"),
+        "seller_name": extract_field_hybrid(text, ["Seller Name", "Vendor Name", "Vendor", "Supplier"], raw_blocks, field_type="text"),
+        "seller_address": extract_field_hybrid(text, ["Seller Address", "Vendor Address", "Supplier Address"], raw_blocks, field_type="text"),
+        "seller_tax_id": extract_field_hybrid(text, ["Seller Tax ID", "Vendor Tax ID", "GSTIN", "VAT", "Tax ID"], raw_blocks, field_type="code"),
+        "buyer_name": extract_field_hybrid(text, ["Buyer Name", "Customer Name", "Bill To", "Company Name"], raw_blocks, field_type="text"),
+        "buyer_address": extract_field_hybrid(text, ["Buyer Address", "Customer Address", "Bill To Address"], raw_blocks, field_type="text"),
+        "buyer_tax_id": extract_field_hybrid(text, ["Buyer Tax ID", "Customer Tax ID", "Buyer GSTIN"], raw_blocks, field_type="code"),
+        "subtotal_net_amount": extract_amount_hybrid(text, ["Subtotal Net Amount", "Net Amount", "Subtotal"], raw_blocks, table_data, role="subtotal_net_amount"),
+        "tax_rate": extract_amount_hybrid(text, ["Tax Rate", "GST Rate", "VAT Rate"], raw_blocks, table_data, role="tax_rate"),
+        "total_tax_amount": extract_amount_hybrid(text, ["Total Tax Amount", "Tax Amount", "GST Amount"], raw_blocks, table_data, role="total_tax_amount"),
+        "grand_total_amount": extract_amount_hybrid(text, ["Grand Total Amount", "Invoice Amount", "Amount Due", "Total Amount"], raw_blocks, table_data, role="grand_total_amount"),
     }
 
 
@@ -96,7 +93,8 @@ def extract_dpr_fields(
         "request_number": extract_field_hybrid(text, ["Request Number", "DPR Number", "Request No"], raw_blocks, field_type="code"),
         "request_date": extract_date_hybrid(text, ["Request Date"], raw_blocks),
         "vendor_code": extract_field_hybrid(text, ["Vendor Code"], raw_blocks, field_type="code"),
-        "vendor_name": extract_field_hybrid(text, ["Vendor Name", "Vendor"], raw_blocks, field_type="text"),
+        "seller_name": extract_field_hybrid(text, ["Seller Name", "Vendor Name", "Vendor"], raw_blocks, field_type="text"),
+        "buyer_name": extract_field_hybrid(text, ["Buyer Name", "Company Name", "Customer Name"], raw_blocks, field_type="text"),
         "po_number": extract_field_hybrid(text, ["PO Number", "PO No"], raw_blocks, field_type="code"),
         "requested_amount": extract_amount_hybrid(text, ["Requested Amount"], raw_blocks, table_data, role="invoice_amount"),
         "advance_percentage": extract_by_labels(text, ["Advance Percentage", "Advance %"]),
@@ -131,12 +129,18 @@ def extract_msi_fields(
 ) -> dict[str, ExtractedField]:
     return {
         "customer_code": extract_field_hybrid(text, ["Customer Code"], raw_blocks, field_type="code"),
-        "customer_name": extract_field_hybrid(text, ["Customer Name", "Customer", "Bill To"], raw_blocks, field_type="text"),
         "sales_invoice_number": extract_field_hybrid(text, ["Sales Invoice Number", "MSI Invoice Number", "Invoice Number", "Invoice #", "Invoice"], raw_blocks, field_type="code"),
         "sales_invoice_date": extract_date_hybrid(text, ["Sales Invoice Date", "MSI Invoice Date", "Invoice Date", "Date"], raw_blocks),
-        "invoice_amount": extract_amount_hybrid(text, ["Invoice Amount", "MSI Invoice Amount", "Total"], raw_blocks, table_data, role="invoice_amount"),
-        "tax_amount": extract_amount_hybrid(text, ["Tax Amount"], raw_blocks, table_data, role="tax_amount"),
-        "net_amount": extract_amount_hybrid(text, ["Net Amount", "Subtotal"], raw_blocks, table_data, role="net_amount"),
+        "seller_name": extract_field_hybrid(text, ["Seller Name", "Vendor Name", "Company Name"], raw_blocks, field_type="text"),
+        "seller_address": extract_field_hybrid(text, ["Seller Address", "Vendor Address"], raw_blocks, field_type="text"),
+        "seller_tax_id": extract_field_hybrid(text, ["Seller Tax ID", "Vendor Tax ID", "GSTIN", "VAT"], raw_blocks, field_type="code"),
+        "buyer_name": extract_field_hybrid(text, ["Buyer Name", "Customer Name", "Customer", "Bill To"], raw_blocks, field_type="text"),
+        "buyer_address": extract_field_hybrid(text, ["Buyer Address", "Customer Address", "Bill To Address"], raw_blocks, field_type="text"),
+        "buyer_tax_id": extract_field_hybrid(text, ["Buyer Tax ID", "Customer Tax ID", "Buyer GSTIN"], raw_blocks, field_type="code"),
+        "subtotal_net_amount": extract_amount_hybrid(text, ["Subtotal Net Amount", "Net Amount", "Subtotal"], raw_blocks, table_data, role="subtotal_net_amount"),
+        "tax_rate": extract_amount_hybrid(text, ["Tax Rate", "GST Rate", "VAT Rate"], raw_blocks, table_data, role="tax_rate"),
+        "total_tax_amount": extract_amount_hybrid(text, ["Total Tax Amount", "Tax Amount"], raw_blocks, table_data, role="total_tax_amount"),
+        "grand_total_amount": extract_amount_hybrid(text, ["Grand Total Amount", "Invoice Amount", "MSI Invoice Amount", "Total"], raw_blocks, table_data, role="grand_total_amount"),
         "due_date": extract_date_hybrid(text, ["Due Date"], raw_blocks),
         "payment_terms": extract_by_labels(text, ["Payment Terms"]),
     }
@@ -151,7 +155,7 @@ def extract_psi_fields(
         "pis_number": extract_field_hybrid(text, ["PIS Number", "Pay In Slip Number"], raw_blocks, field_type="code"),
         "pis_date": extract_date_hybrid(text, ["PIS Date"], raw_blocks),
         "customer_code": extract_field_hybrid(text, ["Customer Code", "PIS Customer Code"], raw_blocks, field_type="code"),
-        "customer_name": extract_field_hybrid(text, ["Customer Name", "PIS Customer Name"], raw_blocks, field_type="text"),
+        "buyer_name": extract_field_hybrid(text, ["Buyer Name", "Customer Name", "PIS Customer Name"], raw_blocks, field_type="text"),
         "bank_name": extract_field_hybrid(text, ["Bank Name"], raw_blocks, field_type="text"),
         "deposit_amount": extract_amount_hybrid(text, ["Deposit Amount", "PIS Deposit Amount"], raw_blocks, table_data, role="invoice_amount"),
         "deposit_reference_number": extract_field_hybrid(text, ["Deposit Reference Number", "Reference Number"], raw_blocks, field_type="code"),

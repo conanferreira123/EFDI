@@ -133,7 +133,7 @@ async def root() -> dict:
 
 
 # --- Routers ---
-from app.routers import audit, auth, classification, documents, extraction, ocr, users, validation, workflow  # noqa: E402
+from app.routers import audit, auth, chat, classification, documents, extraction, global_chat, ocr, users, validation, workflow  # noqa: E402
 
 app.include_router(auth.router, prefix=settings.API_V1_PREFIX)
 app.include_router(users.router, prefix=settings.API_V1_PREFIX)
@@ -144,3 +144,5 @@ app.include_router(extraction.router, prefix=settings.API_V1_PREFIX)
 app.include_router(validation.router, prefix=settings.API_V1_PREFIX)
 app.include_router(workflow.router, prefix=settings.API_V1_PREFIX)
 app.include_router(audit.router, prefix=settings.API_V1_PREFIX)
+app.include_router(chat.router, prefix=settings.API_V1_PREFIX)
+app.include_router(global_chat.router, prefix=settings.API_V1_PREFIX)

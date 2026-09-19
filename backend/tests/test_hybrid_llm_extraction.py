@@ -13,10 +13,11 @@ from app.models.document_chunk import DocumentChunk
 
 
 def test_dynamic_pydantic_schema_generation():
-    """Verify that build_dynamic_extraction_model creates models with all declared schema fields."""
+    """Verify that build_dynamic_extraction_model creates models with all declared LLM schema fields."""
+    from app.extraction.field_schemas import SYSTEM_METADATA_KEYS, get_full_field_schema
     for doc_type in ["POI", "NPO", "DPR", "IMA", "MSI", "PSI", "JER", "BKA", "LCA"]:
         DynamicModel = build_dynamic_extraction_model(doc_type)
-        schema_fields = get_full_field_schema(doc_type)
+        schema_fields = [f for f in get_full_field_schema(doc_type) if f.key not in SYSTEM_METADATA_KEYS]
         model_fields = DynamicModel.model_fields
 
         assert len(model_fields) == len(schema_fields)
@@ -67,12 +68,12 @@ def test_llm_extractor_structured_mock():
             "confidence": 0.90,
             "source_quote": "Invoice Date: 15-06-2026",
         },
-        "invoice_amount": {
+        "grand_total_amount": {
             "value": "Rs. 50,000.00",
             "confidence": 0.92,
             "source_quote": "Invoice Amount: Rs. 50,000.00",
         },
-        "vendor_name": {
+        "seller_name": {
             "value": "Acme Global Solutions",
             "confidence": 0.88,
             "source_quote": "Vendor Name: Acme Global Solutions",
@@ -84,9 +85,9 @@ def test_llm_extractor_structured_mock():
 
         assert result.fields["invoice_number"].value == "INV-2026-999"
         assert result.fields["invoice_date"].value == "2026-06-15"  # normalized date
-        assert result.fields["invoice_amount"].value == "50000.00"  # normalized amount
-        assert result.fields["vendor_name"].value == "Acme Global Solutions"
-        assert result.fields["vendor_name"].matched_text == "Vendor Name: Acme Global Solutions"
+        assert result.fields["grand_total_amount"].value == "50000.00"  # normalized amount
+        assert result.fields["seller_name"].value == "Acme Global Solutions"
+        assert result.fields["seller_name"].matched_text == "Vendor Name: Acme Global Solutions"
         assert result.fields_found_count == 4
         assert result.overall_confidence > 0.85
 

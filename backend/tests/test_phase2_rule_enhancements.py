@@ -135,18 +135,18 @@ def test_hybrid_extractor_with_poi_spatial_and_table_context():
     extractor = RuleBasedExtractor()
     result = extractor.extract(context)
 
-    # Vendor from text
-    assert result.fields["vendor_name"].value == "SupplyChain Direct"
+    # Vendor/Seller from text
+    assert result.fields["seller_name"].value == "SupplyChain Direct"
     # PO Number from spatial block neighbor
     assert result.fields["po_number"].value == "PO-2026-9999"
     # Invoice Number from spatial block neighbor
     assert result.fields["invoice_number"].value == "INV-5544"
     # Net Amount from table calculation
-    assert result.fields["net_amount"].value == "1000.00"
+    assert result.fields["subtotal_net_amount"].value == "1000.00"
     # Tax Amount from table calculation
-    assert result.fields["tax_amount"].value == "180.00"
-    # Invoice Amount from text primary
-    assert result.fields["invoice_amount"].value == "1180.00"
+    assert result.fields["total_tax_amount"].value == "180.00"
+    # Grand Total Amount from text primary
+    assert result.fields["grand_total_amount"].value == "1180.00"
 
 
 def test_fallback_when_raw_blocks_and_table_are_none():
@@ -170,8 +170,8 @@ def test_fallback_when_raw_blocks_and_table_are_none():
 
     assert result.fields["invoice_number"].value == "INV-PLAIN-001"
     assert result.fields["invoice_date"].value == "2026-01-10"
-    assert result.fields["invoice_amount"].value == "5000.00"
-    assert result.fields["vendor_name"].value == "Pure Text Corp"
+    assert result.fields["grand_total_amount"].value == "5000.00"
+    assert result.fields["seller_name"].value == "Pure Text Corp"
 
 
 def test_robustness_on_malformed_raw_blocks():

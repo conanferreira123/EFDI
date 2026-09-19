@@ -55,21 +55,21 @@ def extract_amount_from_table(
     total_net = sum(net_values) if (net_values and len(net_values) == len(line_items)) else None
     total_gross = sum(gross_values) if (gross_values and len(gross_values) == len(line_items)) else None
 
-    if role == "net_amount" and total_net is not None and total_net > 0:
+    if role in ("subtotal_net_amount", "net_amount") and total_net is not None and total_net > 0:
         return ExtractedField(
             value=f"{total_net:.2f}",
             confidence=0.82,
             matched_text="Table Reconstructed Line Items Net Total",
         )
 
-    if role in ("invoice_amount", "gross_amount") and total_gross is not None and total_gross > 0:
+    if role in ("grand_total_amount", "invoice_amount", "gross_amount") and total_gross is not None and total_gross > 0:
         return ExtractedField(
             value=f"{total_gross:.2f}",
             confidence=0.82,
             matched_text="Table Reconstructed Line Items Gross Total",
         )
 
-    if role == "tax_amount":
+    if role in ("total_tax_amount", "tax_amount"):
         if total_gross is not None and total_net is not None and total_gross >= total_net:
             tax_diff = total_gross - total_net
             if tax_diff > 0:

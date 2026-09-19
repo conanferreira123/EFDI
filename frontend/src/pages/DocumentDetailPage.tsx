@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Trash2, Download, FileText } from "lucide-react";
+import { Trash2, Download, FileText, Sparkles } from "lucide-react";
 import { useDocumentPipeline } from "@/hooks/useDocumentPipeline";
 import { StatusBadge } from "@/components/status-badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -14,6 +14,7 @@ import { ExtractionFields } from "@/components/extraction-fields";
 import { OCRBoundingBoxes } from "@/components/ocr-bounding-boxes";
 import { ValidationIssuesList } from "@/components/validation-issues";
 import { WorkflowTimeline } from "@/components/workflow-timeline";
+import { DocumentChatAssistant } from "@/components/document-chat";
 import { documentsApi } from "@/services/documents";
 import {extractionApi} from "@/services/pipeline";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
@@ -135,6 +136,10 @@ export function DocumentDetailPage() {
           <TabsTrigger value="extraction">Extraction</TabsTrigger>
           <TabsTrigger value="validation">Validation</TabsTrigger>
           <TabsTrigger value="workflow">Workflow</TabsTrigger>
+          <TabsTrigger value="chat" className="flex items-center gap-1.5 font-medium text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
+            Ask AI
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="ocr">
@@ -243,7 +248,13 @@ export function DocumentDetailPage() {
                   </Button>
                 </div>
               </div>
-              <ExtractionFields documentId={id} fields={extraction.fields} onFieldUpdated={refresh} />
+              <ExtractionFields
+                documentId={id}
+                documentType={document?.document_type || extraction.document_type}
+                fields={extraction.fields}
+                canonical={extraction.canonical}
+                onFieldUpdated={refresh}
+              />
             </div>
           ) : (
             <EmptyStep label="Field extraction hasn't been run on this document yet." />
@@ -260,6 +271,10 @@ export function DocumentDetailPage() {
 
         <TabsContent value="workflow">
           <WorkflowTimeline history={history} />
+        </TabsContent>
+
+        <TabsContent value="chat">
+          <DocumentChatAssistant documentId={id} originalFilename={document.original_filename} />
         </TabsContent>
       </Tabs>
     </div>

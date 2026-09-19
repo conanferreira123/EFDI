@@ -60,17 +60,17 @@ def test_reconciliation_normalized_amount_agreement():
     """Verify currency/comma formatted amounts that normalize to same float are agreed."""
     rule_res = ExtractionResultData(
         document_type="POI",
-        fields={"invoice_amount": ExtractedField(value="25,000.00", confidence=0.85)},
+        fields={"grand_total_amount": ExtractedField(value="25,000.00", confidence=0.85)},
     )
     llm_res = ExtractionResultData(
         document_type="POI",
-        fields={"invoice_amount": ExtractedField(value="25000.00", confidence=0.90)},
+        fields={"grand_total_amount": ExtractedField(value="25000.00", confidence=0.90)},
     )
     dual = DualExtractionResult(document_type="POI", rule_result=rule_res, llm_result=llm_res)
     ctx = ExtractionContext(full_text="Total: 25,000.00", document_type="POI")
 
     reconciled = ReconciliationEngine.reconcile(dual, ctx)
-    field = reconciled.fields["invoice_amount"]
+    field = reconciled.fields["grand_total_amount"]
 
     assert field.value == "25000.00"
     assert field.provenance == "agreed"
@@ -101,17 +101,17 @@ def test_reconciliation_only_llm_found():
     """Verify single-extractor find assigns llm provenance."""
     rule_res = ExtractionResultData(
         document_type="POI",
-        fields={"vendor_name": ExtractedField(value=None, confidence=0.0)},
+        fields={"seller_name": ExtractedField(value=None, confidence=0.0)},
     )
     llm_res = ExtractionResultData(
         document_type="POI",
-        fields={"vendor_name": ExtractedField(value="Acme Corporation", confidence=0.95)},
+        fields={"seller_name": ExtractedField(value="Acme Corporation", confidence=0.95)},
     )
     dual = DualExtractionResult(document_type="POI", rule_result=rule_res, llm_result=llm_res)
     ctx = ExtractionContext(full_text="Vendor: Acme Corporation", document_type="POI")
 
     reconciled = ReconciliationEngine.reconcile(dual, ctx)
-    field = reconciled.fields["vendor_name"]
+    field = reconciled.fields["seller_name"]
 
     assert field.value == "Acme Corporation"
     assert field.provenance == "llm"
@@ -143,11 +143,11 @@ def test_reconciliation_table_amount_verification():
     """Verify conflicting amounts are resolved when one matches table calculation."""
     rule_res = ExtractionResultData(
         document_type="POI",
-        fields={"net_amount": ExtractedField(value="5000.00", confidence=0.80)},
+        fields={"subtotal_net_amount": ExtractedField(value="5000.00", confidence=0.80)},
     )
     llm_res = ExtractionResultData(
         document_type="POI",
-        fields={"net_amount": ExtractedField(value="4000.00", confidence=0.85)},
+        fields={"subtotal_net_amount": ExtractedField(value="4000.00", confidence=0.85)},
     )
     dual = DualExtractionResult(document_type="POI", rule_result=rule_res, llm_result=llm_res)
     ctx = ExtractionContext(
@@ -162,7 +162,7 @@ def test_reconciliation_table_amount_verification():
     )
 
     reconciled = ReconciliationEngine.reconcile(dual, ctx)
-    field = reconciled.fields["net_amount"]
+    field = reconciled.fields["subtotal_net_amount"]
 
     assert field.value == "5000.00"
     assert field.provenance == "reconciled_table_verified"

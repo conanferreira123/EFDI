@@ -63,6 +63,7 @@ class Settings(BaseSettings):
     # for environments without network access to real model weights;
     # set to "paddleocr" or "easyocr" once weights are available.
     OCR_DEFAULT_ENGINE: str = "easyocr"
+    ENABLE_STRUCTURED_FULL_TEXT: bool = True
 
     # --- Extraction & LLM ---
     EXTRACTION_DEFAULT_ENGINE: str = "hybrid"
@@ -70,6 +71,18 @@ class Settings(BaseSettings):
     EXTRACTION_LLM_MODEL: str = "mistral-small-2603"
     MISTRAL_API_KEY: str | None = None
     MISTRAL_API_BASE: str = "https://api.mistral.ai/v1"
+
+    # --- RAG Subsystem (Milestones 1-4) ---
+    RAG_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
+    RAG_RERANKER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    RAG_EMBEDDING_DIM: int = 384
+    RAG_DENSE_TOP_K: int = 30
+    RAG_SPARSE_TOP_K: int = 30
+    RAG_RRF_K: int = 60
+    RAG_RERANK_CANDIDATES: int = 25
+    RAG_FINAL_TOP_K: int = 5
+    RAG_RERANKER_MIN_SCORE: float = -3.0
+    GLOBAL_CHAT_ANALYST_POLICY: str = "scoped"  # "scoped" (Option A: uploaded_by=user.id) or "forbidden" (Option B: 403)
 
     # --- CORS ---
     CORS_ORIGINS: str = "http://localhost:5173"

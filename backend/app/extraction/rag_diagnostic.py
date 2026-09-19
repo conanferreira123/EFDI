@@ -33,9 +33,9 @@ class RAGDiagnosticService:
         fields = result_data.fields
 
         # 1. Arithmetic mismatch: Net + Tax != Total Invoice Amount
-        net_f = fields.get("net_amount")
-        tax_f = fields.get("tax_amount")
-        inv_f = fields.get("invoice_amount")
+        net_f = fields.get("subtotal_net_amount") or fields.get("net_amount")
+        tax_f = fields.get("total_tax_amount") or fields.get("tax_amount")
+        inv_f = fields.get("grand_total_amount") or fields.get("invoice_amount")
         if net_f and tax_f and inv_f and net_f.value and tax_f.value and inv_f.value:
             try:
                 net_val = float(net_f.value)
@@ -70,7 +70,7 @@ class RAGDiagnosticService:
 
         # 4. Multi-page document with missing critical header identity fields
         if page_count > 1:
-            core_keys = ["vendor_name", "customer_name", "invoice_number", "sales_invoice_number"]
+            core_keys = ["seller_name", "vendor_name", "buyer_name", "customer_name", "invoice_number", "sales_invoice_number"]
             missing_core = [
                 k for k in core_keys
                 if k in fields and (not fields[k].is_found or not fields[k].value)
@@ -119,34 +119,37 @@ class RAGDiagnosticService:
         all_chunk_text = "\n".join([c.content for c in chunks])
 
         # Diagnostic reconciliation:
-        # Check if invoice_amount vs net_amount vs tax_amount can be reconciled from summary chunks
+        # Check if grand_total_amount vs subtotal_net_amount vs total_tax_amount can be reconciled from summary chunks
         fields = result_data.fields
-        net_f = fields.get("net_amount")
-        tax_f = fields.get("tax_amount")
-        inv_f = fields.get("invoice_amount")
+        net_f = fields.get("subtotal_net_amount") or fields.get("net_amount")
+        tax_f = fields.get("total_tax_amount") or fields.get("tax_amount")
+        inv_f = fields.get("grand_total_amount") or fields.get("invoice_amount")
 
-        if net_f and tax_f and inv_f:
-            if net_f.value and tax_f.value and (not inv_f.value or not inv_f.is_found):
+        total_target_key = "grand_total_amount" if "grand_total_amount" in fields else "invoice_amount"
+        net_target_key = "subtotal_net_amount" if "subtotal_net_amount" in fields else "net_amount"
+
+        if net_f and tax_f and (inv_f is not None or total_target_key in fields):
+            if net_f.value and tax_f.value and (not inv_f or not inv_f.value or not inv_f.is_found):
                 try:
                     reconciled_total = float(net_f.value) + float(tax_f.value)
-                    fields["invoice_amount"] = ExtractedField(
+                    fields[total_target_key] = ExtractedField(
                         value=f"{reconciled_total:.2f}",
                         confidence=0.85,
                         matched_text="Reconciled via RAG diagnostic net + tax sum",
                     )
-                    logger.info("RAG Diagnostic reconciled invoice_amount to %s", fields["invoice_amount"].value)
+                    logger.info("RAG Diagnostic reconciled %s to %s", total_target_key, fields[total_target_key].value)
                 except ValueError:
                     pass
-            elif inv_f.value and tax_f.value and (not net_f.value or not net_f.is_found):
+            elif inv_f and inv_f.value and tax_f.value and (not net_f or not net_f.value or not net_f.is_found):
                 try:
                     reconciled_net = float(inv_f.value) - float(tax_f.value)
                     if reconciled_net > 0:
-                        fields["net_amount"] = ExtractedField(
+                        fields[net_target_key] = ExtractedField(
                             value=f"{reconciled_net:.2f}",
                             confidence=0.85,
                             matched_text="Reconciled via RAG diagnostic invoice - tax sum",
                         )
-                        logger.info("RAG Diagnostic reconciled net_amount to %s", fields["net_amount"].value)
+                        logger.info("RAG Diagnostic reconciled %s to %s", net_target_key, fields[net_target_key].value)
                 except ValueError:
                     pass
 

@@ -1,0 +1,1440 @@
+{
+  "Config 1: strict=False + current_prompt": {
+    "doc1": {
+      "status": "SUCCESS",
+      "duration": 12.088991641998291,
+      "data": {
+        "$defs": {
+          "LLMFieldItem": {
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "source_quote": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "properties": {
+          "document_id": {
+            "value": "batch1-0001.jpg",
+            "confidence": 0.95,
+            "source_quote": "batch1-0001.jpg (1654*2339)"
+          },
+          "document_type": {
+            "value": "NPO",
+            "confidence": 0.99,
+            "source_quote": null
+          },
+          "document_category": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_name": {
+            "value": "Becker Ltd",
+            "confidence": 0.98,
+            "source_quote": "Client:\nBecker Ltd"
+          },
+          "fiscal_year": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "location_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vertical_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "document_source": {
+            "value": "Google Cloud Storage (batch1-0001.jpg)",
+            "confidence": 0.95,
+            "source_quote": "https Ilstorage-googleapis com/kagglesdsdataldatasets/5773627/11739593/batch_1/batch1-0001.jpg"
+          },
+          "barcode": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "currency": {
+            "value": "USD",
+            "confidence": 0.95,
+            "source_quote": null
+          },
+          "document_date": {
+            "value": "2013-04-13",
+            "confidence": 0.99,
+            "source_quote": "04/13/2013"
+          },
+          "ocr_confidence_score": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "processing_status": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "validation_status": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_name": {
+            "value": "Kirby and Valdez Andrews_",
+            "confidence": 0.9,
+            "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+          },
+          "invoice_number": {
+            "value": "51109338",
+            "confidence": 0.99,
+            "source_quote": "Invoice no: 51109338"
+          },
+          "invoice_date": {
+            "value": "2013-04-13",
+            "confidence": 0.99,
+            "source_quote": "Date of issue:\n04/13/2013"
+          },
+          "invoice_amount": {
+            "value": "5640.17",
+            "confidence": 0.85,
+            "source_quote": "5 5 640,17"
+          },
+          "expense_category": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "cost_center": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "department": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "tax_amount": {
+            "value": "620.42",
+            "confidence": 0.85,
+            "source_quote": "6 204,19"
+          },
+          "net_amount": {
+            "value": "5019.75",
+            "confidence": 0.85,
+            "source_quote": "640,17 (Net worth)"
+          }
+        }
+      },
+      "raw_content": "{\n  \"$defs\": {\n    \"LLMFieldItem\": {\n      \"properties\": {\n        \"value\": {\n          \"type\": \"string\"\n        },\n        \"confidence\": {\n          \"type\": \"number\"\n        },\n        \"source_quote\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  },\n  \"properties\": {\n    \"document_id\": {\n      \"value\": \"batch1-0001.jpg\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"batch1-0001.jpg (1654*2339)\"\n    },\n    \"document_type\": {\n      \"value\": \"NPO\",\n      \"confidence\": 0.99,\n      \"source_quote\": null\n    },\n    \"document_category\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_name\": {\n      \"value\": \"Becker Ltd\",\n      \"confidence\": 0.98,\n      \"source_quote\": \"Client:\\nBecker Ltd\"\n    },\n    \"fiscal_year\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"location_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vertical_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"document_source\": {\n      \"value\": \"Google Cloud Storage (batch1-0001.jpg)\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"https Ilstorage-googleapis com/kagglesdsdataldatasets/5773627/11739593/batch_1/batch1-0001.jpg\"\n    },\n    \"barcode\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"currency\": {\n      \"value\": \"USD\",\n      \"confidence\": 0.95,\n      \"source_quote\": null\n    },\n    \"document_date\": {\n      \"value\": \"2013-04-13\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"04/13/2013\"\n    },\n    \"ocr_confidence_score\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"processing_status\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"validation_status\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_name\": {\n      \"value\": \"Kirby and Valdez Andrews_\",\n      \"confidence\": 0.9,\n      \"source_quote\": \"Seller:\\nKirby and Valdez\\nAndrews_\"\n    },\n    \"invoice_number\": {\n      \"value\": \"51109338\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Invoice no: 51109338\"\n    },\n    \"invoice_date\": {\n      \"value\": \"2013-04-13\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Date of issue:\\n04/13/2013\"\n    },\n    \"invoice_amount\": {\n      \"value\": \"5640.17\",\n      \"confidence\": 0.85,\n      \"source_quote\": \"5 5 640,17\"\n    },\n    \"expense_category\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"cost_center\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"department\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"tax_amount\": {\n      \"value\": \"620.42\",\n      \"confidence\": 0.85,\n      \"source_quote\": \"6 204,19\"\n    },\n    \"net_amount\": {\n      \"value\": \"5019.75\",\n      \"confidence\": 0.85,\n      \"source_quote\": \"640,17 (Net worth)\"\n    }\n  }\n}"
+    },
+    "doc2": {
+      "status": "SUCCESS",
+      "duration": 14.998790264129639,
+      "data": {
+        "$defs": {
+          "LLMFieldItem": {
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "source_quote": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "properties": {
+          "document_id": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "document_type": {
+            "value": "NPO",
+            "confidence": 1.0,
+            "source_quote": "=== HEADER & METADATA ===\nInvoice no: 51109301"
+          },
+          "document_category": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_name": {
+            "value": "Raj Electronics Pvt Ltd",
+            "confidence": 0.95,
+            "source_quote": "--- BUYER COLUMN ---\nClient:\nRaj Electronics Pvt Ltd"
+          },
+          "fiscal_year": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "location_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vertical_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "document_source": {
+            "value": "Invoice",
+            "confidence": 0.98,
+            "source_quote": "=== HEADER & METADATA ===\nInvoice no: 51109301"
+          },
+          "barcode": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "currency": {
+            "value": "INR",
+            "confidence": 1.0,
+            "source_quote": "INR 1,676,976.00\nINR 1,844,673.60"
+          },
+          "document_date": {
+            "value": "2023-07-03",
+            "confidence": 0.99,
+            "source_quote": "Date of issue:\n03/07/2023"
+          },
+          "ocr_confidence_score": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "processing_status": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "validation_status": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_code": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_name": {
+            "value": "TechVision Distributors Pvt Ltd",
+            "confidence": 0.99,
+            "source_quote": "--- SELLER COLUMN ---\nSeller:\nTechVision Distributors Pvt Ltd"
+          },
+          "invoice_number": {
+            "value": "51109301",
+            "confidence": 1.0,
+            "source_quote": "Invoice no: 51109301"
+          },
+          "invoice_date": {
+            "value": "2023-07-03",
+            "confidence": 0.99,
+            "source_quote": "Date of issue:\n03/07/2023"
+          },
+          "invoice_amount": {
+            "value": "1844673.60",
+            "confidence": 0.99,
+            "source_quote": "INR 1,844,673.60"
+          },
+          "expense_category": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "cost_center": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "department": {
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "tax_amount": {
+            "value": "167697.60",
+            "confidence": 0.99,
+            "source_quote": "VAT\n167,697.60"
+          },
+          "net_amount": {
+            "value": "1676976.00",
+            "confidence": 0.99,
+            "source_quote": "Net Worth\n1,676,976.00"
+          }
+        }
+      },
+      "raw_content": "{\n  \"$defs\": {\n    \"LLMFieldItem\": {\n      \"properties\": {\n        \"value\": {\n          \"type\": \"string\"\n        },\n        \"confidence\": {\n          \"type\": \"number\"\n        },\n        \"source_quote\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  },\n  \"properties\": {\n    \"document_id\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"document_type\": {\n      \"value\": \"NPO\",\n      \"confidence\": 1.0,\n      \"source_quote\": \"=== HEADER & METADATA ===\\nInvoice no: 51109301\"\n    },\n    \"document_category\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_name\": {\n      \"value\": \"Raj Electronics Pvt Ltd\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"--- BUYER COLUMN ---\\nClient:\\nRaj Electronics Pvt Ltd\"\n    },\n    \"fiscal_year\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"location_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vertical_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"document_source\": {\n      \"value\": \"Invoice\",\n      \"confidence\": 0.98,\n      \"source_quote\": \"=== HEADER & METADATA ===\\nInvoice no: 51109301\"\n    },\n    \"barcode\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"currency\": {\n      \"value\": \"INR\",\n      \"confidence\": 1.0,\n      \"source_quote\": \"INR 1,676,976.00\\nINR 1,844,673.60\"\n    },\n    \"document_date\": {\n      \"value\": \"2023-07-03\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Date of issue:\\n03/07/2023\"\n    },\n    \"ocr_confidence_score\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"processing_status\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"validation_status\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_code\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_name\": {\n      \"value\": \"TechVision Distributors Pvt Ltd\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"--- SELLER COLUMN ---\\nSeller:\\nTechVision Distributors Pvt Ltd\"\n    },\n    \"invoice_number\": {\n      \"value\": \"51109301\",\n      \"confidence\": 1.0,\n      \"source_quote\": \"Invoice no: 51109301\"\n    },\n    \"invoice_date\": {\n      \"value\": \"2023-07-03\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Date of issue:\\n03/07/2023\"\n    },\n    \"invoice_amount\": {\n      \"value\": \"1844673.60\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"INR 1,844,673.60\"\n    },\n    \"expense_category\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"cost_center\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"department\": {\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"tax_amount\": {\n      \"value\": \"167697.60\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"VAT\\n167,697.60\"\n    },\n    \"net_amount\": {\n      \"value\": \"1676976.00\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Net Worth\\n1,676,976.00\"\n    }\n  }\n}"
+    }
+  },
+  "Config 2: strict=True + current_prompt": {
+    "doc1": {
+      "status": "SUCCESS",
+      "duration": 42.8982675075531,
+      "data": {
+        "$defs": {
+          "LLMFieldItem": {
+            "value": "640.17",
+            "confidence": 0.95,
+            "source_quote": "640,17"
+          }
+        },
+        "properties": {
+          "document_id": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "batch1-0001.jpg",
+            "confidence": 0.98,
+            "source_quote": "batch1-0001.jpg (1654*2339)"
+          },
+          "document_type": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "NPO",
+            "confidence": 0.99,
+            "source_quote": null
+          },
+          "document_category": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_code": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "company_name": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "Becker Ltd",
+            "confidence": 0.99,
+            "source_quote": "Client:\nBecker Ltd"
+          },
+          "fiscal_year": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "location_code": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vertical_code": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "document_source": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "batch1-0001.jpg",
+            "confidence": 0.98,
+            "source_quote": "batch1-0001.jpg (1654*2339)"
+          },
+          "barcode": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "currency": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "USD",
+            "confidence": 0.95,
+            "source_quote": null
+          },
+          "document_date": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "2013-04-13",
+            "confidence": 0.99,
+            "source_quote": "04/13/2013"
+          },
+          "ocr_confidence_score": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "processing_status": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "validation_status": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_code": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "vendor_name": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "Kirby and Valdez Andrews_",
+            "confidence": 0.95,
+            "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+          },
+          "invoice_number": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "51109338",
+            "confidence": 0.99,
+            "source_quote": "Invoice no: 51109338"
+          },
+          "invoice_date": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "invoice_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "5640.17",
+            "confidence": 0.95,
+            "source_quote": "5 5 640,17"
+          },
+          "expense_category": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "cost_center": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "department": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": null,
+            "confidence": 0.0,
+            "source_quote": null
+          },
+          "tax_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "620.19",
+            "confidence": 0.95,
+            "source_quote": "6 204,19"
+          },
+          "net_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "5019.98",
+            "confidence": 0.95,
+            "source_quote": null
+          },
+          "line_items": {
+            "type": "array",
+            "items": [
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "1",
+                  "confidence": 0.99,
+                  "source_quote": "| 1 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+                  "confidence": 0.95,
+                  "source_quote": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "3",
+                  "confidence": 0.99,
+                  "source_quote": "3,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "209.00",
+                  "confidence": 0.95,
+                  "source_quote": "209,00"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "627.00",
+                  "confidence": 0.95,
+                  "source_quote": "627,00"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.85,
+                  "source_quote": "1090"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "689.70",
+                  "confidence": 0.95,
+                  "source_quote": "689,70"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "2",
+                  "confidence": 0.99,
+                  "source_quote": "| 2 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "HP T520 Thin Client Computer AMD GX-212jC 1.2GHz 4GB RAM TESTED",
+                  "confidence": 0.95,
+                  "source_quote": "HP T520 Thin Client Computer AMD GX-212jC 1.2GHz 4GB RAM TESTED"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "5",
+                  "confidence": 0.99,
+                  "source_quote": "5,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "37.75",
+                  "confidence": 0.95,
+                  "source_quote": "37,75"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "188.75",
+                  "confidence": 0.95,
+                  "source_quote": "188,75"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.85,
+                  "source_quote": "10%0"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "207.63",
+                  "confidence": 0.95,
+                  "source_quote": "207,63"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "3",
+                  "confidence": 0.99,
+                  "source_quote": "| 3 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "gaming pc desktop computer",
+                  "confidence": 0.95,
+                  "source_quote": "gaming pc desktop computer"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "1",
+                  "confidence": 0.99,
+                  "source_quote": "1,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "400.00",
+                  "confidence": 0.95,
+                  "source_quote": "400,00"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "400.00",
+                  "confidence": 0.95,
+                  "source_quote": "400,00"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.95,
+                  "source_quote": "10%"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "440.00",
+                  "confidence": 0.95,
+                  "source_quote": "440,00"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "4",
+                  "confidence": 0.99,
+                  "source_quote": "| 4 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+                  "confidence": 0.95,
+                  "source_quote": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "3",
+                  "confidence": 0.99,
+                  "source_quote": "3,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "464.89",
+                  "confidence": 0.95,
+                  "source_quote": "464,89"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "394.67",
+                  "confidence": 0.95,
+                  "source_quote": "394,67"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.95,
+                  "source_quote": "10%"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "1534.14",
+                  "confidence": 0.95,
+                  "source_quote": "1 534.14"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "5",
+                  "confidence": 0.99,
+                  "source_quote": "| 5 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "Custom Build Dell Optiplex 9020 MT 15-4570 2.0GHz Desktop Computer PC",
+                  "confidence": 0.95,
+                  "source_quote": "Custom Build Dell Optiplex 9020 MT 15-4570 2OGHz Desktop Computer PC"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "5",
+                  "confidence": 0.99,
+                  "source_quote": "5,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "221.99",
+                  "confidence": 0.95,
+                  "source_quote": "221,99"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "109.95",
+                  "confidence": 0.95,
+                  "source_quote": "109,95"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.85,
+                  "source_quote": "1090"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "1220.95",
+                  "confidence": 0.95,
+                  "source_quote": "1 220,95"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "6",
+                  "confidence": 0.99,
+                  "source_quote": "| 6 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "Dell Optiplex 990 MT Computer PC Quad Core i7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+                  "confidence": 0.95,
+                  "source_quote": "Dell Optiplex 990 MT Computer PC Quad Core i7 3.4GHz 16GB 2TB HD Windows 10 Pro"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "4",
+                  "confidence": 0.99,
+                  "source_quote": "4,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "269.95",
+                  "confidence": 0.95,
+                  "source_quote": "269,95"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "79.80",
+                  "confidence": 0.95,
+                  "source_quote": "079,80"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.85,
+                  "source_quote": "1090"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "187.78",
+                  "confidence": 0.95,
+                  "source_quote": "187,78"
+                }
+              },
+              {
+                "item_number": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "7",
+                  "confidence": 0.99,
+                  "source_quote": "| 7 |"
+                },
+                "description": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "Computer Dell Core Duo Desktop Windows XP Pro 4GB 500GB",
+                  "confidence": 0.95,
+                  "source_quote": "Computer Dell Core Duo Desktop Windows XP Pro 4GB 5OOGB"
+                },
+                "quantity": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "5",
+                  "confidence": 0.99,
+                  "source_quote": "5,00"
+                },
+                "unit_price": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "168.00",
+                  "confidence": 0.95,
+                  "source_quote": "168,00"
+                },
+                "net_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "840.00",
+                  "confidence": 0.95,
+                  "source_quote": "840,00"
+                },
+                "tax_percentage": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "10",
+                  "confidence": 0.85,
+                  "source_quote": "1090"
+                },
+                "gross_amount": {
+                  "$ref": "#/$defs/LLMFieldItem",
+                  "value": "924.00",
+                  "confidence": 0.95,
+                  "source_quote": "924,00"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "raw_content": "{\n  \"$defs\": {\n    \"LLMFieldItem\": {\n      \"value\": \"640.17\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"640,17\"\n    }\n  },\n  \"properties\": {\n    \"document_id\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"batch1-0001.jpg\",\n      \"confidence\": 0.98,\n      \"source_quote\": \"batch1-0001.jpg (1654*2339)\"\n    },\n    \"document_type\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"NPO\",\n      \"confidence\": 0.99,\n      \"source_quote\": null\n    },\n    \"document_category\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"company_name\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"Becker Ltd\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Client:\\nBecker Ltd\"\n    },\n    \"fiscal_year\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"location_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vertical_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"document_source\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"batch1-0001.jpg\",\n      \"confidence\": 0.98,\n      \"source_quote\": \"batch1-0001.jpg (1654*2339)\"\n    },\n    \"barcode\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"currency\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"USD\",\n      \"confidence\": 0.95,\n      \"source_quote\": null\n    },\n    \"document_date\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"2013-04-13\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"04/13/2013\"\n    },\n    \"ocr_confidence_score\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"processing_status\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"validation_status\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"vendor_name\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"Kirby and Valdez Andrews_\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"Seller:\\nKirby and Valdez\\nAndrews_\"\n    },\n    \"invoice_number\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"51109338\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Invoice no: 51109338\"\n    },\n    \"invoice_date\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"invoice_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"5640.17\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"5 5 640,17\"\n    },\n    \"expense_category\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"cost_center\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"department\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": null,\n      \"confidence\": 0.0,\n      \"source_quote\": null\n    },\n    \"tax_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"620.19\",\n      \"confidence\": 0.95,\n      \"source_quote\": \"6 204,19\"\n    },\n    \"net_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"5019.98\",\n      \"confidence\": 0.95,\n      \"source_quote\": null\n    },\n    \"line_items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"1\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 1 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"3\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"3,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"209.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"209,00\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"627.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"627,00\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"1090\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"689.70\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"689,70\"\n          }\n        }\n      },\n      \"items\": [\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"1\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 1 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"3\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"3,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"209.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"209,00\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"627.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"627,00\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"1090\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"689.70\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"689,70\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"2\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 2 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"HP T520 Thin Client Computer AMD GX-212jC 1.2GHz 4GB RAM TESTED\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"HP T520 Thin Client Computer AMD GX-212jC 1.2GHz 4GB RAM TESTED\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"5\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"5,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"37.75\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"37,75\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"188.75\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"188,75\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"10%0\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"207.63\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"207,63\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"3\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 3 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"gaming pc desktop computer\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"gaming pc desktop computer\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"1\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"1,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"400.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"400,00\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"400.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"400,00\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"10%\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"440.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"440,00\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"4\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 4 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"3\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"3,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"464.89\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"464,89\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"394.67\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"394,67\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"10%\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"1534.14\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"1 534.14\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"5\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 5 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"Custom Build Dell Optiplex 9020 MT 15-4570 2.0GHz Desktop Computer PC\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"Custom Build Dell Optiplex 9020 MT 15-4570 2OGHz Desktop Computer PC\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"5\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"5,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"221.99\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"221,99\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"109.95\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"109,95\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"1090\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"1220.95\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"1 220,95\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"6\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 6 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"Dell Optiplex 990 MT Computer PC Quad Core i7 3.4GHz 16GB 2TB HD Windows 10 Pro\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"Dell Optiplex 990 MT Computer PC Quad Core i7 3.4GHz 16GB 2TB HD Windows 10 Pro\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"4\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"4,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"269.95\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"269,95\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"79.80\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"079,80\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"1090\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"187.78\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"187,78\"\n          }\n        },\n        {\n          \"item_number\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"7\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"| 7 |\"\n          },\n          \"description\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"Computer Dell Core Duo Desktop Windows XP Pro 4GB 500GB\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"Computer Dell Core Duo Desktop Windows XP Pro 4GB 5OOGB\"\n          },\n          \"quantity\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"5\",\n            \"confidence\": 0.99,\n            \"source_quote\": \"5,00\"\n          },\n          \"unit_price\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"168.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"168,00\"\n          },\n          \"net_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"840.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"840,00\"\n          },\n          \"tax_percentage\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"10\",\n            \"confidence\": 0.85,\n            \"source_quote\": \"1090\"\n          },\n          \"gross_amount\": {\n            \"$ref\": \"#/$defs/LLMFieldItem\",\n            \"value\": \"924.00\",\n            \"confidence\": 0.95,\n            \"source_quote\": \"924,00\"\n          }\n        }\n      ]\n    }\n  }\n}"
+    },
+    "doc2": {
+      "status": "SUCCESS",
+      "duration": 13.617064237594604,
+      "data": {
+        "$defs": {},
+        "properties": {
+          "document_id": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "51109301",
+            "confidence": 0.99,
+            "source_quote": "Invoice no: 51109301"
+          },
+          "document_type": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "NPO",
+            "confidence": 0.99,
+            "source_quote": null
+          },
+          "document_category": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "Invoice",
+            "confidence": 0.99,
+            "source_quote": "=== HEADER & METADATA ==="
+          },
+          "company_code": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "company_name": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "Raj Electronics Pvt Ltd",
+            "confidence": 0.99,
+            "source_quote": "Client:\nRaj Electronics Pvt Ltd"
+          },
+          "fiscal_year": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "location_code": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "vertical_code": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "document_source": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "Invoice",
+            "confidence": 0.99,
+            "source_quote": "=== HEADER & METADATA ==="
+          },
+          "barcode": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "currency": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "INR",
+            "confidence": 0.99,
+            "source_quote": "INR 1,676,976.00"
+          },
+          "document_date": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "2023-07-03",
+            "confidence": 0.99,
+            "source_quote": "Date of issue:\n03/07/2023"
+          },
+          "ocr_confidence_score": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "processing_status": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "validation_status": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "vendor_code": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "vendor_name": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "TechVision Distributors Pvt Ltd",
+            "confidence": 0.99,
+            "source_quote": "Seller:\nTechVision Distributors Pvt Ltd"
+          },
+          "invoice_number": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "51109301",
+            "confidence": 0.99,
+            "source_quote": "Invoice no: 51109301"
+          },
+          "invoice_date": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "2023-07-03",
+            "confidence": 0.99,
+            "source_quote": "Date of issue:\n03/07/2023"
+          },
+          "invoice_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "1844673.60",
+            "confidence": 0.99,
+            "source_quote": "INR 1,844,673.60"
+          },
+          "expense_category": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "cost_center": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "department": {
+            "$ref": "#/$defs/LLMFieldItem"
+          },
+          "tax_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "167697.60",
+            "confidence": 0.99,
+            "source_quote": "VAT\n167,697.60"
+          },
+          "net_amount": {
+            "$ref": "#/$defs/LLMFieldItem",
+            "value": "1676976.00",
+            "confidence": 0.99,
+            "source_quote": "Net Worth\n1,676,976.00"
+          }
+        },
+        "title": "NPOExtractionPayload"
+      },
+      "raw_content": "{\n  \"$defs\": {},\n  \"properties\": {\n    \"document_id\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"document_type\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"document_category\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"company_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"company_name\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"Raj Electronics Pvt Ltd\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Client:\\nRaj Electronics Pvt Ltd\"\n    },\n    \"fiscal_year\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"location_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"vertical_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"document_source\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"Invoice\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"=== HEADER & METADATA ===\"\n    },\n    \"barcode\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"currency\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"INR\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"INR 1,676,976.00\"\n    },\n    \"document_date\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"2023-07-03\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Date of issue:\\n03/07/2023\"\n    },\n    \"ocr_confidence_score\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"processing_status\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"validation_status\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"vendor_code\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"vendor_name\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"TechVision Distributors Pvt Ltd\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Seller:\\nTechVision Distributors Pvt Ltd\"\n    },\n    \"invoice_number\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"51109301\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Invoice no: 51109301\"\n    },\n    \"invoice_date\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"2023-07-03\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Date of issue:\\n03/07/2023\"\n    },\n    \"invoice_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"1844673.60\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"INR 1,844,673.60\"\n    },\n    \"expense_category\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"cost_center\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"department\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\"\n    },\n    \"tax_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"167697.60\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"VAT\\n167,697.60\"\n    },\n    \"net_amount\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"1676976.00\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Net Worth\\n1,676,976.00\"\n    },\n    \"document_id\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"51109301\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"Invoice no: 51109301\"\n    },\n    \"document_type\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"NPO\",\n      \"confidence\": 0.99,\n      \"source_quote\": null\n    },\n    \"document_category\": {\n      \"$ref\": \"#/$defs/LLMFieldItem\",\n      \"value\": \"Invoice\",\n      \"confidence\": 0.99,\n      \"source_quote\": \"=== HEADER & METADATA ===\"\n    }\n  },\n  \"title\": \"NPOExtractionPayload\"\n}"
+    }
+  },
+  "Config 3: strict=False + enhanced_prompt": {
+    "doc1": {
+      "status": "SUCCESS",
+      "duration": 13.422026634216309,
+      "data": {
+        "document_id": {
+          "value": "batch1-0001",
+          "confidence": 0.98,
+          "source_quote": "batch1-0001.jpg"
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 0.99,
+          "source_quote": null
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Becker Ltd",
+          "confidence": 0.99,
+          "source_quote": "Client:\nBecker Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "batch1-0001.jpg",
+          "confidence": 0.99,
+          "source_quote": "batch1-0001.jpg (1654*2339)"
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "USD",
+          "confidence": 0.85,
+          "source_quote": null
+        },
+        "document_date": {
+          "value": "2013-04-13",
+          "confidence": 0.99,
+          "source_quote": "04/13/2013"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "Kirby and Valdez Andrews_",
+          "confidence": 0.85,
+          "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+        },
+        "invoice_number": {
+          "value": "51109338",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109338"
+        },
+        "invoice_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "invoice_amount": {
+          "value": "5640.17",
+          "confidence": 0.85,
+          "source_quote": "5 5 640,17"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "204.19",
+          "confidence": 0.85,
+          "source_quote": "204,19"
+        },
+        "net_amount": {
+          "value": "640.17",
+          "confidence": 0.85,
+          "source_quote": "640,17"
+        }
+      },
+      "raw_content": "{\n  \"document_id\": {\n    \"value\": \"batch1-0001\",\n    \"confidence\": 0.98,\n    \"source_quote\": \"batch1-0001.jpg\"\n  },\n  \"document_type\": {\n    \"value\": \"NPO\",\n    \"confidence\": 0.99,\n    \"source_quote\": null\n  },\n  \"document_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_name\": {\n    \"value\": \"Becker Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Client:\\nBecker Ltd\"\n  },\n  \"fiscal_year\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"location_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vertical_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_source\": {\n    \"value\": \"batch1-0001.jpg\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"batch1-0001.jpg (1654*2339)\"\n  },\n  \"barcode\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"currency\": {\n    \"value\": \"USD\",\n    \"confidence\": 0.85,\n    \"source_quote\": null\n  },\n  \"document_date\": {\n    \"value\": \"2013-04-13\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"04/13/2013\"\n  },\n  \"ocr_confidence_score\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"processing_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"validation_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_name\": {\n    \"value\": \"Kirby and Valdez Andrews_\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"Seller:\\nKirby and Valdez\\nAndrews_\"\n  },\n  \"invoice_number\": {\n    \"value\": \"51109338\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Invoice no: 51109338\"\n  },\n  \"invoice_date\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"invoice_amount\": {\n    \"value\": \"5640.17\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"5 5 640,17\"\n  },\n  \"expense_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"cost_center\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"department\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"tax_amount\": {\n    \"value\": \"204.19\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"204,19\"\n  },\n  \"net_amount\": {\n    \"value\": \"640.17\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"640,17\"\n  }\n}"
+    },
+    "doc2": {
+      "status": "SUCCESS",
+      "duration": 11.898696422576904,
+      "data": {
+        "document_id": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 0.99,
+          "source_quote": "=== HEADER & METADATA ==="
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Raj Electronics Pvt Ltd",
+          "confidence": 0.99,
+          "source_quote": "Client:\nRaj Electronics Pvt Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "Invoice Document",
+          "confidence": 0.95,
+          "source_quote": "=== HEADER & METADATA ==="
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "INR",
+          "confidence": 0.99,
+          "source_quote": "INR"
+        },
+        "document_date": {
+          "value": "2023-07-03",
+          "confidence": 0.99,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "TechVision Distributors Pvt Ltd",
+          "confidence": 0.99,
+          "source_quote": "Seller:\nTechVision Distributors Pvt Ltd"
+        },
+        "invoice_number": {
+          "value": "51109301",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109301"
+        },
+        "invoice_date": {
+          "value": "2023-07-03",
+          "confidence": 0.99,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "invoice_amount": {
+          "value": "1844673.60",
+          "confidence": 0.99,
+          "source_quote": "INR 1,844,673.60"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "167697.60",
+          "confidence": 0.99,
+          "source_quote": "INR 167,697.60"
+        },
+        "net_amount": {
+          "value": "1676976.00",
+          "confidence": 0.99,
+          "source_quote": "INR 1,676,976.00"
+        }
+      },
+      "raw_content": "{\n  \"document_id\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_type\": {\n    \"value\": \"NPO\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"=== HEADER & METADATA ===\"\n  },\n  \"document_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_name\": {\n    \"value\": \"Raj Electronics Pvt Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Client:\\nRaj Electronics Pvt Ltd\"\n  },\n  \"fiscal_year\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"location_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vertical_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_source\": {\n    \"value\": \"Invoice Document\",\n    \"confidence\": 0.95,\n    \"source_quote\": \"=== HEADER & METADATA ===\"\n  },\n  \"barcode\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"currency\": {\n    \"value\": \"INR\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR\"\n  },\n  \"document_date\": {\n    \"value\": \"2023-07-03\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Date of issue:\\n03/07/2023\"\n  },\n  \"ocr_confidence_score\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"processing_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"validation_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_name\": {\n    \"value\": \"TechVision Distributors Pvt Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Seller:\\nTechVision Distributors Pvt Ltd\"\n  },\n  \"invoice_number\": {\n    \"value\": \"51109301\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Invoice no: 51109301\"\n  },\n  \"invoice_date\": {\n    \"value\": \"2023-07-03\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Date of issue:\\n03/07/2023\"\n  },\n  \"invoice_amount\": {\n    \"value\": \"1844673.60\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR 1,844,673.60\"\n  },\n  \"expense_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"cost_center\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"department\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"tax_amount\": {\n    \"value\": \"167697.60\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR 167,697.60\"\n  },\n  \"net_amount\": {\n    \"value\": \"1676976.00\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR 1,676,976.00\"\n  }\n}"
+    }
+  },
+  "Config 4: strict=True + enhanced_prompt": {
+    "doc1": {
+      "status": "SUCCESS",
+      "duration": 13.239814758300781,
+      "data": {
+        "document_id": {
+          "value": "batch1-0001",
+          "confidence": 0.95,
+          "source_quote": "batch1-0001.jpg"
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 0.99,
+          "source_quote": null
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Becker Ltd",
+          "confidence": 0.99,
+          "source_quote": "Client:\nBecker Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "batch1-0001.jpg",
+          "confidence": 0.99,
+          "source_quote": "batch1-0001.jpg (1654*2339)"
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "USD",
+          "confidence": 0.85,
+          "source_quote": null
+        },
+        "document_date": {
+          "value": "2013-04-13",
+          "confidence": 0.99,
+          "source_quote": "04/13/2013"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "Kirby and Valdez Andrews_",
+          "confidence": 0.85,
+          "source_quote": "Seller:\nKirby and Valdez\nAndrews_"
+        },
+        "invoice_number": {
+          "value": "51109338",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109338"
+        },
+        "invoice_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "invoice_amount": {
+          "value": "5640.17",
+          "confidence": 0.85,
+          "source_quote": "5 5 640,17"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "204.19",
+          "confidence": 0.85,
+          "source_quote": "204,19"
+        },
+        "net_amount": {
+          "value": "5640.17",
+          "confidence": 0.85,
+          "source_quote": "640,17"
+        }
+      },
+      "raw_content": "{\n  \"document_id\": {\n    \"value\": \"batch1-0001\",\n    \"confidence\": 0.95,\n    \"source_quote\": \"batch1-0001.jpg\"\n  },\n  \"document_type\": {\n    \"value\": \"NPO\",\n    \"confidence\": 0.99,\n    \"source_quote\": null\n  },\n  \"document_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_name\": {\n    \"value\": \"Becker Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Client:\\nBecker Ltd\"\n  },\n  \"fiscal_year\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"location_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vertical_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_source\": {\n    \"value\": \"batch1-0001.jpg\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"batch1-0001.jpg (1654*2339)\"\n  },\n  \"barcode\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"currency\": {\n    \"value\": \"USD\",\n    \"confidence\": 0.85,\n    \"source_quote\": null\n  },\n  \"document_date\": {\n    \"value\": \"2013-04-13\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"04/13/2013\"\n  },\n  \"ocr_confidence_score\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"processing_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"validation_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_name\": {\n    \"value\": \"Kirby and Valdez Andrews_\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"Seller:\\nKirby and Valdez\\nAndrews_\"\n  },\n  \"invoice_number\": {\n    \"value\": \"51109338\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Invoice no: 51109338\"\n  },\n  \"invoice_date\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"invoice_amount\": {\n    \"value\": \"5640.17\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"5 5 640,17\"\n  },\n  \"expense_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"cost_center\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"department\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"tax_amount\": {\n    \"value\": \"204.19\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"204,19\"\n  },\n  \"net_amount\": {\n    \"value\": \"5640.17\",\n    \"confidence\": 0.85,\n    \"source_quote\": \"640,17\"\n  }\n}"
+    },
+    "doc2": {
+      "status": "SUCCESS",
+      "duration": 13.447593688964844,
+      "data": {
+        "document_id": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_type": {
+          "value": "NPO",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109301"
+        },
+        "document_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "company_name": {
+          "value": "Raj Electronics Pvt Ltd",
+          "confidence": 0.99,
+          "source_quote": "Client:\nRaj Electronics Pvt Ltd"
+        },
+        "fiscal_year": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "location_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vertical_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "document_source": {
+          "value": "Invoice Document",
+          "confidence": 0.95,
+          "source_quote": "=== HEADER & METADATA ==="
+        },
+        "barcode": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "currency": {
+          "value": "INR",
+          "confidence": 0.99,
+          "source_quote": "INR 1,676,976.00"
+        },
+        "document_date": {
+          "value": "2023-07-03",
+          "confidence": 0.99,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "ocr_confidence_score": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "processing_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "validation_status": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_code": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "vendor_name": {
+          "value": "TechVision Distributors Pvt Ltd",
+          "confidence": 0.99,
+          "source_quote": "Seller:\nTechVision Distributors Pvt Ltd"
+        },
+        "invoice_number": {
+          "value": "51109301",
+          "confidence": 0.99,
+          "source_quote": "Invoice no: 51109301"
+        },
+        "invoice_date": {
+          "value": "2023-07-03",
+          "confidence": 0.99,
+          "source_quote": "Date of issue:\n03/07/2023"
+        },
+        "invoice_amount": {
+          "value": "1844673.60",
+          "confidence": 0.99,
+          "source_quote": "INR 1,844,673.60"
+        },
+        "expense_category": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "cost_center": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "department": {
+          "value": null,
+          "confidence": 0.0,
+          "source_quote": null
+        },
+        "tax_amount": {
+          "value": "167697.60",
+          "confidence": 0.99,
+          "source_quote": "VAT\n167,697.60"
+        },
+        "net_amount": {
+          "value": "1676976.00",
+          "confidence": 0.99,
+          "source_quote": "Net Worth\n1,676,976.00"
+        }
+      },
+      "raw_content": "{\n  \"document_id\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_type\": {\n    \"value\": \"NPO\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Invoice no: 51109301\"\n  },\n  \"document_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"company_name\": {\n    \"value\": \"Raj Electronics Pvt Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Client:\\nRaj Electronics Pvt Ltd\"\n  },\n  \"fiscal_year\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"location_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vertical_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"document_source\": {\n    \"value\": \"Invoice Document\",\n    \"confidence\": 0.95,\n    \"source_quote\": \"=== HEADER & METADATA ===\"\n  },\n  \"barcode\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"currency\": {\n    \"value\": \"INR\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR 1,676,976.00\"\n  },\n  \"document_date\": {\n    \"value\": \"2023-07-03\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Date of issue:\\n03/07/2023\"\n  },\n  \"ocr_confidence_score\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"processing_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"validation_status\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_code\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"vendor_name\": {\n    \"value\": \"TechVision Distributors Pvt Ltd\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Seller:\\nTechVision Distributors Pvt Ltd\"\n  },\n  \"invoice_number\": {\n    \"value\": \"51109301\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Invoice no: 51109301\"\n  },\n  \"invoice_date\": {\n    \"value\": \"2023-07-03\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Date of issue:\\n03/07/2023\"\n  },\n  \"invoice_amount\": {\n    \"value\": \"1844673.60\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"INR 1,844,673.60\"\n  },\n  \"expense_category\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"cost_center\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"department\": {\n    \"value\": null,\n    \"confidence\": 0.0,\n    \"source_quote\": null\n  },\n  \"tax_amount\": {\n    \"value\": \"167697.60\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"VAT\\n167,697.60\"\n  },\n  \"net_amount\": {\n    \"value\": \"1676976.00\",\n    \"confidence\": 0.99,\n    \"source_quote\": \"Net Worth\\n1,676,976.00\"\n  }\n}"
+    }
+  }
+}

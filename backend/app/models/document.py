@@ -57,27 +57,27 @@ class Document(Base, TimestampMixin):
     uploaded_by_user = relationship("User", back_populates="documents", lazy="joined")
 
     ocr_results = relationship(
-        "OCRResult", back_populates="document", lazy="selectin",
+        "OCRResult", back_populates="document", lazy="select",
         order_by="OCRResult.created_at.desc()",
     )
     classification_results = relationship(
-        "ClassificationResult", back_populates="document", lazy="selectin",
+        "ClassificationResult", back_populates="document", lazy="select",
         order_by="ClassificationResult.created_at.desc()",
     )
     extraction_results = relationship(
-        "ExtractionResult", back_populates="document", lazy="selectin",
+        "ExtractionResult", back_populates="document", lazy="select",
         order_by="ExtractionResult.created_at.desc()",
     )
     validation_results = relationship(
-        "ValidationResult", back_populates="document", lazy="selectin",
+        "ValidationResult", back_populates="document", lazy="select",
         order_by="ValidationResult.created_at.desc()",
     )
     workflow_history = relationship(
-        "WorkflowHistory", back_populates="document", lazy="selectin",
+        "WorkflowHistory", back_populates="document", lazy="select",
         order_by="WorkflowHistory.created_at.asc()",
     )
     document_chunks = relationship(
-        "DocumentChunk", back_populates="document", lazy="selectin",
+        "DocumentChunk", back_populates="document", lazy="select",
         cascade="all, delete-orphan",
         order_by="DocumentChunk.id.asc()",
     )

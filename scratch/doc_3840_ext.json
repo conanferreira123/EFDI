@@ -1,0 +1,2217 @@
+{
+  "created_at": "2026-09-15T15:48:26.178849+05:30",
+  "updated_at": "2026-09-15T15:48:26.178854+05:30",
+  "id": 1106,
+  "document_id": 3840,
+  "document_type": "NPO",
+  "engine_name": "hybrid",
+  "fields": {
+    "taxes": {
+      "value": [],
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "barcode": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "currency": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "tax_rate": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "canonical": {
+      "value": {
+        "buyer": {
+          "name": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "tax_id": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "address": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "taxes": [],
+        "seller": {
+          "name": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "tax_id": {
+            "value": "[%]",
+            "is_found": true,
+            "confidence": 0.75,
+            "provenance": "rule_based",
+            "matched_text": "VAT [%]",
+            "conflict_value": null
+          },
+          "address": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "totals": {
+          "discount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "rounding": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "shipping": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "subtotal": {
+            "value": "2640.17",
+            "is_found": true,
+            "confidence": 0.82,
+            "provenance": "rule_based",
+            "matched_text": "Table Reconstructed Line Items Net Total",
+            "conflict_value": null
+          },
+          "total_tax": {
+            "value": "2564.03",
+            "is_found": true,
+            "confidence": 0.8,
+            "provenance": "rule_based",
+            "matched_text": "Table Reconstructed Derived Tax Total",
+            "conflict_value": null
+          },
+          "grand_total": {
+            "value": "5204.20",
+            "is_found": true,
+            "confidence": 0.82,
+            "provenance": "rule_based",
+            "matched_text": "Table Reconstructed Line Items Gross Total",
+            "conflict_value": null
+          },
+          "other_charges": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "payment": {
+          "iban": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "due_date": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "swift_bic": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "bank_account": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "payment_terms": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "payment_method": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "remittance_reference": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "line_items": [
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "3.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "3.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "10%",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "10%",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "627.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "627.0",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "209.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "209.0",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "5.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "5.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "10%",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "10%",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "188.75",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "188.75",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "37.75",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "37.75",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "1.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "1.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "10%",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "10%",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "400.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "400.0",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "400.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "400.0",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "gaming pc desktop computer",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "gaming pc desktop computer",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "3.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "3.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "10%",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "10%",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "394.67",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "394.67",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "464.89",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "464.89",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "5.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "5.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "1090",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "1090",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "109.95",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "109.95",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "221.99",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "221.99",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "4.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "4.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "1090",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "1090",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "79.8",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "79.8",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "269.95",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "269.95",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          },
+          {
+            "uom": {
+              "value": "each",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "each",
+              "conflict_value": null
+            },
+            "quantity": {
+              "value": "5.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "5.0",
+              "conflict_value": null
+            },
+            "tax_rate": {
+              "value": "10%",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "10%",
+              "conflict_value": null
+            },
+            "net_amount": {
+              "value": "840.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "840.0",
+              "conflict_value": null
+            },
+            "tax_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            },
+            "unit_price": {
+              "value": "168.0",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "168.0",
+              "conflict_value": null
+            },
+            "description": {
+              "value": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+              "is_found": true,
+              "confidence": 0.85,
+              "provenance": "rule_based",
+              "matched_text": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+              "conflict_value": null
+            },
+            "gross_amount": {
+              "value": null,
+              "is_found": false,
+              "confidence": 0.0,
+              "provenance": "rule_based",
+              "matched_text": null,
+              "conflict_value": null
+            }
+          }
+        ],
+        "references": {
+          "po_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "order_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "contract_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "other_reference": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "delivery_note_number": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        "invoice_information": {
+          "currency": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "invoice_date": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "document_type": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": null,
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "invoice_number": {
+            "value": "51109338",
+            "is_found": true,
+            "confidence": 0.8,
+            "provenance": "rule_based",
+            "matched_text": "Invoice no: 51109338",
+            "conflict_value": null
+          }
+        }
+      },
+      "confidence": 0.7436363636363637,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "buyer.name": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "buyer_name": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "line_items": {
+      "value": [
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "3.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "3.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "10%",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "10%",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "627.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "627.0",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "209.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "209.0",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "5.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "5.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "10%",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "10%",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "188.75",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "188.75",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "37.75",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "37.75",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "1.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "1.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "10%",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "10%",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "400.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "400.0",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "400.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "400.0",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "gaming pc desktop computer",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "gaming pc desktop computer",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "3.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "3.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "10%",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "10%",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "394.67",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "394.67",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "464.89",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "464.89",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "5.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "5.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "1090",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "1090",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "109.95",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "109.95",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "221.99",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "221.99",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "4.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "4.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "1090",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "1090",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "79.8",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "79.8",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "269.95",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "269.95",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        },
+        {
+          "uom": {
+            "value": "each",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "each",
+            "conflict_value": null
+          },
+          "quantity": {
+            "value": "5.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "5.0",
+            "conflict_value": null
+          },
+          "tax_rate": {
+            "value": "10%",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "10%",
+            "conflict_value": null
+          },
+          "net_amount": {
+            "value": "840.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "840.0",
+            "conflict_value": null
+          },
+          "tax_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          },
+          "unit_price": {
+            "value": "168.0",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "168.0",
+            "conflict_value": null
+          },
+          "description": {
+            "value": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+            "is_found": true,
+            "confidence": 0.85,
+            "provenance": "rule_based",
+            "matched_text": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+            "conflict_value": null
+          },
+          "gross_amount": {
+            "value": null,
+            "is_found": false,
+            "confidence": 0.0,
+            "provenance": "rule_based",
+            "matched_text": null,
+            "conflict_value": null
+          }
+        }
+      ],
+      "confidence": 1.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "document_id": {
+      "value": "3840",
+      "confidence": 1.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "seller.name": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "seller_name": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "vendor_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "buyer.tax_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "buyer_tax_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "company_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "invoice_date": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "buyer.address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "buyer_address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "seller.tax_id": {
+      "value": "[%]",
+      "confidence": 0.75,
+      "matched_text": "VAT [%]",
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "seller_tax_id": {
+      "value": "[%]",
+      "confidence": 0.8,
+      "matched_text": "VAT [%]",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "invoice_number": {
+      "value": "51109338",
+      "confidence": 0.85,
+      "matched_text": "Invoice no: 51109338",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "seller.address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "seller_address": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "not_found",
+      "conflict_value": null
+    },
+    "totals.subtotal": {
+      "value": "2640.17",
+      "confidence": 0.82,
+      "matched_text": "Table Reconstructed Line Items Net Total",
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "metadata.barcode": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "total_tax_amount": {
+      "value": "2564.03",
+      "confidence": 0.85,
+      "matched_text": "Table Reconstructed Derived Tax Total",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "totals.total_tax": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "processing_status": {
+      "value": "EXTRACTED",
+      "confidence": 1.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "validation_status": {
+      "value": "PENDING",
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": true,
+      "provenance": "system",
+      "conflict_value": null
+    },
+    "grand_total_amount": {
+      "value": "5204.20",
+      "confidence": 0.87,
+      "matched_text": "Table Reconstructed Line Items Gross Total",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "totals.grand_total": {
+      "value": "5204.20",
+      "confidence": 0.82,
+      "matched_text": "Table Reconstructed Line Items Gross Total",
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "subtotal_net_amount": {
+      "value": "2640.17",
+      "confidence": 0.87,
+      "matched_text": "Table Reconstructed Line Items Net Total",
+      "is_found": true,
+      "provenance": "agreed",
+      "conflict_value": null
+    },
+    "metadata.document_id": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "metadata.vendor_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "metadata.company_code": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "metadata.processing_status": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "metadata.validation_status": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "invoice_information.currency": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "invoice_information.invoice_date": {
+      "value": null,
+      "confidence": 0.0,
+      "matched_text": null,
+      "is_found": false,
+      "provenance": "rule_based",
+      "conflict_value": null
+    },
+    "invoice_information.invoice_number": {
+      "value": "51109338",
+      "confidence": 0.8,
+      "matched_text": "Invoice no: 51109338",
+      "is_found": true,
+      "provenance": "rule_based",
+      "conflict_value": null
+    }
+  },
+  "overall_confidence": 0.744909090909091,
+  "fields_found_count": 15,
+  "fields_total_count": 40,
+  "canonical": {
+    "buyer": {
+      "name": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "tax_id": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "address": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "taxes": [],
+    "seller": {
+      "name": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "tax_id": {
+        "value": "[%]",
+        "is_found": true,
+        "confidence": 0.75,
+        "provenance": "rule_based",
+        "matched_text": "VAT [%]",
+        "conflict_value": null
+      },
+      "address": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "totals": {
+      "discount": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "rounding": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "shipping": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "subtotal": {
+        "value": "2640.17",
+        "is_found": true,
+        "confidence": 0.82,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Line Items Net Total",
+        "conflict_value": null
+      },
+      "total_tax": {
+        "value": "2564.03",
+        "is_found": true,
+        "confidence": 0.8,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Derived Tax Total",
+        "conflict_value": null
+      },
+      "grand_total": {
+        "value": "5204.20",
+        "is_found": true,
+        "confidence": 0.82,
+        "provenance": "rule_based",
+        "matched_text": "Table Reconstructed Line Items Gross Total",
+        "conflict_value": null
+      },
+      "other_charges": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "payment": {
+      "iban": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "due_date": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "swift_bic": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "bank_account": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "payment_terms": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "payment_method": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "remittance_reference": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "line_items": [
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "3.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "3.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "10%",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "10%",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "627.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "627.0",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "209.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "209.0",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "CLEARANCE! Fast Dell Desktop Computer PC DUAL CORE WINDOWS 10 4/8/16GB RAM",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "5.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "5.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "10%",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "10%",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "188.75",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "188.75",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "37.75",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "37.75",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "HP T520 Thin Client Computer AMD GX-212JC 1.2GHz 4GB RAM TESTED !!READ BELOWII",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "1.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "1.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "10%",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "10%",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "400.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "400.0",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "400.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "400.0",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "gaming pc desktop computer",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "gaming pc desktop computer",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "3.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "3.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "10%",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "10%",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "394.67",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "394.67",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "464.89",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "464.89",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "12-Core Gaming Computer Desktop PC Tower Affordable GAMING PC 8GB AMD Vega RGB",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "5.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "5.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "1090",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "1090",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "109.95",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "109.95",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "221.99",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "221.99",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "Custom Build Dell Optiplex 9020 MT i5-4570 2OGHz Desktop Computer PC",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "4.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "4.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "1090",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "1090",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "79.8",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "79.8",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "269.95",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "269.95",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "Dell Optiplex 990 MT Computer PC Quad Core I7 3.4GHz 16GB 2TB HD Windows 10 Pro",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      },
+      {
+        "uom": {
+          "value": "each",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "each",
+          "conflict_value": null
+        },
+        "quantity": {
+          "value": "5.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "5.0",
+          "conflict_value": null
+        },
+        "tax_rate": {
+          "value": "10%",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "10%",
+          "conflict_value": null
+        },
+        "net_amount": {
+          "value": "840.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "840.0",
+          "conflict_value": null
+        },
+        "tax_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        },
+        "unit_price": {
+          "value": "168.0",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "168.0",
+          "conflict_value": null
+        },
+        "description": {
+          "value": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+          "is_found": true,
+          "confidence": 0.85,
+          "provenance": "rule_based",
+          "matched_text": "Computer Dell Core Duo Desktop Windows XP Pro 4GB SOOGB",
+          "conflict_value": null
+        },
+        "gross_amount": {
+          "value": null,
+          "is_found": false,
+          "confidence": 0.0,
+          "provenance": "rule_based",
+          "matched_text": null,
+          "conflict_value": null
+        }
+      }
+    ],
+    "references": {
+      "po_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "order_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "contract_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "other_reference": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "delivery_note_number": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      }
+    },
+    "invoice_information": {
+      "currency": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "invoice_date": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": "rule_based",
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "document_type": {
+        "value": null,
+        "is_found": false,
+        "confidence": 0.0,
+        "provenance": null,
+        "matched_text": null,
+        "conflict_value": null
+      },
+      "invoice_number": {
+        "value": "51109338",
+        "is_found": true,
+        "confidence": 0.8,
+        "provenance": "rule_based",
+        "matched_text": "Invoice no: 51109338",
+        "conflict_value": null
+      }
+    }
+  }
+}
