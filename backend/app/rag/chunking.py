@@ -19,6 +19,7 @@ class ChunkData:
     chunk_type: str  # HEADER, PARTIES, LINE_ITEMS, SUMMARY, TERMS
     content: str
     metadata_json: dict[str, Any] = field(default_factory=dict)
+    section: Optional[str] = None
 
 
 class StructureAwareChunker:
@@ -35,6 +36,16 @@ class StructureAwareChunker:
         "PARTIES": "PARTIES",
         "LINE ITEMS": "LINE_ITEMS",
         "TOTALS & SUMMARY": "SUMMARY",
+    }
+
+    SECTION_TO_FIRST_CLASS_MAP = {
+        "HEADER & METADATA": "HEADER",
+        "PARTIES": "SELLER",
+        "LINE ITEMS": "LINE_ITEMS",
+        "TOTALS & SUMMARY": "TOTALS",
+        "TERMS & CONDITIONS": "PAYMENT",
+        "PREAMBLE": "HEADER",
+        "DOCUMENT_BODY": "OTHER",
     }
 
     def __init__(self, table_max_rows: int = 15, table_window_size: int = 10, table_window_step: int = 8):
@@ -114,6 +125,7 @@ class StructureAwareChunker:
                             "bounding_box_refs": bbox_refs,
                             "line_range": [1, len(lines)],
                         },
+                        section="OTHER",
                     )
                 )
             return chunks
@@ -138,6 +150,7 @@ class StructureAwareChunker:
                             "bounding_box_refs": bbox_refs,
                             "line_range": [1, len(preamble_lines)],
                         },
+                        section="HEADER",
                     )
                 )
                 current_index += 1
@@ -188,6 +201,7 @@ class StructureAwareChunker:
                             "bounding_box_refs": bbox_refs,
                             "line_range": [1, len(lines)],
                         },
+                        section=self.SECTION_TO_FIRST_CLASS_MAP.get(section_name, "OTHER"),
                     )
                 )
                 current_index += 1
@@ -226,6 +240,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(lines)],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             return chunks
@@ -267,6 +282,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(lines)],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             return chunks
@@ -307,6 +323,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [start_row + 1, end_row],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             current_index += 1
@@ -378,6 +395,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(totals_lines)],
                     },
+                    section="TOTALS",
                 )
             )
             current_index += 1
@@ -400,6 +418,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [len(totals_lines) + 1, len(lines)],
                     },
+                    section="PAYMENT",
                 )
             )
 

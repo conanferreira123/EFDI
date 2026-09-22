@@ -22,6 +22,7 @@ class DocumentChunk(Base, TimestampMixin):
     )
     page_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
     chunk_type: Mapped[str] = mapped_column(String(30), nullable=False, index=True)  # HEADER, LINE_ITEMS, SUMMARY, TERMS
+    section: Mapped[Optional[str]] = mapped_column(String(50), nullable=True, index=True)  # HEADER, SELLER, BUYER, LINE_ITEMS, TOTALS, PAYMENT, etc.
     content: Mapped[str] = mapped_column(Text, nullable=False)
     embedding: Mapped[list[float]] = mapped_column(Vector(384), nullable=False)
     metadata_json: Mapped[dict] = mapped_column(

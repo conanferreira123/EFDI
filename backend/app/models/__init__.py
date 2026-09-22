@@ -22,20 +22,32 @@ from app.models.chat import ChatMessage, ChatSession  # noqa: F401
 from app.models.classification_result import ClassificationResult  # noqa: F401
 from app.models.document import Document  # noqa: F401
 from app.models.document_chunk import DocumentChunk  # noqa: F401
-from app.models.document_enums import AuditAction, DocumentStatus, DocumentType  # noqa: F401
+from app.models.document_enums import (  # noqa: F401
+    AuditAction,
+    ChunkSection,
+    DocumentStatus,
+    DocumentType,
+    PaymentStatus,
+)
 from app.models.extraction_result import ExtractionResult  # noqa: F401
+from app.models.invoice import Invoice  # noqa: F401
+from app.models.invoice_line_item import InvoiceLineItem  # noqa: F401
+from app.models.invoice_payment import InvoicePayment  # noqa: F401
 from app.models.ocr_result import OCRResult  # noqa: F401
+from app.models.payment_obligation import PaymentObligation  # noqa: F401
 from app.models.roles import UserRole  # noqa: F401
 from app.models.system_setting import SystemSetting  # noqa: F401
 from app.models.training_example import TrainingExample  # noqa: F401
 from app.models.user import User  # noqa: F401
 from app.models.validation_result import ValidationResult  # noqa: F401
+from app.models.vendor import Vendor, VendorAlias  # noqa: F401
 from app.models.vendor_knowledge import VendorKnowledge  # noqa: F401
 from app.models.workflow_history import WorkflowHistory  # noqa: F401
 
 __all__ = [
     "User", "Document", "OCRResult", "ClassificationResult", "ExtractionResult",
     "ValidationResult", "WorkflowHistory", "AuditLog", "TrainingExample", "UserRole", "DocumentType",
-    "DocumentStatus", "AuditAction", "DocumentChunk", "VendorKnowledge", "SystemSetting",
-    "ChatSession", "ChatMessage",
+    "DocumentStatus", "AuditAction", "PaymentStatus", "ChunkSection", "DocumentChunk",
+    "VendorKnowledge", "SystemSetting", "ChatSession", "ChatMessage",
+    "Invoice", "Vendor", "VendorAlias", "InvoiceLineItem", "PaymentObligation", "InvoicePayment",
 ]

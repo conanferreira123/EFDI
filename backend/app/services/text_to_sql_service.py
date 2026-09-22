@@ -33,6 +33,12 @@ ALLOWED_TABLES: Set[str] = {
     "validation_results",
     "classification_results",
     "users",
+    "invoices",
+    "vendors",
+    "vendor_aliases",
+    "invoice_line_items",
+    "payment_obligations",
+    "invoice_payments",
 }
 
 # Explicit column allowlist (users.password_hash is STRICTLY excluded)
@@ -57,6 +63,35 @@ ALLOWED_COLUMNS: Dict[str, Set[str]] = {
     "users": {
         "id", "username", "email", "full_name", "role", "is_active", "created_at",
     },
+    "invoices": {
+        "id", "document_id", "source_extraction_result_id", "invoice_number",
+        "invoice_date", "vendor_id", "buyer_name", "buyer_tax_id", "currency",
+        "subtotal_amount", "tax_amount", "discount_amount", "shipping_amount",
+        "rounding_amount", "other_charges_amount", "grand_total_amount",
+        "po_number", "created_at", "updated_at",
+    },
+    "vendors": {
+        "id", "canonical_name", "vendor_code", "tax_id", "address",
+        "created_at", "updated_at",
+    },
+    "vendor_aliases": {
+        "id", "vendor_id", "alias", "created_at",
+    },
+    "invoice_line_items": {
+        "id", "invoice_id", "line_number", "description", "quantity",
+        "uom", "unit_price", "net_amount", "tax_rate", "tax_amount",
+        "gross_amount", "created_at",
+    },
+    "payment_obligations": {
+        "id", "invoice_id", "amount_due", "amount_paid", "amount_outstanding",
+        "currency", "due_date", "status", "payment_terms", "paid_at",
+        "early_payment_deadline", "early_payment_discount", "late_payment_penalty",
+        "created_at", "updated_at",
+    },
+    "invoice_payments": {
+        "id", "invoice_id", "payment_date", "amount", "currency",
+        "payment_reference", "payment_method", "created_at",
+    },
 }
 
 FORBIDDEN_FUNCTIONS: Set[str] = {
@@ -75,10 +110,25 @@ class TextToSQLService:
 
     SCHEMA_CONTEXT = """PostgreSQL Database Schema:
 Table: documents
-Columns: id (int), original_filename (str), document_type (str: POI, NPOI), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
+Columns: id (int), original_filename (str), document_type (str: POI, NPO), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
+
+Table: invoices
+Columns: id (int), document_id (int, FK documents.id, UNIQUE), source_extraction_result_id (int, FK extraction_results.id), invoice_number (str), invoice_date (date), vendor_id (int, FK vendors.id), buyer_name (str), buyer_tax_id (str), currency (str), subtotal_amount (decimal), tax_amount (decimal), discount_amount (decimal), shipping_amount (decimal), rounding_amount (decimal), other_charges_amount (decimal), grand_total_amount (decimal), po_number (str), created_at (timestamp)
+
+Table: vendors
+Columns: id (int), canonical_name (str), vendor_code (str), tax_id (str), address (text), created_at (timestamp)
+
+Table: invoice_line_items
+Columns: id (int), invoice_id (int, FK invoices.id), line_number (int), description (text), quantity (decimal), uom (str), unit_price (decimal), net_amount (decimal), tax_rate (decimal), tax_amount (decimal), gross_amount (decimal)
+
+Table: payment_obligations
+Columns: id (int), invoice_id (int, FK invoices.id, UNIQUE), amount_due (decimal), amount_paid (decimal), amount_outstanding (decimal), currency (str), due_date (date), status (str: UNKNOWN, OPEN, PARTIALLY_PAID, PAID, OVERDUE), payment_terms (text), early_payment_deadline (date), early_payment_discount (decimal), late_payment_penalty (decimal)
+
+Table: invoice_payments
+Columns: id (int), invoice_id (int, FK invoices.id), payment_date (date), amount (decimal), currency (str), payment_reference (str), payment_method (str)
 
 Table: extraction_results
-Columns: id (int), document_id (int, FK documents.id), fields (JSONB: e.g. fields->'vendor_name'->>'value', fields->'invoice_date'->>'value', fields->'grand_total_amount'->>'value', fields->'invoice_number'->>'value'), overall_confidence (float), created_at (timestamp)
+Columns: id (int), document_id (int, FK documents.id), fields (JSONB), overall_confidence (float), created_at (timestamp)
 
 Table: validation_results
 Columns: id (int), document_id (int, FK documents.id), is_valid (bool), error_count (int), warning_count (int), issues (JSONB), created_at (timestamp)
@@ -157,13 +207,28 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
                     f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
                     read="postgres",
                 )
-            else:
+            elif "invoices" in tables:
+                ast = ast.join("documents", on="invoices.document_id = documents.id")
+                auth_predicate = sqlglot.parse_one(
+                    f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
+                    read="postgres",
+                )
+            elif "payment_obligations" in tables:
+                ast = ast.join("invoices", on="payment_obligations.invoice_id = invoices.id")
+                ast = ast.join("documents", on="invoices.document_id = documents.id")
+                auth_predicate = sqlglot.parse_one(
+                    f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
+                    read="postgres",
+                )
+            elif "extraction_results" in tables:
                 # If querying extraction_results without documents table, join documents
                 ast = ast.join("documents", on=f"extraction_results.document_id = documents.id")
                 auth_predicate = sqlglot.parse_one(
                     f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
                     read="postgres",
                 )
+            else:
+                auth_predicate = None
 
             where_clause = ast.args.get("where")
             if where_clause:

@@ -81,6 +81,10 @@ class Document(Base, TimestampMixin):
         cascade="all, delete-orphan",
         order_by="DocumentChunk.id.asc()",
     )
+    invoice = relationship(
+        "Invoice", back_populates="document", uselist=False,
+        cascade="all, delete-orphan", lazy="select",
+    )
     # Deliberately lazy="select" (load on demand), unlike the
     # selectin relationships above -- AuditLog has its own
     # relationships back onto User and Document (see AuditLog's
