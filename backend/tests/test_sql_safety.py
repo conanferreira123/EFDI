@@ -102,3 +102,87 @@ def test_sql_safety_injects_analyst_authorization(db_session, mock_analyst):
     # Both uploaded_by and is_deleted must be present in the generated SQL
     assert "documents.uploaded_by = 42" in sanitized
     assert "documents.is_deleted = false" in sanitized.lower()
+
+
+@pytest.fixture
+def mock_admin():
+    return User(
+        id=99,
+        username="admin_test",
+        email="admin@example.com",
+        full_name="Admin Test",
+        role=UserRole.ADMIN.value,
+        is_active=True,
+    )
+
+
+def test_sql_safety_alias_handling_documents(db_session, mock_analyst):
+    """AST validator must scope documents using table alias identifier."""
+    service = TextToSQLService(db_session)
+    sanitized = service.validate_and_sanitize_sql("SELECT d.id FROM documents d", user=mock_analyst)
+    assert "d.uploaded_by = 42" in sanitized
+    assert "d.is_deleted = false" in sanitized.lower()
+
+
+def test_sql_safety_alias_handling_invoices(db_session, mock_analyst):
+    """AST validator must scope invoices using alias identifier and subquery."""
+    service = TextToSQLService(db_session)
+    sanitized = service.validate_and_sanitize_sql("SELECT i.invoice_number FROM invoices i", user=mock_analyst)
+    assert "i.document_id in" in sanitized.lower()
+    assert "uploaded_by = 42" in sanitized
+    assert "is_deleted = false" in sanitized.lower()
+
+
+def test_sql_safety_child_table_scoping_line_items(db_session, mock_analyst):
+    """AST validator must scope invoice_line_items through invoices and documents."""
+    service = TextToSQLService(db_session)
+    sanitized = service.validate_and_sanitize_sql("SELECT li.description FROM invoice_line_items li", user=mock_analyst)
+    assert "li.invoice_id in" in sanitized.lower()
+    assert "invoices" in sanitized
+    assert "documents" in sanitized
+    assert "uploaded_by = 42" in sanitized
+
+
+def test_sql_safety_child_table_scoping_payment_obligations(db_session, mock_analyst):
+    """AST validator must scope payment_obligations through invoices and documents."""
+    service = TextToSQLService(db_session)
+    sanitized = service.validate_and_sanitize_sql("SELECT po.amount_due FROM payment_obligations po", user=mock_analyst)
+    assert "po.invoice_id in" in sanitized.lower()
+    assert "uploaded_by = 42" in sanitized
+
+
+def test_sql_safety_child_table_scoping_vendors(db_session, mock_analyst):
+    """AST validator must scope vendors through user's accessible invoices."""
+    service = TextToSQLService(db_session)
+    sanitized = service.validate_and_sanitize_sql("SELECT v.canonical_name FROM vendors v", user=mock_analyst)
+    assert "v.id in" in sanitized.lower()
+    assert "uploaded_by = 42" in sanitized
+
+
+def test_sql_safety_joins_handled_safely(db_session, mock_analyst):
+    """AST validator must safely scope join queries with aliases."""
+    service = TextToSQLService(db_session)
+    query = "SELECT i.invoice_number, d.original_filename FROM invoices i JOIN documents d ON i.document_id = d.id"
+    sanitized = service.validate_and_sanitize_sql(query, user=mock_analyst)
+    assert "d.uploaded_by = 42" in sanitized
+    assert "i.document_id in" in sanitized.lower()
+
+
+def test_sql_safety_users_table_role_gating(db_session, mock_analyst, mock_manager, mock_admin):
+    """Only ADMIN may query users table; analyst and manager must be rejected."""
+    service = TextToSQLService(db_session)
+
+    with pytest.raises(SQLSecurityException, match="unauthorized for role"):
+        service.validate_and_sanitize_sql("SELECT id, username FROM users", user=mock_analyst)
+
+    with pytest.raises(SQLSecurityException, match="unauthorized for role"):
+        service.validate_and_sanitize_sql("SELECT id, username FROM users", user=mock_manager)
+
+    # Admin query is permitted for allowlisted columns
+    admin_sql = service.validate_and_sanitize_sql("SELECT id, username, email FROM users", user=mock_admin)
+    assert "SELECT id, username, email FROM users" in admin_sql
+
+    # Admin querying password_hash is still blocked
+    with pytest.raises(SQLSecurityException, match="unauthorized"):
+        service.validate_and_sanitize_sql("SELECT id, username, password_hash FROM users", user=mock_admin)
+

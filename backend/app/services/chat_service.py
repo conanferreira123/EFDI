@@ -42,50 +42,33 @@ class ChatService:
             user_id=user.id, document_id=document.id
         )
 
-        # 3. Persist user message
+        # 3. Fetch recent conversation history as LangChain messages
+        history_messages = self.history_repo.get_langchain_history(session.id, limit=10)
+
+        # 4. Persist user message
         self.history_repo.add_message(
             session_id=session.id,
             role="user",
             content=user_message.strip(),
         )
 
-        # 4. Fetch recent conversation history
-        history_msgs = self.history_repo.get_session_history(session.id, limit=10)
-        history = [{"role": m.role, "content": m.content} for m in history_msgs[:-1]]
-
-        # 5. Execute hybrid retrieval scoped strictly to this document
-        retrieved_chunks = self.rag_service.retrieve_for_document(
+        # 5. Invoke Document ReAct Agent (strictly scoped to this document, NO SQL tool)
+        from app.rag.document_agent import DocumentReActAgent
+        agent = DocumentReActAgent(self.db)
+        agent_result = agent.run(
             document_id=document.id,
             query=user_message.strip(),
             user=user,
+            history=history_messages,
         )
 
-        # 6. Generate grounded answer via Mistral
-        answer = self.llm_client.generate_grounded_answer(
-            query=user_message.strip(),
-            retrieved_chunks=retrieved_chunks,
-            conversation_history=history,
-        )
-
-        # 7. Construct structured citations
-        citations = []
-        for c in retrieved_chunks:
-            citations.append({
-                "chunk_id": c.chunk_id,
-                "document_id": c.document_id,
-                "page_number": c.page_number or 1,
-                "chunk_type": c.chunk_type,
-                "snippet": c.content.strip()[:300],
-                "bounding_box_refs": c.metadata_json.get("bounding_box_refs", []),
-                "rerank_score": c.rerank_score,
-            })
-
-        # 8. Persist assistant response
+        # 6. Persist assistant response with citations and tool metadata
         assistant_msg = self.history_repo.add_message(
             session_id=session.id,
             role="assistant",
-            content=answer,
-            citations=citations,
+            content=agent_result.content,
+            tool_calls=agent_result.tool_calls,
+            citations=agent_result.citations,
         )
         self.db.commit()
 
@@ -93,8 +76,8 @@ class ChatService:
             "session_id": session.id,
             "message_id": assistant_msg.id,
             "role": "assistant",
-            "content": answer,
-            "citations": citations,
+            "content": agent_result.content,
+            "citations": agent_result.citations,
             "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
         }
 

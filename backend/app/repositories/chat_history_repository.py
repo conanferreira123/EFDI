@@ -98,3 +98,19 @@ class ChatHistoryRepository:
         stmt = delete(ChatMessage).where(ChatMessage.session_id == session_id)
         result = self.db.execute(stmt)
         return result.rowcount
+
+    def get_langchain_history(self, session_id: int, limit: int = 10) -> list:
+        """Fetch recent conversation turns converted to LangChain BaseMessage instances."""
+        from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+
+        raw_messages = self.get_session_history(session_id=session_id, limit=limit)
+        lc_messages = []
+        for m in raw_messages:
+            if m.role == "user" and m.content:
+                lc_messages.append(HumanMessage(content=m.content))
+            elif m.role == "assistant" and m.content:
+                lc_messages.append(AIMessage(content=m.content))
+            elif m.role == "system" and m.content:
+                lc_messages.append(SystemMessage(content=m.content))
+        return lc_messages
+

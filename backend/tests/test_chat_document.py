@@ -222,6 +222,8 @@ def test_document_chat_grounding_refusal_when_information_absent(client, chat_te
     assert data["role"] == "assistant"
     content_lower = data["content"].lower()
 
+    content_clean = content_lower.replace("*", "")
+
     # Verify that the LLM refused to invent facts and stated the absence of evidence
     absence_phrases = [
         "does not specify",
@@ -230,13 +232,15 @@ def test_document_chat_grounding_refusal_when_information_absent(client, chat_te
         "does not mention",
         "not provided",
         "does not provide",
+        "does not include",
+        "not include",
         "insufficient",
         "not found",
         "no information",
         "no bank",
         "not contain",
     ]
-    assert any(phrase in content_lower for phrase in absence_phrases), (
+    assert any(phrase in content_clean for phrase in absence_phrases), (
         f"Grounding failed: Assistant did not indicate missing information. Response was: {data['content']}"
     )
 

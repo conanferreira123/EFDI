@@ -1,15 +1,16 @@
 """Multi-Tool Agent Orchestrator for EFDI Global Assistant.
 
-Coordinates:
-1. Database Query Tool (AST-validated SQL)
-2. Financial Calculator Tool (Decimal arithmetic)
-3. Document RAG Tool (Hybrid semantic retrieval)
-Handles compound questions (SQL metrics + RAG clauses).
+DEPRECATED:
+This deterministic keyword-routing orchestrator has been deprecated and replaced
+by the LangChain ReAct Global Agent (GlobalReActAgent in app.rag.global_agent)
+and Document ReAct Agent (DocumentReActAgent in app.rag.document_agent).
+Retained only for backwards compatibility with legacy tests.
 """
 import json
 import logging
 import re
 import time
+import warnings
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
@@ -48,6 +49,11 @@ class AgentOrchestrator:
     """Autonomous agent router and coordinator for portfolio-wide inquiries."""
 
     def __init__(self, db: Session) -> None:
+        warnings.warn(
+            "AgentOrchestrator is deprecated. Use GlobalReActAgent instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.db = db
         self.sql_service = TextToSQLService(db)
         self.rag_service = RAGService(db)
