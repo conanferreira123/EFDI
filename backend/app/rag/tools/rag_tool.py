@@ -60,6 +60,14 @@ class DocumentRAGTool(BaseTool):
         service = RAGService(self.db)
         try:
             if self.enforced_document_id is not None:
+                # Defense-in-depth: ensure document has completed OCR
+                from app.models.document import Document
+                from app.models.document_enums import DocumentStatus
+                from app.repositories.ocr_result_repository import OCRResultRepository
+                doc = self.db.get(Document, self.enforced_document_id)
+                if doc and doc.status == DocumentStatus.UPLOADED.value and OCRResultRepository(self.db).get_latest_for_document(self.enforced_document_id) is None:
+                    return f"Document RAG Results: OCR has not been run for Document #{self.enforced_document_id} yet."
+
                 # Document Chat: strictly scoped to the enforced document_id
                 chunks = service.retrieve_for_document(
                     document_id=self.enforced_document_id,

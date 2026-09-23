@@ -26,7 +26,7 @@ GLOBAL_REACT_SYSTEM_PROMPT = """You are the EFDI Global Financial Intelligence A
 You assist finance analysts, managers, and auditors across corporate financial documents, invoices, line items, and business data.
 
 You have access to three specialized tools:
-1. database_query_tool: Queries relational counts, spend totals, invoices, line items, vendors, payment obligations, and approval statuses.
+1. database_query_tool: Queries relational counts, spend totals, invoices, line items, vendors, payment obligations, approval statuses and user information(only if user has role of Administrator).
 2. document_rag_tool: Retrieves unstructured contract clauses, payment terms, Incoterms, freight, penalties, and OCR text snippets.
 3. financial_calculator_tool: Performs deterministic Decimal arithmetic, early settlement discounts, and calendar deadline date calculations.
 

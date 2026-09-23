@@ -1,6 +1,7 @@
 """Tests for Milestone 3: Level 1 Document-Level Conversational Assistant.
 """
 import uuid
+from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
@@ -98,12 +99,26 @@ def chat_test_setup(db_session):
     db_session.add(chunk)
     db_session.commit()
 
+    # Document 2 (Uploaded by Analyst 1, OCR not completed)
+    doc_uploaded = Document(
+        original_filename="unenriched_invoice.pdf",
+        stored_filename=f"unenriched_{uuid.uuid4().hex[:8]}.pdf",
+        mime_type="application/pdf",
+        file_size_bytes=1024,
+        file_hash=f"hash_{uuid.uuid4().hex[:12]}",
+        status=DocumentStatus.UPLOADED.value,
+        uploaded_by=analyst_1.id,
+    )
+    db_session.add(doc_uploaded)
+    db_session.commit()
+
     token_analyst_1, _ = create_access_token(username=analyst_1.username, user_id=analyst_1.id, role=analyst_1.role)
     token_analyst_2, _ = create_access_token(username=analyst_2.username, user_id=analyst_2.id, role=analyst_2.role)
     token_manager, _ = create_access_token(username=manager.username, user_id=manager.id, role=manager.role)
 
     return {
         "doc1": doc1,
+        "doc_uploaded": doc_uploaded,
         "token_analyst_1": token_analyst_1,
         "token_analyst_2": token_analyst_2,
         "token_manager": token_manager,
@@ -249,3 +264,160 @@ def test_document_chat_grounding_refusal_when_information_absent(client, chat_te
         for cite in data["citations"]:
             assert cite["document_id"] == doc1.id
             assert cite["page_number"] >= 1
+
+
+def test_ocr_precondition_not_completed_content_query(client, chat_test_setup):
+    """TEST 1: OCR not completed + general content query.
+
+    Document status = UPLOADED, no completed OCR result.
+    Query: 'What is this document about?'
+    Expected:
+    - HTTP 200
+    - Exact OCR-required response
+    - No DocumentReActAgent execution
+    - No DocumentRAGTool invocation
+    - Persistence in chat history
+    """
+    doc_uploaded = chat_test_setup["doc_uploaded"]
+    token = chat_test_setup["token_analyst_1"]
+
+    with patch("app.rag.document_agent.DocumentReActAgent.run") as mock_agent_run, \
+         patch("app.rag.tools.rag_tool.DocumentRAGTool._run") as mock_rag_run:
+        response = client.post(
+            f"/api/v1/chat/documents/{doc_uploaded.id}/messages",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "What is this document about?"},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["role"] == "assistant"
+        assert data["content"] == (
+            "OCR has not been run for this document yet. Please run OCR on the "
+            "document first, then I can answer questions about its contents."
+        )
+        assert data["citations"] == []
+        mock_agent_run.assert_not_called()
+        mock_rag_run.assert_not_called()
+
+    # Verify message persistence in chat history
+    hist_resp = client.get(
+        f"/api/v1/chat/documents/{doc_uploaded.id}/history",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert hist_resp.status_code == 200
+    messages = hist_resp.json()
+    assert len(messages) >= 2
+    assert messages[-2]["role"] == "user"
+    assert messages[-2]["content"] == "What is this document about?"
+    assert messages[-1]["role"] == "assistant"
+    assert "OCR has not been run for this document yet" in messages[-1]["content"]
+
+
+def test_ocr_precondition_not_completed_financial_content_query(client, chat_test_setup):
+    """TEST 2: OCR not completed + financial content query.
+
+    Query: 'What is the invoice amount?'
+    Expected:
+    - HTTP 200
+    - OCR-required response
+    - No RAG invocation
+    """
+    doc_uploaded = chat_test_setup["doc_uploaded"]
+    token = chat_test_setup["token_analyst_1"]
+
+    with patch("app.rag.document_agent.DocumentReActAgent.run") as mock_agent_run, \
+         patch("app.rag.tools.rag_tool.DocumentRAGTool._run") as mock_rag_run:
+        response = client.post(
+            f"/api/v1/chat/documents/{doc_uploaded.id}/messages",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "What is the invoice amount?"},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["role"] == "assistant"
+        assert data["content"] == (
+            "OCR has not been run for this document yet. Please run OCR on the "
+            "document first, then I can answer questions about its contents."
+        )
+        assert data["citations"] == []
+        mock_agent_run.assert_not_called()
+        mock_rag_run.assert_not_called()
+
+
+def test_ocr_precondition_completed_content_query(client, chat_test_setup):
+    """TEST 3: OCR completed + content query.
+
+    Document status = OCR_COMPLETED, valid document chunks.
+    Query: 'What are the payment terms?'
+    Expected:
+    - Existing Document ReAct/RAG flow
+    - Existing grounded response behavior
+    - Existing citation behavior
+    """
+    doc1 = chat_test_setup["doc1"]
+    token = chat_test_setup["token_analyst_1"]
+
+    response = client.post(
+        f"/api/v1/chat/documents/{doc1.id}/messages",
+        headers={"Authorization": f"Bearer {token}"},
+        json={"message": "What are the payment terms?"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["role"] == "assistant"
+    assert len(data["content"]) > 0
+    assert "citations" in data
+    assert len(data["citations"]) > 0
+    top_cit = data["citations"][0]
+    assert top_cit["document_id"] == doc1.id
+    assert top_cit["page_number"] == 1
+
+
+def test_ocr_precondition_not_completed_calculator_query(client, chat_test_setup):
+    """TEST 4: OCR not completed + calculator query.
+
+    Document status = UPLOADED (OCR not completed).
+    Query: 'Calculate 150000 * (1 - 0.025)'
+    Expected:
+    - Standalone calculation remains available and routes to calculator
+    - Result contains calculated value 146250
+    """
+    doc_uploaded = chat_test_setup["doc_uploaded"]
+    token = chat_test_setup["token_analyst_1"]
+
+    response = client.post(
+        f"/api/v1/chat/documents/{doc_uploaded.id}/messages",
+        headers={"Authorization": f"Bearer {token}"},
+        json={"message": "Calculate 150000 * (1 - 0.025)"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["role"] == "assistant"
+    # Result of 150000 * 0.975 is 146250
+    content_clean = data["content"].replace(",", "")
+    assert "146250" in content_clean, (
+        f"Calculator output expected 146250, received: {data['content']}"
+    )
+
+
+def test_ocr_precondition_unauthorized_document_rejected_before_ocr_check(client, chat_test_setup):
+    """TEST 5: Unauthorized document access.
+
+    Verify authorization failure occurs before OCR/content handling.
+    Expected:
+    - HTTP 403 Forbidden
+    - No information leakage about OCR state
+    """
+    doc_uploaded = chat_test_setup["doc_uploaded"]
+    token_unauthorized = chat_test_setup["token_analyst_2"]
+
+    response = client.post(
+        f"/api/v1/chat/documents/{doc_uploaded.id}/messages",
+        headers={"Authorization": f"Bearer {token_unauthorized}"},
+        json={"message": "What is this document about?"},
+    )
+    assert response.status_code == 403
+    data = response.json()
+    # Confirm error response does not mention OCR state
+    assert "OCR has not been run" not in str(data)
+

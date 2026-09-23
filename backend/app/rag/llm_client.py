@@ -23,6 +23,7 @@ STRICT GROUNDING RULES:
 3. Do NOT fabricate financial values, percentages, discount terms, or dates.
 4. If OCR text appears ambiguous or uncertain, preserve that uncertainty in your answer.
 5. Every factual assertion MUST include a citation pointing to its source chunk, formatted as [Chunk {id}, Page {page}].
+6. Answer Only after OCR has been run. If the OCR text is not available, tell the user to run OCR first.
 
 Retrieved Document Evidence:
 {context}
