@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, FileText, ChevronRight, Folder } from "lucide-react";
+import { Search, FileText, ChevronRight, Folder, Clock } from "lucide-react";
 import { documentsApi } from "@/services/documents";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { StatusBadge } from "@/components/status-badge";
@@ -94,6 +94,22 @@ export function DocumentsListPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState<StatCounts | null>(null);
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  const [recentlyViewed, setRecentlyViewed] = useState<DocumentListItem[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    documentsApi
+      .getRecentlyViewed()
+      .then((docs) => {
+        if (!cancelled) setRecentlyViewed(docs);
+      })
+      .catch(() => {
+        /* fail silently if not loaded */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -178,6 +194,45 @@ export function DocumentsListPage() {
           </div>
         ))}
       </div>
+      {recentlyViewed.length > 0 && (
+        <div className="space-y-2.5">
+          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-ink-500">
+            <Clock className="h-3.5 w-3.5 text-ink-400" />
+            <span>Recently Viewed</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {recentlyViewed.map((doc) => (
+              <div
+                key={doc.id}
+                onClick={() => navigate(`/documents/${doc.id}`)}
+                className="group flex flex-col justify-between rounded-xl border border-ink-100 bg-paper-50 p-3.5 cursor-pointer transition-all hover:border-ink-300 hover:shadow-xs"
+                style={{ borderLeft: `3px solid ${STATUS_ACCENT[doc.status]}` }}
+              >
+                <div className="space-y-1.5 overflow-hidden">
+                  <div className="flex items-center gap-1.5">
+                    <FileText className="h-3.5 w-3.5 shrink-0 text-ink-400 group-hover:text-ink-600" />
+                    <span
+                      className="truncate text-xs font-medium text-ink-900"
+                      title={doc.original_filename}
+                    >
+                      {basename(doc.original_filename)}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-ink-500">
+                    {DOCUMENT_TYPE_LABELS[doc.document_type as DocumentType]}
+                  </p>
+                </div>
+                <div className="mt-3 flex items-center justify-between pt-2 border-t border-ink-100/60">
+                  <StatusBadge status={doc.status} />
+                  <span className="font-data text-[10px] text-ink-400">
+                    {formatFileSize(doc.file_size_bytes)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
         <div className="relative w-72">

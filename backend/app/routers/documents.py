@@ -196,6 +196,18 @@ def list_documents(
     )
 
 
+@router.get("/recently-viewed", response_model=list[DocumentListItem])
+def get_recently_viewed_documents(
+    limit: int = Query(default=5, ge=1, le=5),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> list[DocumentListItem]:
+    """Fetch maximum 5 recently interacted-with documents for the current user."""
+    service = DocumentService(db)
+    results = service.get_recently_viewed(current_user, limit=limit)
+    return [DocumentListItem.model_validate(d) for d in results]
+
+
 @router.get("/{document_id}", response_model=DocumentResponse)
 def get_document(
     document_id: int,
@@ -205,6 +217,7 @@ def get_document(
     """Fetch metadata for a single document."""
     service = DocumentService(db)
     document = service.get_for_user(document_id, current_user)
+    service.record_activity(document.id, current_user)
     return DocumentResponse.model_validate(document)
 
 

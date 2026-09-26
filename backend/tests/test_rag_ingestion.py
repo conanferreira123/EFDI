@@ -18,30 +18,24 @@ from app.services.rag_ingestion_service import RAGIngestionService
 
 
 SAMPLE_STRUCTURED_FULL_TEXT = """=== PAGE 1 ===
-=== HEADER & METADATA ===
 TAX INVOICE
 Invoice No: INV-9021
 Date: 2024-03-15
 PO Number: PO-8812
 
-=== PARTIES ===
---- SELLER COLUMN ---
 ACME Industrial Supplies Ltd.
 VAT ID: GB123456789
 12 Oxford Street, London
 
---- BUYER COLUMN ---
 Global Manufacturing Corp
 Client ID: GMC-880
 45 Factory Lane, Manchester
 
-=== LINE ITEMS ===
 | Item | Description | Qty | Unit Price | Total |
 | --- | --- | --- | --- | --- |
 | 1 | Hydraulic Pump Valve A1 | 10 | 100.00 | 1000.00 |
 | 2 | High Pressure Seal Kit | 2 | 50.00 | 100.00 |
 
-=== TOTALS & SUMMARY ===
 Net Worth: 1100.00
 VAT (20%): 220.00
 Gross Total: 1320.00
@@ -55,11 +49,9 @@ Goods delivered under Incoterms 2020: DAP Manchester.
 def test_chunking_page_parsing():
     """Verify multi-page document separation."""
     two_page_text = """=== PAGE 1 ===
-=== HEADER & METADATA ===
 Invoice Page 1
 
 === PAGE 2 ===
-=== TOTALS & SUMMARY ===
 Invoice Page 2
 """
     chunker = StructureAwareChunker()
@@ -70,16 +62,38 @@ Invoice Page 2
 
 
 def test_chunking_section_types():
-    """Verify all section types are properly recognized and typed."""
+    """Verify all section types are properly recognized and typed in heading-free text."""
     chunker = StructureAwareChunker()
     chunks = chunker.chunk_document(SAMPLE_STRUCTURED_FULL_TEXT)
 
     types = [c.chunk_type for c in chunks]
     assert "HEADER" in types
-    assert "PARTIES" in types
     assert "LINE_ITEMS" in types
     assert "SUMMARY" in types
     assert "TERMS" in types
+
+
+def test_legacy_chunking_section_types():
+    """Verify legacy documents with synthetic section headings are still parsed correctly."""
+    legacy_text = """=== PAGE 1 ===
+=== HEADER & METADATA ===
+TAX INVOICE
+=== PARTIES ===
+ACME Industrial
+=== LINE ITEMS ===
+| Item | Desc |
+| --- | --- |
+| 1 | A |
+=== TOTALS & SUMMARY ===
+Total: 100.00
+"""
+    chunker = StructureAwareChunker()
+    chunks = chunker.chunk_document(legacy_text)
+    types = [c.chunk_type for c in chunks]
+    assert "HEADER" in types
+    assert "PARTIES" in types
+    assert "LINE_ITEMS" in types
+    assert "SUMMARY" in types
 
 
 def test_chunking_table_preservation_small():
@@ -99,14 +113,13 @@ def test_chunking_table_sliding_window_large():
     """Tables with > 15 rows must split into sliding windows repeating the header."""
     rows = [f"| {i} | Product {i} | 1 | 10.00 | 10.00 |" for i in range(1, 26)]
     table_text = (
-        "=== LINE ITEMS ===\n"
         "| Item | Description | Qty | Unit Price | Total |\n"
         "| --- | --- | --- | --- | --- |\n"
         + "\n".join(rows)
     )
     chunker = StructureAwareChunker(table_max_rows=15, table_window_size=10, table_window_step=8)
     chunks = chunker._chunk_table_section(
-        table_text.replace("=== LINE ITEMS ===\n", ""), page_num=1, start_index=0, raw_blocks=None
+        table_text, page_num=1, start_index=0, raw_blocks=None
     )
 
     assert len(chunks) > 1

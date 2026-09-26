@@ -22,6 +22,7 @@ from app.models.chat import ChatMessage, ChatSession  # noqa: F401
 from app.models.classification_result import ClassificationResult  # noqa: F401
 from app.models.document import Document  # noqa: F401
 from app.models.document_chunk import DocumentChunk  # noqa: F401
+from app.models.document_user_activity import DocumentUserActivity  # noqa: F401
 from app.models.document_enums import (  # noqa: F401
     AuditAction,
     ChunkSection,
@@ -48,6 +49,7 @@ __all__ = [
     "User", "Document", "OCRResult", "ClassificationResult", "ExtractionResult",
     "ValidationResult", "WorkflowHistory", "AuditLog", "TrainingExample", "UserRole", "DocumentType",
     "DocumentStatus", "AuditAction", "PaymentStatus", "ChunkSection", "DocumentChunk",
+    "DocumentUserActivity",
     "VendorKnowledge", "SystemSetting", "ChatSession", "ChatMessage",
     "Invoice", "Vendor", "VendorAlias", "InvoiceLineItem", "PaymentObligation", "InvoicePayment",
 ]

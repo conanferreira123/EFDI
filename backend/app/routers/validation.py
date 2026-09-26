@@ -43,6 +43,7 @@ def validate_document(
     """
     doc_service = DocumentService(db)
     document = doc_service.get_for_user(document_id, current_user)
+    doc_service.record_activity(document.id, current_user)
 
     validation_service = ValidationService(db)
     result = validation_service.validate(document)

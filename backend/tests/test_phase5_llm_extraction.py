@@ -16,13 +16,14 @@ from app.extraction.primitives import normalize_amount, normalize_date
 
 
 def test_structured_context_reaches_llm():
-    """Test A: Structured full_text rather than legacy flattened OCR is passed to the extraction prompt."""
+    """Test A: Clean OCR text and Markdown table rather than legacy flattened OCR is passed to the extraction prompt."""
     structured_text = (
-        "=== HEADER & METADATA ===\nInvoice Number: INV-51109301\n"
-        "=== PARTIES ===\n--- SELLER COLUMN ---\nDell Computer GmbH\n--- BUYER COLUMN ---\nAcme Corp\n"
-        "=== LINE ITEMS ===\n| # | Description | Qty | Unit | Unit Price | Net Amount | Tax % | Gross Amount |\n"
+        "Invoice Number: INV-51109301\n"
+        "Dell Computer GmbH\n"
+        "Acme Corp\n"
+        "| # | Description | Qty | Unit | Unit Price | Net Amount | Tax % | Gross Amount |\n"
         "|---|---|---|---|---|---|---|---|\n| 1 | Desktop Computer | 3 | each | 209.00 | 627.00 | 10% | 689.70 |\n"
-        "=== TOTALS & SUMMARY ===\nNet: 627.00\nVAT: 62.70\nTotal: 689.70"
+        "Net: 627.00\nVAT: 62.70\nTotal: 689.70"
     )
     ctx = ExtractionContext(
         full_text=structured_text,
@@ -34,14 +35,22 @@ def test_structured_context_reaches_llm():
     user_prompt = LLMContextBuilder.build_user_prompt(ctx)
     system_prompt = LLMContextBuilder.build_system_prompt("POI")
 
-    # Verify structured sections are present in user prompt
+    # Verify structured content reaches the user prompt
     assert "=== PRIMARY DOCUMENT OCR TEXT ===" in user_prompt
-    assert "=== HEADER & METADATA ===" in user_prompt
-    assert "=== PARTIES ===" in user_prompt
-    assert "=== LINE ITEMS ===" in user_prompt
-    assert "=== TOTALS & SUMMARY ===" in user_prompt
+    assert "Invoice Number: INV-51109301" in user_prompt
+    assert "Dell Computer GmbH" in user_prompt
+    assert "Acme Corp" in user_prompt
+    assert "| Desktop Computer |" in user_prompt
+    assert "Net: 627.00" in user_prompt
     assert "=== OCR QUALITY SIGNALS ===" in user_prompt
     assert "Overall Score: 0.95" in user_prompt
+    # Verify synthetic headings are absent
+    assert "=== HEADER & METADATA ===" not in user_prompt
+    assert "=== PARTIES ===" not in user_prompt
+    assert "--- SELLER COLUMN ---" not in user_prompt
+    assert "--- BUYER COLUMN ---" not in user_prompt
+    assert "=== LINE ITEMS ===" not in user_prompt
+    assert "=== TOTALS & SUMMARY ===" not in user_prompt
 
     # Verify system prompt has domain guidelines and prompt injection defense
     assert "SPECIFIC INVOICE (POI) EXTRACTION RULES:" in system_prompt

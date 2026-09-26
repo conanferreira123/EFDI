@@ -190,48 +190,82 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                     )}
 
                   {/* Citations section */}
-                  {!isUser && msg.citations && msg.citations.length > 0 && (
-                    <div className="mt-3 pt-2.5 border-t border-ink-200/60">
-                      <div className="flex items-center gap-1 text-[11px] font-medium text-ink-500 mb-1.5">
-                        <BookOpen className="h-3 w-3" />
-                        Grounded Sources ({msg.citations.length}):
-                      </div>
-                      <div className="space-y-1.5">
-                        {msg.citations.map((citation, citIdx) => {
-                          const citationKey = `${msg.id || index}-${citIdx}`;
-                          const isExpanded = expandedCitationId === citationKey;
-                          return (
-                            <div
-                              key={citIdx}
-                              className="rounded-md border border-ink-200/60 bg-white/80 p-2 text-xs text-ink-700"
-                            >
-                              <div
-                                className="flex items-center justify-between cursor-pointer font-medium text-[11px] text-primary"
+                  {!isUser && msg.citations && msg.citations.length > 0 && (() => {
+                    const uniqueCitations = msg.citations.filter(
+                      (citation, idx, arr) =>
+                        arr.findIndex((c) =>
+                          c.chunk_id
+                            ? c.chunk_id === citation.chunk_id
+                            : c.page_number === citation.page_number && c.chunk_type === citation.chunk_type
+                        ) === idx
+                    );
+                    if (uniqueCitations.length === 0) return null;
+
+                    const activeCitation = uniqueCitations.find((c, citIdx) => {
+                      const citationKey = `${msg.id || index}-${c.chunk_id || citIdx}`;
+                      return expandedCitationId === citationKey;
+                    });
+
+                    return (
+                      <div className="mt-2.5 pt-2 border-t border-ink-200/60">
+                        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                          <span className="flex items-center gap-1 font-medium text-ink-500 shrink-0">
+                            <BookOpen className="h-3 w-3" />
+                            Grounded Sources:
+                          </span>
+                          {uniqueCitations.map((citation, citIdx) => {
+                            const citationKey = `${msg.id || index}-${citation.chunk_id || citIdx}`;
+                            const isExpanded = expandedCitationId === citationKey;
+                            return (
+                              <button
+                                type="button"
+                                key={citationKey}
                                 onClick={() =>
                                   setExpandedCitationId(isExpanded ? null : citationKey)
                                 }
+                                className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium transition-all cursor-pointer ${
+                                  isExpanded
+                                    ? "border-seal-400 bg-seal-50 text-seal-700 shadow-xs"
+                                    : "border-ink-200/80 bg-white/90 text-ink-700 hover:border-ink-300 hover:bg-ink-100/60"
+                                }`}
+                                title="Click to view citation snippet"
                               >
                                 <span>
-                                  [Chunk {citation.chunk_id}, Page {citation.page_number}] ·{" "}
-                                  {citation.chunk_type}
+                                  Chunk {citation.chunk_id} · Page {citation.page_number} · {citation.chunk_type}
                                 </span>
                                 {isExpanded ? (
-                                  <ChevronUp className="h-3.5 w-3.5" />
+                                  <ChevronUp className="h-3 w-3 shrink-0 opacity-70" />
                                 ) : (
-                                  <ChevronDown className="h-3.5 w-3.5" />
+                                  <ChevronDown className="h-3 w-3 shrink-0 opacity-70" />
                                 )}
-                              </div>
-                              {isExpanded && (
-                                <div className="mt-1.5 text-[11px] font-data text-ink-600 border-t border-ink-100 pt-1.5 whitespace-pre-wrap">
-                                  {citation.snippet}
-                                </div>
-                              )}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {activeCitation && (
+                          <div className="mt-2 rounded-lg border border-ink-200/80 bg-white/95 p-2.5 text-[11px] text-ink-700 shadow-xs">
+                            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-ink-100 text-[10px] uppercase font-semibold tracking-wider text-ink-500 font-data">
+                              <span>
+                                Source Text — Chunk {activeCitation.chunk_id} (Page {activeCitation.page_number} · {activeCitation.chunk_type})
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setExpandedCitationId(null)}
+                                className="text-ink-400 hover:text-ink-700 px-1 py-0.5"
+                                title="Close"
+                              >
+                                ✕
+                              </button>
                             </div>
-                          );
-                        })}
+                            <div className="font-data text-ink-600 max-h-36 overflow-y-auto whitespace-pre-wrap leading-relaxed">
+                              {activeCitation.snippet}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  )}
+                    );
+                  })()}
                 </div>
               </div>
                 {isUser && (

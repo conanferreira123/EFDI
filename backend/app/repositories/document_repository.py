@@ -6,7 +6,11 @@ from datetime import datetime
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from app.database.base import utcnow
 from app.models.document import Document
+from app.models.document_user_activity import DocumentUserActivity
+from app.models.roles import UserRole
+from app.models.user import User
 
 
 class DocumentRepository:
@@ -128,3 +132,49 @@ class DocumentRepository:
         self.db.commit()
         self.db.refresh(document)
         return document
+
+    def record_user_activity(self, document_id: int, user_id: int) -> DocumentUserActivity:
+        """
+        Record or update user activity timestamp for a document.
+        Maintains exactly one record per (user_id, document_id).
+        """
+        stmt = select(DocumentUserActivity).where(
+            DocumentUserActivity.user_id == user_id,
+            DocumentUserActivity.document_id == document_id,
+        )
+        activity = self.db.execute(stmt).scalar_one_or_none()
+        now = utcnow()
+        if activity:
+            activity.last_activity_at = now
+        else:
+            activity = DocumentUserActivity(
+                user_id=user_id,
+                document_id=document_id,
+                last_activity_at=now,
+            )
+            self.db.add(activity)
+        self.db.commit()
+        self.db.refresh(activity)
+        return activity
+
+    def get_recently_viewed(self, user: User, limit: int = 5) -> list[Document]:
+        """
+        Fetch maximum `limit` unique documents with which `user` most recently interacted,
+        ordered by last_activity_at DESC.
+        Enforces authorization:
+        - Non-deleted documents only.
+        - FINANCE_ANALYST can only view documents they uploaded.
+        """
+        stmt = (
+            select(Document)
+            .join(DocumentUserActivity, Document.id == DocumentUserActivity.document_id)
+            .where(
+                DocumentUserActivity.user_id == user.id,
+                Document.is_deleted.is_(False),
+            )
+        )
+        if user.role == UserRole.FINANCE_ANALYST.value:
+            stmt = stmt.where(Document.uploaded_by == user.id)
+
+        stmt = stmt.order_by(DocumentUserActivity.last_activity_at.desc()).limit(limit)
+        return list(self.db.execute(stmt).scalars().all())

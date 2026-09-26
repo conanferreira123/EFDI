@@ -2,6 +2,7 @@ import { apiDownload, apiRequest } from "./client";
 import type {
   BulkIntakeResponse,
   DocumentFilterParams,
+  DocumentListItem,
   DocumentListResponse,
   DocumentResponse,
   DocumentUploadResponse,
@@ -37,6 +38,8 @@ export const documentsApi = {
 
   list: (filters: DocumentFilterParams = {}) =>
     apiRequest<DocumentListResponse>("/documents", { query: filters }),
+
+  getRecentlyViewed: () => apiRequest<DocumentListItem[]>("/documents/recently-viewed"),
 
   get: (documentId: number) => apiRequest<DocumentResponse>(`/documents/${documentId}`),
 

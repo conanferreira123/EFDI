@@ -81,6 +81,7 @@ class ChatService:
         """Process a user query scoped to a single document with strict authorization."""
         # 1. Verify user has permission to access this document
         document = self.doc_service.get_for_user(document_id, user)
+        self.doc_service.record_activity(document.id, user)
 
         # 2. Get or create session
         session = self.history_repo.get_or_create_document_session(

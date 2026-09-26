@@ -58,10 +58,12 @@ def test_table_reconstruction_precedes_full_text():
     page = build_structured_page(blocks, table=table, page_width=1000.0, page_height=1400.0, page_number=1)
     full_text = generate_structured_full_text([page])
 
-    assert "=== LINE ITEMS ===" in full_text
     assert "| Dell Laptop 15 |" in full_text or "Dell Laptop 15" in full_text
-    assert "=== TOTALS & SUMMARY ===" in full_text
     assert "TOTAL" in full_text
+    assert "=== LINE ITEMS ===" not in full_text
+    assert "=== TOTALS & SUMMARY ===" not in full_text
+    assert "--- SELLER COLUMN ---" not in full_text
+    assert "--- BUYER COLUMN ---" not in full_text
 
 
 def test_non_table_document_graceful_handling():

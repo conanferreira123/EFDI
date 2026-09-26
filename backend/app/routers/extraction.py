@@ -50,6 +50,7 @@ def extract_document_fields(
     """
     doc_service = DocumentService(db)
     document = doc_service.get_for_user(document_id, current_user)
+    doc_service.record_activity(document.id, current_user)
 
     extraction_service = ExtractionService(db)
     result = extraction_service.extract(document, engine_name=payload.engine or payload.engine_name)

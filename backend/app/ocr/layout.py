@@ -306,7 +306,8 @@ def build_structured_page(
 def generate_structured_full_text(pages: List[Any], table_format: str = "markdown") -> str:
     """
     Generates structured, clean full_text from a list of StructuredDocumentPage instances.
-    Preserves headers, 2-column party sections, Markdown line items, and summary totals.
+    Preserves natural reading order, Markdown line items, and summary totals without
+    injecting biased synthetic semantic headings.
     """
     if not pages:
         return ""
@@ -324,9 +325,9 @@ def generate_structured_full_text(pages: List[Any], table_format: str = "markdow
         if header_blocks:
             hdr_text = "\n".join(b.text for b in header_blocks if b.text)
             if hdr_text:
-                page_parts.append(f"=== HEADER & METADATA ===\n{hdr_text}")
+                page_parts.append(hdr_text)
 
-        # 2. Parties Section
+        # 2. Party Information (spatial reading order without synthetic seller/buyer labels)
         party_left = getattr(page, "party_left_blocks", [])
         party_right = getattr(page, "party_right_blocks", [])
         if party_left or party_right:
@@ -334,27 +335,27 @@ def generate_structured_full_text(pages: List[Any], table_format: str = "markdow
             if party_left:
                 left_txt = "\n".join(b.text for b in party_left if b.text)
                 if left_txt:
-                    party_lines.append(f"--- SELLER COLUMN ---\n{left_txt}")
+                    party_lines.append(left_txt)
             if party_right:
                 right_txt = "\n".join(b.text for b in party_right if b.text)
                 if right_txt:
-                    party_lines.append(f"--- BUYER COLUMN ---\n{right_txt}")
+                    party_lines.append(right_txt)
             if party_lines:
-                page_parts.append(f"=== PARTIES ===\n" + "\n\n".join(party_lines))
+                page_parts.append("\n\n".join(party_lines))
 
-        # 3. Line Items Table
+        # 3. Line Items Table (clean Markdown table without synthetic heading)
         table = getattr(page, "table", None)
         if table and (getattr(table, "line_items", None) or (isinstance(table, dict) and table.get("line_items"))):
             table_md = format_reconstructed_table_markdown(table)
             if table_md:
-                page_parts.append(f"=== LINE ITEMS ===\n{table_md}")
+                page_parts.append(table_md)
 
-        # 4. Summary & Totals
+        # 4. Summary & Totals (clean text without synthetic heading)
         summary_blocks = getattr(page, "summary_blocks", [])
         if summary_blocks:
             sum_txt = "\n".join(b.text for b in summary_blocks if b.text)
             if sum_txt:
-                page_parts.append(f"=== TOTALS & SUMMARY ===\n{sum_txt}")
+                page_parts.append(sum_txt)
 
         # 5. Footer & Notes
         footer_blocks = getattr(page, "footer_blocks", [])
