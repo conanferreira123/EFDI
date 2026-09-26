@@ -216,3 +216,15 @@ class DocumentService:
         audit/recovery, per enterprise retention practice.
         """
         delete_file_from_disk(document.stored_filename)
+
+    def record_activity(self, document_id: int, user: User) -> None:
+        """
+        Record user-initiated interaction with a document for Recently Viewed.
+        """
+        self.repo.record_user_activity(document_id, user.id)
+
+    def get_recently_viewed(self, current_user: User, limit: int = 5):
+        """
+        Fetch recently viewed documents for current_user, scoped by role authorization.
+        """
+        return self.repo.get_recently_viewed(current_user, limit=limit)

@@ -26,13 +26,72 @@ from app.rag.llm_client import get_llm_client
 
 logger = logging.getLogger(__name__)
 
-# Explicit table allowlist
+# Explicit table allowlist (universal superset)
 ALLOWED_TABLES: Set[str] = {
     "documents",
     "extraction_results",
     "validation_results",
     "classification_results",
     "users",
+    "invoices",
+    "vendors",
+    "vendor_aliases",
+    "invoice_line_items",
+    "payment_obligations",
+    "invoice_payments",
+}
+
+# Role-specific table allowlists
+ROLE_ALLOWED_TABLES: Dict[str, Set[str]] = {
+    UserRole.FINANCE_ANALYST.value: {
+        "documents",
+        "extraction_results",
+        "classification_results",
+        "validation_results",
+        "invoices",
+        "invoice_line_items",
+        "payment_obligations",
+        "vendors",
+        "vendor_aliases",
+        "invoice_payments",
+    },
+    UserRole.FINANCE_MANAGER.value: {
+        "documents",
+        "extraction_results",
+        "classification_results",
+        "validation_results",
+        "invoices",
+        "invoice_line_items",
+        "payment_obligations",
+        "vendors",
+        "vendor_aliases",
+        "invoice_payments",
+    },
+    UserRole.AUDITOR.value: {
+        "documents",
+        "extraction_results",
+        "classification_results",
+        "validation_results",
+        "invoices",
+        "invoice_line_items",
+        "payment_obligations",
+        "vendors",
+        "vendor_aliases",
+        "invoice_payments",
+    },
+    UserRole.ADMIN.value: {
+        "documents",
+        "extraction_results",
+        "classification_results",
+        "validation_results",
+        "invoices",
+        "invoice_line_items",
+        "payment_obligations",
+        "vendors",
+        "vendor_aliases",
+        "invoice_payments",
+        "users",
+    },
 }
 
 # Explicit column allowlist (users.password_hash is STRICTLY excluded)
@@ -57,6 +116,35 @@ ALLOWED_COLUMNS: Dict[str, Set[str]] = {
     "users": {
         "id", "username", "email", "full_name", "role", "is_active", "created_at",
     },
+    "invoices": {
+        "id", "document_id", "source_extraction_result_id", "invoice_number",
+        "invoice_date", "vendor_id", "buyer_name", "buyer_tax_id", "currency",
+        "subtotal_amount", "tax_amount", "discount_amount", "shipping_amount",
+        "rounding_amount", "other_charges_amount", "grand_total_amount",
+        "po_number", "created_at", "updated_at",
+    },
+    "vendors": {
+        "id", "canonical_name", "vendor_code", "tax_id", "address",
+        "created_at", "updated_at",
+    },
+    "vendor_aliases": {
+        "id", "vendor_id", "alias", "created_at",
+    },
+    "invoice_line_items": {
+        "id", "invoice_id", "line_number", "description", "quantity",
+        "uom", "unit_price", "net_amount", "tax_rate", "tax_amount",
+        "gross_amount", "created_at",
+    },
+    "payment_obligations": {
+        "id", "invoice_id", "amount_due", "amount_paid", "amount_outstanding",
+        "currency", "due_date", "status", "payment_terms", "paid_at",
+        "early_payment_deadline", "early_payment_discount", "late_payment_penalty",
+        "created_at", "updated_at",
+    },
+    "invoice_payments": {
+        "id", "invoice_id", "payment_date", "amount", "currency",
+        "payment_reference", "payment_method", "created_at",
+    },
 }
 
 FORBIDDEN_FUNCTIONS: Set[str] = {
@@ -75,10 +163,25 @@ class TextToSQLService:
 
     SCHEMA_CONTEXT = """PostgreSQL Database Schema:
 Table: documents
-Columns: id (int), original_filename (str), document_type (str: POI, NPOI), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
+Columns: id (int), original_filename (str), document_type (str: POI, NPO), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
+
+Table: invoices
+Columns: id (int), document_id (int, FK documents.id, UNIQUE), source_extraction_result_id (int, FK extraction_results.id), invoice_number (str), invoice_date (date), vendor_id (int, FK vendors.id), buyer_name (str), buyer_tax_id (str), currency (str), subtotal_amount (decimal), tax_amount (decimal), discount_amount (decimal), shipping_amount (decimal), rounding_amount (decimal), other_charges_amount (decimal), grand_total_amount (decimal), po_number (str), created_at (timestamp)
+
+Table: vendors
+Columns: id (int), canonical_name (str), vendor_code (str), tax_id (str), address (text), created_at (timestamp)
+
+Table: invoice_line_items
+Columns: id (int), invoice_id (int, FK invoices.id), line_number (int), description (text), quantity (decimal), uom (str), unit_price (decimal), net_amount (decimal), tax_rate (decimal), tax_amount (decimal), gross_amount (decimal)
+
+Table: payment_obligations
+Columns: id (int), invoice_id (int, FK invoices.id, UNIQUE), amount_due (decimal), amount_paid (decimal), amount_outstanding (decimal), currency (str), due_date (date), status (str: UNKNOWN, OPEN, PARTIALLY_PAID, PAID, OVERDUE), payment_terms (text), early_payment_deadline (date), early_payment_discount (decimal), late_payment_penalty (decimal)
+
+Table: invoice_payments
+Columns: id (int), invoice_id (int, FK invoices.id), payment_date (date), amount (decimal), currency (str), payment_reference (str), payment_method (str)
 
 Table: extraction_results
-Columns: id (int), document_id (int, FK documents.id), fields (JSONB: e.g. fields->'vendor_name'->>'value', fields->'invoice_date'->>'value', fields->'grand_total_amount'->>'value', fields->'invoice_number'->>'value'), overall_confidence (float), created_at (timestamp)
+Columns: id (int), document_id (int, FK documents.id), fields (JSONB), overall_confidence (float), created_at (timestamp)
 
 Table: validation_results
 Columns: id (int), document_id (int, FK documents.id), is_valid (bool), error_count (int), warning_count (int), issues (JSONB), created_at (timestamp)
@@ -125,11 +228,20 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
                 if func_name in FORBIDDEN_FUNCTIONS:
                     raise SQLSecurityException(f"Forbidden SQL function detected: '{func_name}'")
 
-        # 3. Check tables against allowlist
-        tables = [t.name.lower() for t in ast.find_all(exp.Table)]
-        for table in tables:
-            if table not in ALLOWED_TABLES:
-                raise SQLSecurityException(f"Access to table '{table}' is unauthorized.")
+        # 3. Role-aware table allowlist check
+        user_allowed_tables = ROLE_ALLOWED_TABLES.get(user.role, set())
+        tables_in_query = list(ast.find_all(exp.Table))
+        if not tables_in_query:
+            raise SQLSecurityException("Query must reference at least one valid table.")
+
+        for t in tables_in_query:
+            table_name = t.name.lower()
+            if table_name not in user_allowed_tables:
+                if table_name in ALLOWED_TABLES:
+                    raise SQLSecurityException(
+                        f"Access to table '{table_name}' is unauthorized for role '{user.role}'."
+                    )
+                raise SQLSecurityException(f"Access to table '{table_name}' is unauthorized.")
 
         # 4. Check columns against allowlist (strictly preventing password_hash)
         for col in ast.find_all(exp.Column):
@@ -137,53 +249,109 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
             if col_name == "*":
                 continue
             if col.table:
-                tbl = col.table.lower()
-                if tbl in ALLOWED_COLUMNS and col_name not in ALLOWED_COLUMNS[tbl]:
-                    raise SQLSecurityException(f"Access to column '{tbl}.{col_name}' is unauthorized.")
+                col_tbl_ref = col.table.lower()
+                matched_table_name = None
+                for t in tables_in_query:
+                    if t.alias_or_name.lower() == col_tbl_ref or t.name.lower() == col_tbl_ref:
+                        matched_table_name = t.name.lower()
+                        break
+                target_tbl = matched_table_name or col_tbl_ref
+                if target_tbl in ALLOWED_COLUMNS and col_name not in ALLOWED_COLUMNS[target_tbl]:
+                    raise SQLSecurityException(f"Access to column '{col_tbl_ref}.{col_name}' is unauthorized.")
             else:
                 # Column without explicit table prefix: ensure it exists in at least one allowed table
-                all_allowed = set().union(*ALLOWED_COLUMNS.values())
+                all_allowed = set().union(*[ALLOWED_COLUMNS[t] for t in user_allowed_tables if t in ALLOWED_COLUMNS])
                 if col_name not in all_allowed:
                     raise SQLSecurityException(f"Access to column '{col_name}' is unauthorized.")
 
-        # 5. Inject Authorization Predicate for FINANCE_ANALYST
+        # 5. Inject Authorization Predicates (Alias-Safe & Normalized Child-Table Scoped)
         is_analyst = user.role == UserRole.FINANCE_ANALYST.value
         policy = getattr(settings, "GLOBAL_CHAT_ANALYST_POLICY", "scoped")
 
-        if is_analyst and policy == "scoped":
-            # Forcibly inject `documents.uploaded_by = :user_id` and `documents.is_deleted = false`
-            if "documents" in tables:
-                auth_predicate = sqlglot.parse_one(
-                    f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
-                    read="postgres",
-                )
-            else:
-                # If querying extraction_results without documents table, join documents
-                ast = ast.join("documents", on=f"extraction_results.document_id = documents.id")
-                auth_predicate = sqlglot.parse_one(
-                    f"documents.uploaded_by = {user.id} AND documents.is_deleted = false",
-                    read="postgres",
-                )
+        if is_analyst and policy == "forbidden":
+            raise SQLSecurityException(
+                "Access to Global AI database query is restricted to Finance Managers, Auditors, and Admins."
+            )
 
-            where_clause = ast.args.get("where")
-            if where_clause:
-                combined_where = exp.Where(
-                    this=exp.And(this=where_clause.this, expression=auth_predicate)
-                )
-                ast.set("where", combined_where)
-            else:
-                ast.set("where", exp.Where(this=auth_predicate))
-        elif "documents" in tables:
-            # For managers/auditors/admins, still enforce non-deleted documents
-            soft_del_predicate = sqlglot.parse_one("documents.is_deleted = false", read="postgres")
-            where_clause = ast.args.get("where")
-            if where_clause:
-                combined_where = exp.Where(
-                    this=exp.And(this=where_clause.this, expression=soft_del_predicate)
-                )
-                ast.set("where", combined_where)
-            else:
-                ast.set("where", exp.Where(this=soft_del_predicate))
+        predicates: List[exp.Expression] = []
+
+        if is_analyst and policy == "scoped":
+            for t in tables_in_query:
+                table_name = t.name.lower()
+                ref = t.alias_or_name
+                if table_name == "documents":
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.uploaded_by = {user.id} AND {ref}.is_deleted = false",
+                            read="postgres",
+                        )
+                    )
+                elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false)",
+                            read="postgres",
+                        )
+                    )
+                elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false))",
+                            read="postgres",
+                        )
+                    )
+                elif table_name == "vendors":
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
+                            read="postgres",
+                        )
+                    )
+                elif table_name == "vendor_aliases":
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.vendor_id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
+                            read="postgres",
+                        )
+                    )
+                else:
+                    # Fail closed on any table without an explicit scoping rule for FINANCE_ANALYST
+                    raise SQLSecurityException(
+                        f"Table '{table_name}' cannot be safely scoped for role '{user.role}'."
+                    )
+        else:
+            # Finance Manager, Auditor, Admin: enforce is_deleted = false on documents and child tables
+            for t in tables_in_query:
+                table_name = t.name.lower()
+                ref = t.alias_or_name
+                if table_name == "documents":
+                    predicates.append(
+                        sqlglot.parse_one(f"{ref}.is_deleted = false", read="postgres")
+                    )
+                elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
+                            read="postgres",
+                        )
+                    )
+                elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE is_deleted = false))",
+                            read="postgres",
+                        )
+                    )
+
+        where_clause = ast.args.get("where")
+        combined_pred = where_clause.this if where_clause else None
+
+        for p in predicates:
+            if p is not None:
+                combined_pred = exp.And(this=combined_pred, expression=p) if combined_pred else p
+
+        if combined_pred:
+            ast.set("where", exp.Where(this=combined_pred))
 
         # 6. Enforce LIMIT <= 100
         limit_clause = ast.args.get("limit")

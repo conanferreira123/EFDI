@@ -54,9 +54,9 @@ def test_party_layout_segmentation():
     ]
     party_text = LLMContextBuilder.format_party_layout(raw_blocks)
     assert party_text is not None
-    assert "Left Section (Vendor / Seller / Header):" in party_text
+    assert "**Left Column:**" in party_text
     assert "Acme Vendor Pvt Ltd" in party_text
-    assert "Right Section (Customer / Buyer / Summary):" in party_text
+    assert "**Right Column:**" in party_text
     assert "Big Client Corp" in party_text
 
 

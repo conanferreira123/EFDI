@@ -102,6 +102,7 @@ def run_ocr(
     """
     doc_service = DocumentService(db)
     document = doc_service.get_for_user(document_id, current_user)
+    doc_service.record_activity(document.id, current_user)
 
     ocr_service = OCRService(db)
     # Determine OCR engine: use payload if provided, otherwise fallback to stored default

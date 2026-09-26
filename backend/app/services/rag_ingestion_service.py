@@ -85,6 +85,7 @@ class RAGIngestionService:
                         document_id=document_id,
                         page_number=c_data.page_number,
                         chunk_type=c_data.chunk_type,
+                        section=c_data.section or "OTHER",
                         content=c_data.content,
                         embedding=vec,
                         metadata_json=c_data.metadata_json,

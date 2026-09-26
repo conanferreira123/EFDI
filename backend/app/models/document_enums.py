@@ -103,3 +103,36 @@ class AuditAction(str, enum.Enum):
     @classmethod
     def values(cls) -> list[str]:
         return [a.value for a in cls]
+
+
+class PaymentStatus(str, enum.Enum):
+    """Payment obligation status representing accounting state."""
+    UNKNOWN = "UNKNOWN"
+    OPEN = "OPEN"
+    PARTIALLY_PAID = "PARTIALLY_PAID"
+    PAID = "PAID"
+    OVERDUE = "OVERDUE"
+
+    @classmethod
+    def values(cls) -> list[str]:
+        return [s.value for s in cls]
+
+
+class ChunkSection(str, enum.Enum):
+    """First-class semantic section for document_chunks in RAG retrieval."""
+    HEADER = "HEADER"
+    SELLER = "SELLER"
+    BUYER = "BUYER"
+    INVOICE_INFORMATION = "INVOICE_INFORMATION"
+    LINE_ITEMS = "LINE_ITEMS"
+    TAX = "TAX"
+    TOTALS = "TOTALS"
+    PAYMENT = "PAYMENT"
+    REFERENCES = "REFERENCES"
+    FOOTER = "FOOTER"
+    OTHER = "OTHER"
+
+    @classmethod
+    def values(cls) -> list[str]:
+        return [s.value for s in cls]
+

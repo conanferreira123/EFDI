@@ -243,9 +243,9 @@ class LLMContextBuilder:
 
         party_lines = []
         if left_texts:
-            party_lines.append("**Left Section (Vendor / Seller / Header):**\n" + "\n".join(left_texts[:10]))
+            party_lines.append("**Left Column:**\n" + "\n".join(left_texts[:10]))
         if right_texts:
-            party_lines.append("**Right Section (Customer / Buyer / Summary):**\n" + "\n".join(right_texts[:10]))
+            party_lines.append("**Right Column:**\n" + "\n".join(right_texts[:10]))
 
         return "\n\n".join(party_lines)
 
@@ -348,16 +348,21 @@ class LLMContextBuilder:
         # 1. Primary Document Text
         sections.append(f"=== PRIMARY DOCUMENT OCR TEXT ===\n\"\"\"\n{context.full_text}\n\"\"\"")
 
-        # 2. Reconstructed / Normalized Table Data (if present and distinct from full_text)
+        # 2. Reconstructed / Normalized Table Data (only if not already embedded in full_text)
         table_md = cls.format_table_as_markdown(context.table_data, context.normalized_data)
-        if table_md and "=== LINE ITEMS ===" not in context.full_text:
+        has_table_in_full_text = "|" in context.full_text and (
+            "| ---" in context.full_text or "|---" in context.full_text or "=== LINE ITEMS ===" in context.full_text
+        )
+        if table_md and not has_table_in_full_text:
             sections.append(f"=== RECONSTRUCTED LINE ITEMS TABLE ===\n{table_md}")
 
-        # 3. Spatial Party & Header Layout (if full_text doesn't already have parties section)
-        if "=== PARTIES ===" not in context.full_text:
+        # 3. Spatial Column Layout (neutral spatial layout if not already in full_text)
+        if context.raw_blocks:
             party_layout = cls.format_party_layout(context.raw_blocks)
             if party_layout:
-                sections.append(f"=== SPATIAL PARTY & HEADER LAYOUT ===\n{party_layout}")
+                sample_lines = [l for l in party_layout.splitlines() if l and not l.startswith("**")]
+                if not sample_lines or not all(l in context.full_text for l in sample_lines):
+                    sections.append(f"=== SPATIAL PARTY & HEADER LAYOUT ===\n{party_layout}")
 
         # 4. OCR Quality & Confidence Signals
         if context.ocr_quality:

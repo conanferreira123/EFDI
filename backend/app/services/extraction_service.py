@@ -177,6 +177,14 @@ class ExtractionService:
             fields_total_count=result_data.fields_total_count,
         )
 
+        # Synchronize extraction results to normalized relational business tables
+        try:
+            from app.services.invoice_persistence_service import InvoicePersistenceService
+            persistence_svc = InvoicePersistenceService(self.db)
+            persistence_svc.sync_from_extraction(document.id, extraction_result.id)
+        except Exception as exc:
+            logger.warning("Could not synchronize business data for document %d: %s", document.id, exc)
+
         # Extraction is what advances the workflow to EXTRACTED -- the
         # combined "classify + extract" conceptual step from the spec,
         # even though they are separate phases/code (per design decision
@@ -238,6 +246,12 @@ class ExtractionService:
         logger.info(
             "Field manually corrected: document_id=%s field=%s", document_id, field_key
         )
+        try:
+            from app.services.invoice_persistence_service import InvoicePersistenceService
+            persistence_svc = InvoicePersistenceService(self.db)
+            persistence_svc.sync_from_extraction(document_id, extraction_result.id)
+        except Exception as exc:
+            logger.warning("Could not re-synchronize business data after correction for document %d: %s", document_id, exc)
         return updated
 
     def get_export_rows(self, document_id: int) -> list[dict]:

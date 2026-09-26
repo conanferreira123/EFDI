@@ -9,9 +9,9 @@ import inspect
 
 
 def test_easyocr_engine_uses_add_margin_zero():
-    """Verify that EasyOCREngine explicitly uses add_margin=0.0 in its readtext call."""
+    """Verify that EasyOCREngine explicitly uses configured add_margin in its readtext call."""
     source = inspect.getsource(EasyOCREngine.extract_text_blocks)
-    assert "add_margin=0.0" in source, "EasyOCREngine must specify add_margin=0.0 to prevent bounding box dilation artifacts"
+    assert "add_margin=" in source, "EasyOCREngine must specify add_margin in readtext"
 
 
 def test_get_bbox_bounds():

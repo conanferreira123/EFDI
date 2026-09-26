@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from app.core.dependencies import get_current_user
 from app.database.session import get_db
 from app.models.user import User
-from app.rag.agent_orchestrator import AgentOrchestrator
+from app.rag.global_agent import GlobalReActAgent
 from app.repositories.chat_history_repository import ChatHistoryRepository
 from app.schemas.chat import (
     ChatHistoryClearResponse,
@@ -39,10 +39,46 @@ def send_global_message(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    orchestrator = AgentOrchestrator(db)
-    return orchestrator.process_global_query(
-        query=payload.message,
+    history_repo = ChatHistoryRepository(db)
+    session = history_repo.get_or_create_global_session(user_id=current_user.id)
+
+    # 1. Fetch recent conversation context
+    history_messages = history_repo.get_langchain_history(session.id, limit=10)
+
+    # 2. Persist incoming user message
+    history_repo.add_message(
+        session_id=session.id,
+        role="user",
+        content=payload.message.strip(),
+    )
+
+    # 3. Invoke Global ReAct Agent
+    agent = GlobalReActAgent(db)
+    agent_result = agent.run(
+        query=payload.message.strip(),
         user=current_user,
+        history=history_messages,
+    )
+
+    # 4. Persist assistant turn with tool execution logs and citations
+    assistant_msg = history_repo.add_message(
+        session_id=session.id,
+        role="assistant",
+        content=agent_result.content,
+        tool_calls=agent_result.tool_calls,
+        citations=agent_result.citations,
+    )
+    db.commit()
+
+    return GlobalChatMessageResponse(
+        session_id=session.id,
+        message_id=assistant_msg.id,
+        role="assistant",
+        content=agent_result.content,
+        tool_calls=agent_result.tool_calls,
+        citations=agent_result.citations,
+        created_at=assistant_msg.created_at.isoformat() if assistant_msg.created_at else "",
+        execution_time_ms=agent_result.execution_time_ms,
     )
 
 

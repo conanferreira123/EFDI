@@ -19,6 +19,7 @@ class ChunkData:
     chunk_type: str  # HEADER, PARTIES, LINE_ITEMS, SUMMARY, TERMS
     content: str
     metadata_json: dict[str, Any] = field(default_factory=dict)
+    section: Optional[str] = None
 
 
 class StructureAwareChunker:
@@ -35,6 +36,16 @@ class StructureAwareChunker:
         "PARTIES": "PARTIES",
         "LINE ITEMS": "LINE_ITEMS",
         "TOTALS & SUMMARY": "SUMMARY",
+    }
+
+    SECTION_TO_FIRST_CLASS_MAP = {
+        "HEADER & METADATA": "HEADER",
+        "PARTIES": "SELLER",
+        "LINE ITEMS": "LINE_ITEMS",
+        "TOTALS & SUMMARY": "TOTALS",
+        "TERMS & CONDITIONS": "PAYMENT",
+        "PREAMBLE": "HEADER",
+        "DOCUMENT_BODY": "OTHER",
     }
 
     def __init__(self, table_max_rows: int = 15, table_window_size: int = 10, table_window_step: int = 8):
@@ -89,34 +100,144 @@ class StructureAwareChunker:
         start_index: int,
         raw_blocks: Optional[List[dict]] = None,
     ) -> List[ChunkData]:
-        """Chunk a single page into sections."""
+        """Chunk a single page into sections using explicit markers or content-aware structure detection."""
         matches = list(self.SECTION_PATTERN.finditer(page_content))
+        if matches:
+            return self._chunk_page_with_markers(page_num, page_content, start_index, matches, raw_blocks)
+        return self._chunk_page_content_aware(page_num, page_content, start_index, raw_blocks)
+
+    def _chunk_page_content_aware(
+        self,
+        page_num: int,
+        page_content: str,
+        start_index: int,
+        raw_blocks: Optional[List[dict]] = None,
+    ) -> List[ChunkData]:
+        """
+        Content-aware page chunking for heading-free structured OCR text.
+        Identifies Markdown table blocks (LINE_ITEMS), preceding content (HEADER),
+        numerical totals (SUMMARY), and contractual clauses (TERMS).
+        """
+        lines = [l.strip() for l in page_content.splitlines()]
+        # Filter non-empty line indices
+        non_empty = [(i, l) for i, l in enumerate(lines) if l]
+        if not non_empty:
+            return []
+
         chunks: List[ChunkData] = []
         current_index = start_index
 
-        if not matches:
-            # No standard section markers found -- treat as general or terms
-            lines = [l.strip() for l in page_content.splitlines() if l.strip()]
-            content = "\n".join(lines)
-            if content:
-                bbox_refs = self._find_bbox_refs(content, raw_blocks, page_num)
+        # Find Markdown table boundary: consecutive lines starting with '|'
+        table_start_idx = None
+        table_end_idx = None
+        for i, line in enumerate(lines):
+            if line.startswith("|") and ("---" in line or "|" in line[1:]):
+                if table_start_idx is None:
+                    # Look back if the preceding line was a table header line (starts with |)
+                    if i > 0 and lines[i - 1].startswith("|"):
+                        table_start_idx = i - 1
+                    else:
+                        table_start_idx = i
+                table_end_idx = i
+            elif table_start_idx is not None and not line.startswith("|"):
+                # Table ended
+                break
+
+        if table_start_idx is not None and table_end_idx is not None:
+            # 1. Pre-table section: Header, metadata, and parties
+            pre_table_lines = [l for l in lines[:table_start_idx] if l]
+            if pre_table_lines:
+                pre_content = "\n".join(pre_table_lines)
+                bbox_refs = self._find_bbox_refs(pre_content, raw_blocks, page_num)
                 chunks.append(
                     ChunkData(
                         chunk_index=current_index,
                         page_number=page_num,
-                        chunk_type="TERMS",
-                        content=content,
+                        chunk_type="HEADER",
+                        content=pre_content,
                         metadata_json={
                             "chunk_index": current_index,
-                            "section": "DOCUMENT_BODY",
+                            "section": "HEADER",
                             "page_number": page_num,
-                            "has_table": "|" in content,
+                            "has_table": False,
                             "bounding_box_refs": bbox_refs,
-                            "line_range": [1, len(lines)],
+                            "line_range": [1, len(pre_table_lines)],
                         },
+                        section="HEADER",
                     )
                 )
+                current_index += 1
+
+            # 2. Table section: Line items
+            table_lines_content = "\n".join(lines[table_start_idx:table_end_idx + 1])
+            table_chunks = self._chunk_table_section(
+                section_body=table_lines_content,
+                page_num=page_num,
+                start_index=current_index,
+                raw_blocks=raw_blocks,
+            )
+            chunks.extend(table_chunks)
+            current_index += len(table_chunks)
+
+            # 3. Post-table section: Totals, summary, and terms
+            post_table_lines = [l for l in lines[table_end_idx + 1:] if l]
+            if post_table_lines:
+                post_content = "\n".join(post_table_lines)
+                post_chunks = self._chunk_summary_and_terms(
+                    section_body=post_content,
+                    page_num=page_num,
+                    start_index=current_index,
+                    raw_blocks=raw_blocks,
+                )
+                chunks.extend(post_chunks)
+                current_index += len(post_chunks)
+
             return chunks
+
+        # Non-tabular document handling:
+        # Check if page contains summary or terms triggers
+        summary_chunks = self._chunk_summary_and_terms(
+            section_body=page_content,
+            page_num=page_num,
+            start_index=current_index,
+            raw_blocks=raw_blocks,
+        )
+        if summary_chunks:
+            return summary_chunks
+
+        # Fallback for plain narrative/general documents
+        content = "\n".join([l for l in lines if l])
+        bbox_refs = self._find_bbox_refs(content, raw_blocks, page_num)
+        chunks.append(
+            ChunkData(
+                chunk_index=current_index,
+                page_number=page_num,
+                chunk_type="TERMS",
+                content=content,
+                metadata_json={
+                    "chunk_index": current_index,
+                    "section": "DOCUMENT_BODY",
+                    "page_number": page_num,
+                    "has_table": False,
+                    "bounding_box_refs": bbox_refs,
+                    "line_range": [1, len(lines)],
+                },
+                section="OTHER",
+            )
+        )
+        return chunks
+
+    def _chunk_page_with_markers(
+        self,
+        page_num: int,
+        page_content: str,
+        start_index: int,
+        matches: List[Any],
+        raw_blocks: Optional[List[dict]] = None,
+    ) -> List[ChunkData]:
+        """Legacy chunking using explicit section markers."""
+        chunks: List[ChunkData] = []
+        current_index = start_index
 
         # Process any content before the first section marker (e.g. leading header)
         if matches[0].start() > 0:
@@ -138,6 +259,7 @@ class StructureAwareChunker:
                             "bounding_box_refs": bbox_refs,
                             "line_range": [1, len(preamble_lines)],
                         },
+                        section="HEADER",
                     )
                 )
                 current_index += 1
@@ -188,6 +310,7 @@ class StructureAwareChunker:
                             "bounding_box_refs": bbox_refs,
                             "line_range": [1, len(lines)],
                         },
+                        section=self.SECTION_TO_FIRST_CLASS_MAP.get(section_name, "OTHER"),
                     )
                 )
                 current_index += 1
@@ -217,7 +340,7 @@ class StructureAwareChunker:
                     chunk_index=current_index,
                     page_number=page_num,
                     chunk_type="LINE_ITEMS",
-                    content=f"=== LINE ITEMS ===\n{section_body}",
+                    content=section_body,
                     metadata_json={
                         "chunk_index": current_index,
                         "section": "LINE ITEMS",
@@ -226,6 +349,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(lines)],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             return chunks
@@ -246,7 +370,7 @@ class StructureAwareChunker:
 
         if len(data_rows) <= self.table_max_rows:
             # Table is small enough to keep intact in a single chunk
-            full_content = "=== LINE ITEMS ===\n"
+            full_content = ""
             if non_table_lines:
                 full_content += "\n".join(non_table_lines) + "\n\n"
             full_content += "\n".join(table_lines)
@@ -267,6 +391,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(lines)],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             return chunks
@@ -282,9 +407,7 @@ class StructureAwareChunker:
             end_row = min(start_row + window_size, total_rows)
             sliced_data = data_rows[start_row:end_row]
 
-            window_content = (
-                f"=== LINE ITEMS (Rows {start_row + 1}-{end_row} of {total_rows}) ===\n"
-            )
+            window_content = ""
             if header_str:
                 window_content += f"{header_str}\n"
             window_content += "\n".join(sliced_data)
@@ -307,6 +430,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [start_row + 1, end_row],
                     },
+                    section="LINE_ITEMS",
                 )
             )
             current_index += 1
@@ -362,7 +486,7 @@ class StructureAwareChunker:
 
         # Emit SUMMARY chunk if totals found
         if totals_lines:
-            summary_text = "=== TOTALS & SUMMARY ===\n" + "\n".join(totals_lines)
+            summary_text = "\n".join(totals_lines)
             bbox_refs = self._find_bbox_refs(summary_text, raw_blocks, page_num)
             chunks.append(
                 ChunkData(
@@ -378,13 +502,14 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [1, len(totals_lines)],
                     },
+                    section="TOTALS",
                 )
             )
             current_index += 1
 
         # Emit TERMS chunk for trailing contractual clauses
         if terms_lines:
-            terms_text = "=== TERMS & CONDITIONS ===\n" + "\n".join(terms_lines)
+            terms_text = "\n".join(terms_lines)
             bbox_refs = self._find_bbox_refs(terms_text, raw_blocks, page_num)
             chunks.append(
                 ChunkData(
@@ -400,6 +525,7 @@ class StructureAwareChunker:
                         "bounding_box_refs": bbox_refs,
                         "line_range": [len(totals_lines) + 1, len(lines)],
                     },
+                    section="PAYMENT",
                 )
             )
 
