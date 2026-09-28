@@ -84,19 +84,47 @@ class ChatHistoryRepository:
         return msg
 
     def get_session_history(self, session_id: int, limit: int = 50) -> List[ChatMessage]:
-        """Fetch chronological message history for a session."""
+        """Fetch chronological message history for a session (most recent N turns).
+
+        Queries the newest `limit` messages ordered by `created_at DESC, id DESC`,
+        and reverses them in Python so callers receive chronological order
+        (oldest -> newest) while ensuring the window tracks the latest turns.
+        """
         stmt = (
             select(ChatMessage)
             .where(ChatMessage.session_id == session_id)
-            .order_by(ChatMessage.created_at.asc())
+            .order_by(ChatMessage.created_at.desc(), ChatMessage.id.desc())
             .limit(limit)
         )
-        return list(self.db.scalars(stmt).all())
+        newest_desc = list(self.db.scalars(stmt).all())
+        return list(reversed(newest_desc))
+
+    def get_session_state(self, session_id: int) -> dict:
+        """Fetch current structured conversation state for a session."""
+        stmt = select(ChatSession.state_json).where(ChatSession.id == session_id)
+        result = self.db.scalar(stmt)
+        return result or {}
+
+    def update_session_state(self, session_id: int, state_updates: dict) -> dict:
+        """Merge updates into the structured conversation state for a session."""
+        session = self.db.get(ChatSession, session_id)
+        if not session:
+            return {}
+        current_state = dict(session.state_json or {})
+        current_state.update(state_updates)
+        session.state_json = current_state
+        self.db.flush()
+        return current_state
 
     def clear_session_history(self, session_id: int) -> int:
         """Delete all messages belonging to a chat session."""
         stmt = delete(ChatMessage).where(ChatMessage.session_id == session_id)
         result = self.db.execute(stmt)
+        # Also reset session state
+        session = self.db.get(ChatSession, session_id)
+        if session:
+            session.state_json = {}
+            self.db.flush()
         return result.rowcount
 
     def get_langchain_history(self, session_id: int, limit: int = 10) -> list:
@@ -109,8 +137,13 @@ class ChatHistoryRepository:
             if m.role == "user" and m.content:
                 lc_messages.append(HumanMessage(content=m.content))
             elif m.role == "assistant" and m.content:
-                lc_messages.append(AIMessage(content=m.content))
+                extra = {
+                    "tool_calls": m.tool_calls or [],
+                    "has_verified_tool_evidence": bool(m.tool_calls),
+                }
+                lc_messages.append(AIMessage(content=m.content, additional_kwargs=extra))
             elif m.role == "system" and m.content:
                 lc_messages.append(SystemMessage(content=m.content))
         return lc_messages
+
 

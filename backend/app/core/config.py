@@ -81,6 +81,7 @@ class Settings(BaseSettings):
     RAG_FINAL_TOP_K: int = 5
     RAG_RERANKER_MIN_SCORE: float = -3.0
     GLOBAL_CHAT_ANALYST_POLICY: str = "scoped"  # "scoped" (Option A: uploaded_by=user.id) or "forbidden" (Option B: 403)
+    CHAT_HISTORY_LIMIT: int = 10  # Maximum messages retained in recent conversation window
 
     # --- CORS ---
     CORS_ORIGINS: str = "http://localhost:5173"

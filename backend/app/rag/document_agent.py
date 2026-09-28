@@ -4,6 +4,7 @@ Coordinates Document RAG and Financial Calculator tools scoped strictly to a sin
 document without exposure to the Database / Text-to-SQL tool.
 """
 import logging
+import re
 import time
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
@@ -31,13 +32,56 @@ OPERATIONAL GUIDELINES:
 - For exact discount totals, net payable amounts, or deadline dates, invoke financial_calculator_tool.
 - Answer ONLY from verified tool observations. NEVER invent or extrapolate terms or figures.
 - When sufficient information has been gathered, provide a concise, professional, grounded final answer citing relevant chunk and page numbers where applicable.
+
+CONVERSATIONAL CONTINUITY & EVIDENCE RULES:
+- When the user asks a follow-up or confirms an offer, resolve their intent using the immediate dialogue context.
+- Verified tool observations ALWAYS take precedence over historical assistant statements or conversational text.
+- If a tool search returns no matching clauses or negative evidence, report clearly that the document was searched and does not contain those terms.
+- Do NOT repeatedly query equivalent variations of the same search if previous attempts yielded no relevant clauses.
+- Do NOT repeat an offer or question you already extended and executed in the same dialogue thread.
 """
 
 MAX_ITERATIONS = 5
 
 
+def _is_redundant_query(tool_name: str, query_str: str, executed_queries: Any) -> bool:
+    """Check if query_str is substantially duplicate to an already executed query for this tool."""
+    if not query_str or not executed_queries:
+        return False
+
+    q_lower = query_str.lower().strip()
+    stopwords = {"the", "for", "and", "or", "in", "of", "to", "document", "details", "any", "other", "is", "a", "an"}
+    words_a = {w for w in re.findall(r"\b[a-z0-9]+\b", q_lower) if len(w) > 2 and w not in stopwords}
+
+    for item in executed_queries:
+        if isinstance(item, dict):
+            prev_tool = item.get("tool") or item.get("name")
+            prev_q = item.get("query") or item.get("input") or ""
+        elif isinstance(item, (list, tuple)) and len(item) >= 2:
+            prev_tool, prev_q = item[0], item[1]
+        else:
+            continue
+
+        if prev_tool != tool_name:
+            continue
+        prev_lower = prev_q.lower().strip()
+        if q_lower == prev_lower:
+            return True
+        # For document_rag_tool, check high keyword overlap
+        if tool_name == "document_rag_tool":
+            words_b = {w for w in re.findall(r"\b[a-z0-9]+\b", prev_lower) if len(w) > 2 and w not in stopwords}
+            if words_a and words_b:
+                overlap = len(words_a & words_b) / len(words_a | words_b)
+                if overlap >= 0.70:
+                    return True
+
+    return False
+
+
 class DocumentReActAgent:
     """Dynamic ReAct Agent scoped strictly to a single document (/api/v1/chat/documents/{id})."""
+
+    _is_redundant_query = staticmethod(_is_redundant_query)
 
     def __init__(self, db: Session, llm: Optional[Any] = None) -> None:
         self.db = db
@@ -76,6 +120,8 @@ class DocumentReActAgent:
 
         final_content = ""
         chronological_tool_logs: List[Dict[str, Any]] = []
+        executed_tool_queries: List[tuple[str, str]] = []
+        should_break_loop = False
 
         # 4. Iterative ReAct Loop (max 5 iterations)
         for step in range(MAX_ITERATIONS):
@@ -96,11 +142,13 @@ class DocumentReActAgent:
             for tc in tool_calls:
                 if len(chronological_tool_logs) >= MAX_ITERATIONS:
                     logger.info("[DocumentReActAgent] Reached maximum allowed tool steps (%d)", MAX_ITERATIONS)
+                    should_break_loop = True
                     break
 
                 tool_name = tc.get("name")
                 tool_args = tc.get("args", {})
                 tool_id = tc.get("id") or f"call_{step}_{tool_name}"
+                query_str = str(tool_args.get("query", tool_args.get("expression", ""))).strip()
 
                 target_tool = tool_map.get(tool_name)
                 if not target_tool:
@@ -110,28 +158,52 @@ class DocumentReActAgent:
                         "status": "error",
                         "error": f"Tool '{tool_name}' is not available for document chat",
                     })
-                else:
-                    pre_count = len(target_tool.execution_logs)
-                    try:
-                        obs = target_tool.invoke(tool_args)
-                    except Exception as tool_err:
-                        logger.warning("[DocumentReActAgent] Tool '%s' error: %s", tool_name, tool_err)
-                        obs = f"Error executing tool '{tool_name}': {tool_err}"
+                    messages.append(ToolMessage(content=str(obs), tool_call_id=tool_id))
+                    continue
 
-                    if len(target_tool.execution_logs) > pre_count:
-                        chronological_tool_logs.append(target_tool.execution_logs[-1])
-                    else:
-                        chronological_tool_logs.append({
-                            "tool": tool_name,
-                            "summary": f"Executed {tool_name}",
-                        })
+                # Check redundant tool-call loop guard
+                if _is_redundant_query(tool_name, query_str, executed_tool_queries):
+                    logger.info(
+                        "[DocumentReActAgent] Loop guard intercepted redundant call to '%s' with query %r",
+                        tool_name,
+                        query_str,
+                    )
+                    obs = (
+                        f"Notice: An equivalent search for '{query_str}' has already been executed in this turn. "
+                        "No additional matching clauses were found. "
+                        "Please synthesize your final grounded answer based on available verified observations."
+                    )
+                    chronological_tool_logs.append({
+                        "tool": tool_name,
+                        "summary": f"Suppressed redundant search for: {query_str[:50]}",
+                        "status": "redundant_suppressed",
+                    })
+                    messages.append(ToolMessage(content=obs, tool_call_id=tool_id))
+                    should_break_loop = True
+                    continue
+
+                executed_tool_queries.append((tool_name, query_str))
+                pre_count = len(target_tool.execution_logs)
+                try:
+                    obs = target_tool.invoke(tool_args)
+                except Exception as tool_err:
+                    logger.warning("[DocumentReActAgent] Tool '%s' error: %s", tool_name, tool_err)
+                    obs = f"Error executing tool '{tool_name}': {tool_err}"
+
+                if len(target_tool.execution_logs) > pre_count:
+                    chronological_tool_logs.append(target_tool.execution_logs[-1])
+                else:
+                    chronological_tool_logs.append({
+                        "tool": tool_name,
+                        "summary": f"Executed {tool_name}",
+                    })
 
                 messages.append(ToolMessage(content=str(obs), tool_call_id=tool_id))
 
-            if len(chronological_tool_logs) >= MAX_ITERATIONS:
+            if should_break_loop or len(chronological_tool_logs) >= MAX_ITERATIONS:
                 break
 
-        # 5. If max iterations reached without final answer, request synthesis
+        # 5. If max iterations reached or loop broken without final answer, request synthesis
         if not final_content and len(messages) > 0:
             try:
                 synthesis_prompt = HumanMessage(
@@ -143,6 +215,7 @@ class DocumentReActAgent:
                     final_content = resp_str.strip()
                 else:
                     final_content = "The inquiry reached the maximum iteration limit without finding a complete answer. Please refine your question."
+
             except Exception as e:
                 logger.warning("[DocumentReActAgent] Max-iteration synthesis failed: %s", e)
                 final_content = "The inquiry reached the maximum iteration limit without finding a complete answer. Please refine your question."

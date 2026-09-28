@@ -24,6 +24,9 @@ class ChatSession(Base, TimestampMixin):
         ForeignKey("documents.id", ondelete="CASCADE"), nullable=True, index=True
     )
     title: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    state_json: Mapped[dict] = mapped_column(
+        JSONB, nullable=True, server_default=text("'{}'::jsonb")
+    )
 
     user = relationship("User", lazy="joined")
     document = relationship("Document", lazy="joined")

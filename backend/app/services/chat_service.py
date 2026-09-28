@@ -9,9 +9,11 @@ import logging
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.models.document import Document
 from app.models.document_enums import DocumentStatus
 from app.models.user import User
+from app.rag.context_resolver import ConversationContextResolver
 from app.rag.llm_client import get_llm_client
 from app.repositories.chat_history_repository import ChatHistoryRepository
 from app.repositories.ocr_result_repository import OCRResultRepository
@@ -88,18 +90,83 @@ class ChatService:
             user_id=user.id, document_id=document.id
         )
 
-        # 3. Fetch recent conversation history as LangChain messages
-        history_messages = self.history_repo.get_langchain_history(session.id, limit=10)
+        # 3. Fetch recent conversation history as LangChain messages (bounded sliding window)
+        history_messages = self.history_repo.get_langchain_history(
+            session.id, limit=settings.CHAT_HISTORY_LIMIT
+        )
 
-        # 4. Persist user message
+        # 4. Fetch structured conversation state
+        session_state = self.history_repo.get_session_state(session.id)
+        if "active_document_id" not in session_state or session_state["active_document_id"] != document.id:
+            session_state["active_document_id"] = document.id
+
+        # 5. Persist user message
         self.history_repo.add_message(
             session_id=session.id,
             role="user",
             content=user_message.strip(),
         )
 
-        # 4b. Precondition: OCR Completion Check for Document Content Queries
-        if not self._is_ocr_completed(document) and self._is_document_content_query(user_message):
+        # 6. Conversational Context Resolution
+        resolver = ConversationContextResolver(llm_client=self.llm_client)
+        resolution = resolver.resolve(
+            query=user_message.strip(),
+            history=history_messages,
+            session_state=session_state,
+        )
+
+        # 6a. Negative Confirmation Handling: no RAG or tool execution required
+        if resolution.action_type == "confirmation_negative":
+            session_state["pending_offer"] = None
+            self.history_repo.update_session_state(session.id, session_state)
+            ack_content = (
+                "Understood. Please let me know if you would like to explore or analyze "
+                "anything else regarding this document."
+            )
+            assistant_msg = self.history_repo.add_message(
+                session_id=session.id,
+                role="assistant",
+                content=ack_content,
+                tool_calls=[],
+                citations=[],
+            )
+            self.db.commit()
+            return {
+                "session_id": session.id,
+                "message_id": assistant_msg.id,
+                "role": "assistant",
+                "content": ack_content,
+                "citations": [],
+                "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
+            }
+
+        # 6b. Ambiguous Reference Handling: request clarification without fabricating evidence
+        if resolution.is_ambiguous or resolution.action_type == "clarification":
+            clarification_content = (
+                resolution.contextualized_query
+                or "Could you please clarify what specific detail, section, or item you are referring to?"
+            )
+            assistant_msg = self.history_repo.add_message(
+                session_id=session.id,
+                role="assistant",
+                content=clarification_content,
+                tool_calls=[],
+                citations=[],
+            )
+            self.db.commit()
+            return {
+                "session_id": session.id,
+                "message_id": assistant_msg.id,
+                "role": "assistant",
+                "content": clarification_content,
+                "citations": [],
+                "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
+            }
+
+        effective_query = resolution.contextualized_query
+
+        # 7. Precondition: OCR Completion Check for Document Content Queries
+        if not self._is_ocr_completed(document) and self._is_document_content_query(effective_query):
             ocr_required_content = (
                 "OCR has not been run for this document yet. Please run OCR on the "
                 "document first, then I can answer questions about its contents."
@@ -122,17 +189,37 @@ class ChatService:
                 "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
             }
 
-        # 5. Invoke Document ReAct Agent (strictly scoped to this document, NO SQL tool)
+        # 8. Invoke Document ReAct Agent (strictly scoped to this document, NO SQL tool)
         from app.rag.document_agent import DocumentReActAgent
         agent = DocumentReActAgent(self.db)
         agent_result = agent.run(
             document_id=document.id,
-            query=user_message.strip(),
+            query=effective_query,
             user=user,
             history=history_messages,
         )
 
-        # 6. Persist assistant response with citations and tool metadata
+        # 9. Update Structured State Lifecycle
+        # If user accepted a pending offer, clear it so it isn't repeated on subsequent turns
+        if resolution.action_type == "confirmation_affirmative":
+            session_state["pending_offer"] = None
+
+        # Detect if new assistant response makes an offer or asks a confirmation question
+        new_offer = resolver.extract_pending_offer(agent_result.content)
+        session_state["pending_offer"] = new_offer
+
+        # Track verified tool evidence if tools were executed
+        if agent_result.tool_calls:
+            verified = session_state.get("verified_facts", [])
+            for tc in agent_result.tool_calls:
+                tool_name = tc.get("tool") or tc.get("name")
+                if tool_name:
+                    verified.append({"tool": tool_name, "query": tc.get("query") or tc.get("input")})
+            session_state["verified_facts"] = verified[-10:]
+
+        self.history_repo.update_session_state(session.id, session_state)
+
+        # 10. Persist assistant response with citations and tool metadata
         assistant_msg = self.history_repo.add_message(
             session_id=session.id,
             role="assistant",
