@@ -73,85 +73,127 @@ class OCRService:
 
             start_time = time.monotonic()
 
-            preprocessing_decisions = []
-            if document.mime_type == "application/pdf":
-                pages = rasterize_pdf(file_bytes)
-                preprocessed_pages = []
-                for p in pages:
-                    proc_img, decision = AdaptivePreprocessor.process(p)
-                    preprocessed_pages.append(proc_img)
-                    preprocessing_decisions.append(decision.to_dict())
+            if engine_name in ("docling", "paddleocr-vl-1.6") or hasattr(engine, "extract_from_file"):
+                # Docling / Modern File-Level Target Architecture:
+                # PDF -> Docling -> Business Validation -> DB / RAG
+                # Direct file path input: no EFDI-side PyMuPDF rasterization, no OpenCV preprocessing
+                from app.ocr.markdown_table_parser import parse_markdown_table
+
+                result_data = engine.extract_from_file(file_path)
+                strategy = "DOCLING_NATIVE" if engine_name == "docling" else "PADDLEOCR_VL_NATIVE"
+                preprocessing_decisions = [{"strategy_name": strategy}]
+
+                raw_blocks = [
+                    {
+                        "page_number": p.page_number,
+                        "page_width": 1000.0,
+                        "page_height": 1400.0,
+                        "blocks": [
+                            {
+                                "text": block.text,
+                                "confidence": block.confidence,
+                                "bounding_box": block.bounding_box,
+                            }
+                            for block in p.blocks
+                        ],
+                    }
+                    for p in result_data.pages
+                ]
+
+                # Business validation on native Markdown table output (runtime in-memory)
+                table_dict = parse_markdown_table(result_data.full_text)
+                normalized_items = normalize_table_data(table_dict)
+                validation_res = validate_ocr_output(normalized_items, raw_full_text=result_data.full_text)
+                quality_breakdown = calculate_quality_score(
+                    avg_confidence=result_data.average_confidence,
+                    full_text=result_data.full_text,
+                    table_data=table_dict,
+                    validation_result=validation_res,
+                )
+                table_items_count = len(table_dict.get("line_items", []))
             else:
-                image = load_image_bytes(file_bytes)
-                proc_img, decision = AdaptivePreprocessor.process(image)
-                preprocessed_pages = [proc_img]
-                preprocessing_decisions.append(decision.to_dict())
+                # Legacy EasyOCR pipeline:
+                # PDF -> Rasterize -> Preprocess -> EasyOCR -> Spatial Order -> Table Reconstruction -> Normalization -> Validation
+                preprocessing_decisions = []
+                if document.mime_type == "application/pdf":
+                    pages = rasterize_pdf(file_bytes)
+                    preprocessed_pages = []
+                    for p in pages:
+                        proc_img, decision = AdaptivePreprocessor.process(p)
+                        preprocessed_pages.append(proc_img)
+                        preprocessing_decisions.append(decision.to_dict())
+                else:
+                    image = load_image_bytes(file_bytes)
+                    proc_img, decision = AdaptivePreprocessor.process(image)
+                    preprocessed_pages = [proc_img]
+                    preprocessing_decisions.append(decision.to_dict())
 
-            result_data = OCRResultData(engine_name=engine.name)
-            raw_blocks = []
-            structured_pages = []
+                result_data = OCRResultData(engine_name=engine.name)
+                raw_blocks = []
+                structured_pages = []
 
-            for page_number, page_image in enumerate(preprocessed_pages, start=1):
-                raw_extracted_blocks = engine.extract_text_blocks(page_image)
-                page_h, page_w = page_image.shape[:2]
+                for page_number, page_image in enumerate(preprocessed_pages, start=1):
+                    raw_extracted_blocks = engine.extract_text_blocks(page_image)
+                    page_h, page_w = page_image.shape[:2]
 
-                # Preserve 100% original raw OCR detections for auditing / debugging
-                raw_blocks.append({
-                    "page_number": page_number,
-                    "page_width": page_w,
-                    "page_height": page_h,
-                    "blocks": [
-                        {
-                            "text": block.text,
-                            "confidence": block.confidence,
-                            "bounding_box": block.bounding_box,
-                        }
-                        for block in raw_extracted_blocks
-                    ],
-                })
+                    # Preserve 100% original raw OCR detections for auditing / debugging
+                    raw_blocks.append({
+                        "page_number": page_number,
+                        "page_width": page_w,
+                        "page_height": page_h,
+                        "blocks": [
+                            {
+                                "text": block.text,
+                                "confidence": block.confidence,
+                                "bounding_box": block.bounding_box,
+                            }
+                            for block in raw_extracted_blocks
+                        ],
+                    })
 
-                # Reconstruct table and build structured page intermediate representation
-                table_obj = reconstruct_table(
-                    raw_extracted_blocks, page_width=page_w, page_height=page_h
+                    # Reconstruct table and build structured page intermediate representation
+                    table_obj = reconstruct_table(
+                        raw_extracted_blocks, page_width=page_w, page_height=page_h
+                    )
+                    structured_page = build_structured_page(
+                        raw_extracted_blocks,
+                        table=table_obj,
+                        page_width=page_w,
+                        page_height=page_h,
+                        page_number=page_number,
+                    )
+                    structured_pages.append(structured_page)
+
+                    ordered_blocks = order_blocks_spatially(
+                        raw_extracted_blocks, page_width=page_w, page_height=page_h
+                    )
+                    result_data.pages.append(
+                        OCRPageResult(page_number=page_number, blocks=ordered_blocks)
+                    )
+
+                # Generate structured full_text from structured document representation
+                if getattr(settings, "ENABLE_STRUCTURED_FULL_TEXT", True):
+                    structured_full_text = generate_structured_full_text(structured_pages)
+                    result_data.custom_full_text = structured_full_text
+
+                # Downstream Roadmap Processing: Table -> Normalization -> Validation -> Quality
+                all_page_blocks = raw_blocks[0].get("blocks", []) if raw_blocks else []
+                pw = raw_blocks[0].get("page_width", 1000.0) if raw_blocks else 1000.0
+                ph = raw_blocks[0].get("page_height", 1400.0) if raw_blocks else 1400.0
+
+                table_obj = reconstruct_table(all_page_blocks, page_width=pw, page_height=ph)
+                table_dict = table_obj.to_dict()
+                normalized_items = normalize_table_data(table_dict)
+                validation_res = validate_ocr_output(normalized_items, raw_full_text=result_data.full_text)
+                quality_breakdown = calculate_quality_score(
+                    avg_confidence=result_data.average_confidence,
+                    full_text=result_data.full_text,
+                    table_data=table_dict,
+                    validation_result=validation_res,
                 )
-                structured_page = build_structured_page(
-                    raw_extracted_blocks,
-                    table=table_obj,
-                    page_width=page_w,
-                    page_height=page_h,
-                    page_number=page_number,
-                )
-                structured_pages.append(structured_page)
-
-                ordered_blocks = order_blocks_spatially(
-                    raw_extracted_blocks, page_width=page_w, page_height=page_h
-                )
-                result_data.pages.append(
-                    OCRPageResult(page_number=page_number, blocks=ordered_blocks)
-                )
-
-            # Generate structured full_text from structured document representation
-            if getattr(settings, "ENABLE_STRUCTURED_FULL_TEXT", True):
-                structured_full_text = generate_structured_full_text(structured_pages)
-                result_data.custom_full_text = structured_full_text
+                table_items_count = len(table_obj.line_items)
 
             elapsed_ms = int((time.monotonic() - start_time) * 1000)
-
-            # Downstream Roadmap Processing: Table -> Normalization -> Validation -> Quality
-            all_page_blocks = raw_blocks[0].get("blocks", []) if raw_blocks else []
-            pw = raw_blocks[0].get("page_width", 1000.0) if raw_blocks else 1000.0
-            ph = raw_blocks[0].get("page_height", 1400.0) if raw_blocks else 1400.0
-
-            table_obj = reconstruct_table(all_page_blocks, page_width=pw, page_height=ph)
-            table_dict = table_obj.to_dict()
-            normalized_items = normalize_table_data(table_dict)
-            validation_res = validate_ocr_output(normalized_items, raw_full_text=result_data.full_text)
-            quality_breakdown = calculate_quality_score(
-                avg_confidence=result_data.average_confidence,
-                full_text=result_data.full_text,
-                table_data=table_dict,
-                validation_result=validation_res,
-            )
 
             # Determine final document status based on OCR output
             if not result_data.full_text.strip():
@@ -197,7 +239,7 @@ class OCRService:
                 details={
                     "engine": engine_name,
                     "status": final_status,
-                    "table_items_count": len(table_obj.line_items),
+                    "table_items_count": table_items_count,
                     "quality_score": quality_breakdown.overall_quality_score,
                     "quality_grade": quality_breakdown.quality_grade,
                     "validation_passed": validation_res.is_valid,

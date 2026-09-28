@@ -97,7 +97,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
   ];
 
   return (
-    <Card className="flex h-[680px] flex-col overflow-hidden border border-ink-200 shadow-sm">
+    <Card className="flex flex-col overflow-hidden border border-ink-200 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between border-b border-ink-100 bg-ink-50/50 py-3 px-5">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -105,10 +105,10 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
           </div>
           <div>
             <CardTitle className="text-sm font-semibold text-ink-900">
-              Document Assistant · {originalFilename}
+              Document Intelligence Assistant
             </CardTitle>
             <CardDescription className="text-xs text-ink-500">
-              Grounded exclusively in OCR content for Document #{documentId}
+              AI-powered analysis of this financial document
             </CardDescription>
           </div>
         </div>
@@ -127,23 +127,23 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
       </CardHeader>
 
       {/* Messages area */}
-      <CardContent className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+      <CardContent className={`bg-white ${messages.length > 0 ? "p-4 space-y-4" : "px-4 py-6"}`}>
         {isFetchingHistory ? (
-          <div className="flex h-full items-center justify-center text-xs text-ink-400">
+          <div className="flex items-center justify-center py-12 text-xs text-ink-400">
             Loading conversation history…
           </div>
         ) : messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center px-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/5 text-primary mb-3">
-              <Bot className="h-6 w-6" />
+          <div className="flex flex-col items-center text-center max-w-lg mx-auto">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/5 text-primary mb-2.5">
+              <Bot className="h-5 w-5" />
             </div>
             <h4 className="text-sm font-medium text-ink-900 mb-1">
               Ask questions about this document
             </h4>
-            <p className="text-xs text-ink-400 max-w-sm mb-5">
+            <p className="text-xs text-ink-400 max-w-sm mb-4">
               Ask about payment terms, early payment discounts, Incoterms, freight clauses, or penalty details.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
               {promptSuggestions.map((prompt, idx) => (
                 <button
                   key={idx}
@@ -173,7 +173,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                     {isUser ? (
                       <span>{user?.full_name || "You"}</span>
                     ) : (
-                      <span>Document Assistant</span>
+                      <span>Document Intelligence Assistant</span>
                     )}
                   </div>
                   <div

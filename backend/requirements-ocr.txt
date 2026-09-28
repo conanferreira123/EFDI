@@ -26,7 +26,10 @@
 # model dir if your deployment has no internet egress; see PaddleOCR's
 # own docs for the relevant constructor arguments.
 
+docling==2.130.0
 easyocr==1.7.2
+
+# --- Legacy OCR engine dependencies (deprecated in favor of Docling) ---
 paddleocr==3.7.0
 paddlepaddle==3.2.2
 paddlex==3.7.1

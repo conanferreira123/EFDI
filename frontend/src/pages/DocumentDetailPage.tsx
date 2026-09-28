@@ -138,7 +138,7 @@ export function DocumentDetailPage() {
           <TabsTrigger value="workflow">Workflow</TabsTrigger>
           <TabsTrigger value="chat" className="flex items-center gap-1.5 font-medium text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            Ask AI
+            Analyze with AI
           </TabsTrigger>
         </TabsList>
 

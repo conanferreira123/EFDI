@@ -171,7 +171,8 @@ def test_engine_status_reports_all_supported_engines():
     # exception), so it must never be reachable via the API. EasyOCR
     # is the supported production engine.
     status = get_engine_status()
-    assert set(status.keys()) == {"easyocr", "stub"}
+    assert "docling" in status
+    assert status["docling"]["is_production_engine"] is True
     assert status["stub"]["available"] is True
     assert status["stub"]["is_production_engine"] is False
     assert status["easyocr"]["is_production_engine"] is True
@@ -213,9 +214,7 @@ def test_ocr_engines_endpoint_is_public_and_reports_status():
     assert response.status_code == 200
     body = response.json()
     assert "stub" in body["engines"]
-    # easyocr is the production default (paddleocr was removed --
-    # see test_engine_status_reports_all_supported_engines).
-    assert body["default_engine"] == "easyocr"
+    assert body["default_engine"] == "docling"
 
 
 def test_run_ocr_with_stub_engine_succeeds_and_advances_status():

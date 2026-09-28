@@ -205,27 +205,16 @@ export function DocumentsListPage() {
               <div
                 key={doc.id}
                 onClick={() => navigate(`/documents/${doc.id}`)}
-                className="group flex flex-col justify-between rounded-xl border border-ink-100 bg-paper-50 p-3.5 cursor-pointer transition-all hover:border-ink-300 hover:shadow-xs"
+                className="group flex items-center rounded-xl border border-ink-100 bg-paper-50 p-3 cursor-pointer transition-all hover:border-ink-300 hover:shadow-xs min-w-0"
                 style={{ borderLeft: `3px solid ${STATUS_ACCENT[doc.status]}` }}
               >
-                <div className="space-y-1.5 overflow-hidden">
-                  <div className="flex items-center gap-1.5">
-                    <FileText className="h-3.5 w-3.5 shrink-0 text-ink-400 group-hover:text-ink-600" />
-                    <span
-                      className="truncate text-xs font-medium text-ink-900"
-                      title={doc.original_filename}
-                    >
-                      {basename(doc.original_filename)}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-ink-500">
-                    {DOCUMENT_TYPE_LABELS[doc.document_type as DocumentType]}
-                  </p>
-                </div>
-                <div className="mt-3 flex items-center justify-between pt-2 border-t border-ink-100/60">
-                  <StatusBadge status={doc.status} />
-                  <span className="font-data text-[10px] text-ink-400">
-                    {formatFileSize(doc.file_size_bytes)}
+                <div className="flex items-center gap-1.5 overflow-hidden min-w-0">
+                  <FileText className="h-3.5 w-3.5 shrink-0 text-ink-400 group-hover:text-ink-600" />
+                  <span
+                    className="truncate text-xs font-medium text-ink-900"
+                    title={doc.original_filename}
+                  >
+                    {basename(doc.original_filename)}
                   </span>
                 </div>
               </div>
