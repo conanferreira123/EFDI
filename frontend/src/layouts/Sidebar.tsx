@@ -74,10 +74,10 @@ export function Sidebar() {
             to={item.to}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all",
+                "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all",
                 isActive
-                  ? "bg-[var(--color-sidebar-active)] text-white shadow-md shadow-[var(--color-sidebar-active)]/30"
-                  : "text-[var(--color-sidebar-text-muted)] hover:bg-white/5 hover:text-[var(--color-sidebar-text)]"
+                  ? "bg-[var(--color-sidebar-active)] text-white font-bold shadow-md shadow-[var(--color-sidebar-active)]/30"
+                  : "text-[var(--color-sidebar-text-muted)] font-normal hover:bg-white/5 hover:text-[var(--color-sidebar-text)]"
               )
             }
           >

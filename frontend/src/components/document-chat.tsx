@@ -152,7 +152,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
           </div>
           <div>
             <CardTitle className="text-sm font-semibold text-ink-900">
-              Document Intelligence Assistant
+              EFDI Bot
             </CardTitle>
             <CardDescription className="text-xs text-ink-500">
               AI-powered analysis of this financial document
@@ -220,7 +220,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                     {isUser ? (
                       <span>{user?.full_name || "You"}</span>
                     ) : (
-                      <span>Document Intelligence Assistant</span>
+                      <span>EFDI Bot</span>
                     )}
                   </div>
                   <div

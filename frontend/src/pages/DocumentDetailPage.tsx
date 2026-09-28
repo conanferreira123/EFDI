@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Trash2, Download, FileText, Sparkles } from "lucide-react";
 import { useDocumentPipeline } from "@/hooks/useDocumentPipeline";
 import { StatusBadge } from "@/components/status-badge";
@@ -33,6 +33,19 @@ export function DocumentDetailPage() {
 
   const { document, ocr, classification, extraction, validation, history, isLoading, refresh } =
     useDocumentPipeline(id);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentTab = searchParams.get("tab") || "extraction";
+
+  const handleTabChange = (val: string) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (val === "extraction") {
+      nextParams.delete("tab");
+    } else {
+      nextParams.set("tab", val);
+    }
+    setSearchParams(nextParams, { replace: true });
+  };
 
   async function handleDownload() {
     if (!document) return;
@@ -129,14 +142,14 @@ export function DocumentDetailPage() {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="extraction">
+      <Tabs value={currentTab} onValueChange={handleTabChange}>
         <TabsList>
           <TabsTrigger value="ocr">OCR</TabsTrigger>
           <TabsTrigger value="classification">Classification</TabsTrigger>
           <TabsTrigger value="extraction">Extraction</TabsTrigger>
           <TabsTrigger value="validation">Validation</TabsTrigger>
           <TabsTrigger value="workflow">Workflow</TabsTrigger>
-          <TabsTrigger value="chat" className="flex items-center gap-1.5 font-medium text-primary">
+          <TabsTrigger value="chat" className="flex items-center gap-1.5 font-medium">
             <Sparkles className="h-3.5 w-3.5" />
             Analyze with AI
           </TabsTrigger>
