@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage
 
+from app.core.exceptions import AIServiceException
 from app.models.user import User
 from app.rag.agent_llm import get_agent_llm
 from app.rag.agent_result import AgentResult
@@ -128,9 +129,10 @@ class DocumentReActAgent:
             try:
                 response = llm_with_tools.invoke(messages)
             except Exception as e:
-                logger.error("[DocumentReActAgent] LLM invocation failed at step %d: %s", step, e)
-                final_content = f"An error occurred while communicating with the AI service: {e}"
-                break
+                logger.error("[DocumentReActAgent] LLM invocation failed at step %d: %s", step, e, exc_info=True)
+                raise AIServiceException(
+                    "Something went wrong while processing your request. Please try again."
+                ) from e
 
             messages.append(response)
 

@@ -138,7 +138,7 @@ class ChatHistoryRepository:
                 lc_messages.append(HumanMessage(content=m.content))
             elif m.role == "assistant" and m.content:
                 extra = {
-                    "tool_calls": m.tool_calls or [],
+                    "executed_tools": m.tool_calls or [],
                     "has_verified_tool_evidence": bool(m.tool_calls),
                 }
                 lc_messages.append(AIMessage(content=m.content, additional_kwargs=extra))

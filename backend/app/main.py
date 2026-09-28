@@ -83,7 +83,7 @@ async def efdi_exception_handler(request: Request, exc: EFDIException) -> JSONRe
     return JSONResponse(
         status_code=exc.status_code,
         content={
-            "error": exc.__class__.__name__,
+            "error": getattr(exc, "error_name", exc.__class__.__name__),
             "message": exc.message,
             "details": exc.details,
         },

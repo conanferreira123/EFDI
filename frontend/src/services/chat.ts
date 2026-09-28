@@ -13,6 +13,7 @@ export interface CitationItem {
 export interface ChatMessageResponse {
   session_id: number;
   message_id: number;
+  user_message_id?: number;
   role: "assistant" | "user";
   content: string;
   citations: CitationItem[];
@@ -33,6 +34,7 @@ export interface ToolCallItem {
 export interface GlobalChatMessageResponse {
   session_id: number;
   message_id: number;
+  user_message_id?: number;
   role: "assistant" | "user";
   content: string;
   tool_calls: ToolCallItem[];
@@ -46,6 +48,7 @@ export interface ChatHistoryItem {
   session_id: number;
   role: "assistant" | "user";
   content: string;
+  status?: "sending" | "sent" | "error";
   tool_calls?: ToolCallItem[];
   citations: CitationItem[];
   created_at?: string;

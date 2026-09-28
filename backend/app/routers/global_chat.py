@@ -54,7 +54,7 @@ def send_global_message(
     session_state = history_repo.get_session_state(session.id)
 
     # 3. Persist incoming user message
-    history_repo.add_message(
+    user_msg = history_repo.add_message(
         session_id=session.id,
         role="user",
         content=payload.message.strip(),
@@ -87,6 +87,7 @@ def send_global_message(
         return GlobalChatMessageResponse(
             session_id=session.id,
             message_id=assistant_msg.id,
+            user_message_id=user_msg.id,
             role="assistant",
             content=ack_content,
             tool_calls=[],
@@ -112,6 +113,7 @@ def send_global_message(
         return GlobalChatMessageResponse(
             session_id=session.id,
             message_id=assistant_msg.id,
+            user_message_id=user_msg.id,
             role="assistant",
             content=clarification_content,
             tool_calls=[],
@@ -160,6 +162,7 @@ def send_global_message(
     return GlobalChatMessageResponse(
         session_id=session.id,
         message_id=assistant_msg.id,
+        user_message_id=user_msg.id,
         role="assistant",
         content=agent_result.content,
         tool_calls=agent_result.tool_calls,

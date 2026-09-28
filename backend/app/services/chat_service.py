@@ -101,7 +101,7 @@ class ChatService:
             session_state["active_document_id"] = document.id
 
         # 5. Persist user message
-        self.history_repo.add_message(
+        user_msg = self.history_repo.add_message(
             session_id=session.id,
             role="user",
             content=user_message.strip(),
@@ -134,6 +134,7 @@ class ChatService:
             return {
                 "session_id": session.id,
                 "message_id": assistant_msg.id,
+                "user_message_id": user_msg.id,
                 "role": "assistant",
                 "content": ack_content,
                 "citations": [],
@@ -157,6 +158,7 @@ class ChatService:
             return {
                 "session_id": session.id,
                 "message_id": assistant_msg.id,
+                "user_message_id": user_msg.id,
                 "role": "assistant",
                 "content": clarification_content,
                 "citations": [],
@@ -183,6 +185,7 @@ class ChatService:
             return {
                 "session_id": session.id,
                 "message_id": assistant_msg.id,
+                "user_message_id": user_msg.id,
                 "role": "assistant",
                 "content": ocr_required_content,
                 "citations": [],
@@ -232,6 +235,7 @@ class ChatService:
         return {
             "session_id": session.id,
             "message_id": assistant_msg.id,
+            "user_message_id": user_msg.id,
             "role": "assistant",
             "content": agent_result.content,
             "citations": agent_result.citations,

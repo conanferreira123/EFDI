@@ -11,6 +11,7 @@ import {
   ChevronDown,
   ChevronRight,
   ShieldCheck,
+  RotateCw,
 } from "lucide-react";
 import { chatApi, type ChatHistoryItem, type ToolCallItem, type CitationItem } from "@/services/chat";
 import { useAuth } from "@/context/AuthContext";
@@ -65,7 +66,7 @@ export function GlobalChatPage() {
     try {
       setInitialLoading(true);
       const history = await chatApi.getGlobalHistory();
-      setMessages(history);
+      setMessages(history.map((m) => ({ ...m, status: "sent" })));
     } catch (err: any) {
       console.error("Failed to load global chat history", err);
     } finally {
@@ -95,12 +96,20 @@ export function GlobalChatPage() {
       content: q,
       citations: [],
       created_at: new Date().toISOString(),
+      status: "sending",
     };
     setMessages((prev) => [...prev, tempUserMsg]);
     setLoading(true);
 
     try {
       const res = await chatApi.sendGlobalMessage(q);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === tempUserMsg.id
+            ? { ...m, id: res.user_message_id || m.id, status: "sent" }
+            : m
+        )
+      );
       const assistantMsg: ChatHistoryItem = {
         id: res.message_id,
         session_id: res.session_id,
@@ -109,23 +118,52 @@ export function GlobalChatPage() {
         tool_calls: res.tool_calls,
         citations: res.citations,
         created_at: res.created_at,
+        status: "sent",
       };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err: any) {
-      const detail = err.response?.data?.detail || err.message || "Failed to get AI response";
-      showError(err, "Failed to get AI response");
-      // Append an error message in chat
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          session_id: 0,
-          role: "assistant",
-          content: `⚠️ Error: ${detail}`,
-          citations: [],
-          created_at: new Date().toISOString(),
-        },
-      ]);
+      showError(err, "Something went wrong while processing your request. Please try again.");
+      setMessages((prev) =>
+        prev.map((m) => (m.id === tempUserMsg.id ? { ...m, status: "error" } : m))
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRetry = async (failedMsg: ChatHistoryItem) => {
+    if (loading) return;
+
+    setLoading(true);
+    setMessages((prev) =>
+      prev.map((m) => (m.id === failedMsg.id ? { ...m, status: "sending" } : m))
+    );
+
+    try {
+      const res = await chatApi.sendGlobalMessage(failedMsg.content);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === failedMsg.id
+            ? { ...m, id: res.user_message_id || m.id, status: "sent" }
+            : m
+        )
+      );
+      const assistantMsg: ChatHistoryItem = {
+        id: res.message_id,
+        session_id: res.session_id,
+        role: "assistant",
+        content: res.content,
+        tool_calls: res.tool_calls,
+        citations: res.citations,
+        created_at: res.created_at,
+        status: "sent",
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+    } catch (err: any) {
+      showError(err, "Something went wrong while processing your request. Please try again.");
+      setMessages((prev) =>
+        prev.map((m) => (m.id === failedMsg.id ? { ...m, status: "error" } : m))
+      );
     } finally {
       setLoading(false);
     }
@@ -254,7 +292,9 @@ export function GlobalChatPage() {
                   className={`max-w-2xl rounded-2xl p-4 text-sm shadow-2xs leading-relaxed ${
                     isAssistant
                       ? "bg-white border border-ink-200 text-ink-900"
-                      : "bg-seal-600 text-white rounded-br-xs"
+                      : msg.status === "error"
+                        ? "bg-seal-600/90 text-white rounded-br-xs ring-1 ring-clay-400"
+                        : "bg-seal-600 text-white rounded-br-xs"
                   }`}
                 >
                   {/* Tool Execution Badges (Assistant only) */}
@@ -350,6 +390,22 @@ export function GlobalChatPage() {
                     </div>
                   )}
                 </div>
+                {!isAssistant && msg.status === "error" && (
+                  <div className="flex items-center gap-1.5 mt-1.5 px-1 text-xs text-clay-600 font-medium">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>Failed to send</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRetry(msg)}
+                      disabled={loading}
+                      aria-label="Retry sending message"
+                      className="inline-flex items-center gap-1 font-semibold underline hover:text-clay-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ml-1 transition-colors"
+                    >
+                      <RotateCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
+                      Retry
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })

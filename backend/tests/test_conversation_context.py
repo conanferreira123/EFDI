@@ -496,3 +496,70 @@ def test_authorization_boundary_unauthorized_document(client, auth_users_and_doc
         headers={"Authorization": f"Bearer {token_b}"},
     )
     assert hist_response.status_code in (403, 404)
+
+
+# =========================================================================
+# TEST 11 — Historical Tool Call Serialization Regression Test
+# =========================================================================
+def test_historical_assistant_with_tool_calls_mistral_serialization(auth_users_and_doc, db_session):
+    """TEST 11: Assistant messages with non-empty tool_calls serialize cleanly into Mistral.
+
+    Verifies:
+    1. Persisting an assistant message with NON-EMPTY EFDI tool_calls.
+    2. Calling get_langchain_history().
+    3. Passing resulting AIMessage through langchain_mistralai serialization.
+    4. No KeyError occurs (specifically tc['function']['name']).
+    5. Assistant content is preserved (not blanked to "").
+    6. Serialized message dictionary does not contain provider-level tool_calls.
+    """
+    from langchain_mistralai.chat_models import _convert_message_to_mistral_chat_message
+
+    user = auth_users_and_doc["user_a"]
+    doc = auth_users_and_doc["doc_a"]
+    repo = ChatHistoryRepository(db_session)
+    session = repo.get_or_create_document_session(user_id=user.id, document_id=doc.id)
+    repo.clear_session_history(session.id)
+
+    # 1. Persist assistant message with NON-EMPTY EFDI tool_calls
+    efdi_tool_logs = [
+        {
+            "tool": "document_rag_tool",
+            "retrieved_count": 5,
+            "scoped_documents": [1],
+            "summary": "Retrieved 5 evidence chunk(s) from Document #1",
+        },
+        {
+            "tool": "financial_calculator_tool",
+            "expression": "1320 * (1 - 0.02)",
+            "result": "1293.6",
+            "summary": "Calculated 1320 * (1 - 0.02) = 1293.6",
+        },
+    ]
+    repo.add_message(
+        session_id=session.id,
+        role="assistant",
+        content="The total with 2% discount is $1,293.60.",
+        tool_calls=efdi_tool_logs,
+        citations=[],
+    )
+    db_session.commit()
+
+    # 2. Call get_langchain_history()
+    lc_history = repo.get_langchain_history(session.id)
+    assert len(lc_history) == 1
+    ai_msg = lc_history[0]
+    assert ai_msg.additional_kwargs.get("has_verified_tool_evidence") is True
+    assert ai_msg.additional_kwargs.get("executed_tools") == efdi_tool_logs
+    assert "tool_calls" not in ai_msg.additional_kwargs
+
+    # 3. Pass through langchain_mistralai message converter
+    # 4. Must NOT raise KeyError: 'function'
+    mistral_dict = _convert_message_to_mistral_chat_message(ai_msg)
+
+    # 5. Assistant content is preserved intact
+    assert mistral_dict["role"] == "assistant"
+    assert mistral_dict["content"] == "The total with 2% discount is $1,293.60."
+
+    # 6. Serialized message does not contain provider-level tool_calls
+    assert "tool_calls" not in mistral_dict
+

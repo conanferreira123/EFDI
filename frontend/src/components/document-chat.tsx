@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, Send, Trash2, Bot, User, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { Sparkles, Send, Trash2, Bot, User, BookOpen, ChevronDown, ChevronUp, RotateCw, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { chatApi, type ChatHistoryItem } from "@/services/chat";
@@ -34,7 +34,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
     setIsFetchingHistory(true);
     try {
       const history = await chatApi.getDocumentHistory(documentId);
-      setMessages(history);
+      setMessages(history.map((m) => ({ ...m, status: "sent" })));
     } catch (err) {
       showError(err, "Could not load chat history");
     } finally {
@@ -52,6 +52,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
       session_id: 0,
       role: "user",
       content: text,
+      status: "sending",
       citations: [],
       created_at: new Date().toISOString(),
     };
@@ -61,6 +62,13 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
 
     try {
       const response = await chatApi.sendDocumentMessage(documentId, text);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === tempUserMsg.id
+            ? { ...m, status: "sent", id: response.user_message_id || m.id }
+            : m
+        )
+      );
       const assistantMsg: ChatHistoryItem = {
         id: response.message_id,
         session_id: response.session_id,
@@ -68,12 +76,51 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
         content: response.content,
         citations: response.citations,
         created_at: response.created_at,
+        status: "sent",
       };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
-      showError(err, "Failed to send message to AI Assistant");
-      // Remove temporary user message if failed
-      setMessages((prev) => prev.filter((m) => m.id !== tempUserMsg.id));
+      setMessages((prev) =>
+        prev.map((m) => (m.id === tempUserMsg.id ? { ...m, status: "error" } : m))
+      );
+      showError(err, "Something went wrong while processing your request. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleRetry(failedMsg: ChatHistoryItem) {
+    if (isLoading || !failedMsg.content) return;
+
+    setIsLoading(true);
+    setMessages((prev) =>
+      prev.map((m) => (m.id === failedMsg.id ? { ...m, status: "sending" } : m))
+    );
+
+    try {
+      const response = await chatApi.sendDocumentMessage(documentId, failedMsg.content);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === failedMsg.id
+            ? { ...m, status: "sent", id: response.user_message_id || m.id }
+            : m
+        )
+      );
+      const assistantMsg: ChatHistoryItem = {
+        id: response.message_id,
+        session_id: response.session_id,
+        role: "assistant",
+        content: response.content,
+        citations: response.citations,
+        created_at: response.created_at,
+        status: "sent",
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+    } catch (err) {
+      setMessages((prev) =>
+        prev.map((m) => (m.id === failedMsg.id ? { ...m, status: "error" } : m))
+      );
+      showError(err, "Something went wrong while processing your request. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -179,7 +226,9 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                   <div
                     className={`rounded-xl px-4 py-3 text-sm shadow-sm ${
                       isUser
-                        ? "bg-seal-600 text-white"
+                        ? msg.status === "error"
+                          ? "bg-seal-600/90 text-white ring-1 ring-clay-400"
+                          : "bg-seal-600 text-white"
                         : "bg-ink-50/80 text-ink-900 border border-ink-100"
                     }`}
                   >
@@ -267,6 +316,22 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                     );
                   })()}
                 </div>
+                {isUser && msg.status === "error" && (
+                  <div className="flex items-center gap-1.5 mt-1.5 px-1 text-xs text-clay-600 font-medium">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>Failed to send</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRetry(msg)}
+                      disabled={isLoading}
+                      aria-label="Retry sending message"
+                      className="inline-flex items-center gap-1 font-semibold underline hover:text-clay-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ml-1 transition-colors"
+                    >
+                      <RotateCw className={`h-3 w-3 ${isLoading ? "animate-spin" : ""}`} />
+                      Retry
+                    </button>
+                  </div>
+                )}
               </div>
                 {isUser && (
                   <div className="flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-full bg-ink-200 text-ink-700 text-xs font-semibold">

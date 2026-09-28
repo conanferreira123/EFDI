@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage
 
 from app.core.config import settings
-from app.core.exceptions import AuthorizationException
+from app.core.exceptions import AIServiceException, AuthorizationException
 from app.models.roles import UserRole
 from app.models.user import User
 from app.rag.agent_llm import get_agent_llm
@@ -138,9 +138,10 @@ class GlobalReActAgent:
             try:
                 response = llm_with_tools.invoke(messages)
             except Exception as e:
-                logger.error("[GlobalReActAgent] LLM invocation failed at step %d: %s", step, e)
-                final_content = f"An error occurred while communicating with the AI service: {e}"
-                break
+                logger.error("[GlobalReActAgent] LLM invocation failed at step %d: %s", step, e, exc_info=True)
+                raise AIServiceException(
+                    "Something went wrong while processing your request. Please try again."
+                ) from e
 
             messages.append(response)
 

@@ -21,6 +21,7 @@ class CitationItem(BaseModel):
 class ChatMessageResponse(BaseModel):
     session_id: int
     message_id: int
+    user_message_id: Optional[int] = None
     role: str
     content: str
     citations: List[CitationItem] = Field(default_factory=list)
@@ -30,6 +31,7 @@ class ChatMessageResponse(BaseModel):
 class GlobalChatMessageResponse(BaseModel):
     session_id: int
     message_id: int
+    user_message_id: Optional[int] = None
     role: str
     content: str
     tool_calls: List[Dict[str, Any]] = Field(default_factory=list)

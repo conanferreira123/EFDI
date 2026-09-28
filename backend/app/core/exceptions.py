@@ -69,3 +69,18 @@ class WorkflowException(EFDIException):
 
     def __init__(self, message: str, details: dict | None = None):
         super().__init__(message, status_code=409, details=details)
+
+
+class AIServiceException(EFDIException):
+    """Raised when an AI service, model invocation, or LLM agent fails."""
+
+    error_name = "AI Service Error"
+
+    def __init__(
+        self,
+        message: str = "Something went wrong while processing your request. Please try again.",
+        *,
+        status_code: int = 502,
+        details: dict | None = None,
+    ):
+        super().__init__(message, status_code=status_code, details=details)
