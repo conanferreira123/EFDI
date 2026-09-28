@@ -22,6 +22,98 @@ class ChunkData:
     section: Optional[str] = None
 
 
+_cached_hybrid_chunker = None
+
+
+def get_hybrid_chunker():
+    global _cached_hybrid_chunker
+    if _cached_hybrid_chunker is None:
+        from docling.chunking import HybridChunker
+        _cached_hybrid_chunker = HybridChunker(
+            tokenizer="sentence-transformers/all-MiniLM-L6-v2",
+            max_tokens=512,
+            merge_peers=True,
+        )
+    return _cached_hybrid_chunker
+
+
+class DoclingNativeChunker:
+    """Chunks native DoclingDocument using Docling's HybridChunker.
+
+    Consumes native DoclingDocument directly, utilizing TableFormer structure,
+    cell-matching, and sentence-transformers tokenizer windowing to produce
+    semantically contextualized chunks.
+    """
+
+    def chunk_document(self, dl_doc: Any) -> List[ChunkData]:
+        from docling_core.types.doc.labels import DocItemLabel
+
+        chunker = get_hybrid_chunker()
+        doc_chunks = list(chunker.chunk(dl_doc))
+        result: List[ChunkData] = []
+
+        for idx, c in enumerate(doc_chunks):
+            content = chunker.serialize(c).strip()
+            if not content:
+                continue
+
+            meta = getattr(c, "meta", None)
+            headings = getattr(meta, "headings", []) if meta else []
+            doc_items = getattr(meta, "doc_items", []) if meta else []
+
+            page_number = 1
+            if doc_items and hasattr(doc_items[0], "prov") and doc_items[0].prov:
+                page_number = getattr(doc_items[0].prov[0], "page_no", 1)
+
+            chunk_type = "OTHER"
+            section = "OTHER"
+            headings_upper = [h.upper() for h in headings] if headings else []
+            has_table = any(
+                getattr(item, "label", None) == DocItemLabel.TABLE
+                or "table" in str(getattr(item, "label", "")).lower()
+                for item in doc_items
+            )
+
+            if any("ITEM" in h for h in headings_upper) or (has_table and not any("SUMMARY" in h or "TOTAL" in h for h in headings_upper)):
+                chunk_type = "LINE_ITEMS"
+                section = "LINE_ITEMS"
+            elif any("SUMMARY" in h or "TOTAL" in h for h in headings_upper) or (has_table and any("SUMMARY" in h or "TOTAL" in h for h in headings_upper)):
+                chunk_type = "SUMMARY"
+                section = "TOTALS"
+            elif any("TERM" in h or "CONDITION" in h or "PAYMENT" in h for h in headings_upper):
+                chunk_type = "TERMS"
+                section = "PAYMENT"
+            elif any("SELLER" in h or "CLIENT" in h or "BILL TO" in h or "BUYER" in h for h in headings_upper):
+                chunk_type = "PARTIES"
+                section = "SELLER"
+            elif any("HEADER" in h or "INVOICE" in h for h in headings_upper):
+                chunk_type = "HEADER"
+                section = "HEADER"
+            elif idx == 0:
+                chunk_type = "HEADER"
+                section = "HEADER"
+
+            metadata_json = {
+                "source": "docling_hybrid_chunker",
+                "headings": headings,
+                "doc_items_count": len(doc_items),
+                "has_table": has_table,
+            }
+
+            result.append(
+                ChunkData(
+                    chunk_index=idx,
+                    page_number=page_number,
+                    chunk_type=chunk_type,
+                    section=section,
+                    content=content,
+                    metadata_json=metadata_json,
+                )
+            )
+
+        return result
+
+
 class StructureAwareChunker:
     """Structure-aware chunker tailored to EFDI OCR structured output."""
 

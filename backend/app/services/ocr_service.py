@@ -223,7 +223,8 @@ class OCRService:
                 try:
                     from app.services.rag_ingestion_service import get_rag_ingestion_service
 
-                    get_rag_ingestion_service().ingest_document_async(document.id)
+                    docling_doc = getattr(result_data, "docling_document", None)
+                    get_rag_ingestion_service().ingest_document_async(document.id, docling_doc=docling_doc)
                 except Exception as rag_err:
                     logger.warning(
                         "Failed to trigger async RAG ingestion for document %s: %s",

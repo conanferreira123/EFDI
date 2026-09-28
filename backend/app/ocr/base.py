@@ -10,6 +10,7 @@ not a code choice.
 """
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 
@@ -55,6 +56,7 @@ class OCRResult:
     pages: list[OCRPageResult] = field(default_factory=list)
     engine_name: str = ""
     custom_full_text: str | None = None
+    docling_document: Any | None = None
 
     @property
     def full_text(self) -> str:

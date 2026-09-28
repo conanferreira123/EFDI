@@ -193,6 +193,7 @@ class DoclingEngine(OCREngine):
             result_data.pages.append(page_result)
 
         result_data.custom_full_text = full_markdown
+        result_data.docling_document = doc
         logger.info(
             "Docling completed for %s: pages=%s, conv_time=%.2fs, md_time=%.2fs",
             file_str,

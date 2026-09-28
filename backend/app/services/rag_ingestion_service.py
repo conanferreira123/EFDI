@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional
 
 from app.database.session import get_db_context
 from app.models.document_chunk import DocumentChunk
-from app.rag.chunking import StructureAwareChunker
+from app.rag.chunking import DoclingNativeChunker, StructureAwareChunker
 from app.rag.embeddings import get_embedding_service
 from app.repositories.chunk_repository import ChunkRepository
 from app.repositories.document_repository import DocumentRepository
@@ -24,8 +24,9 @@ class RAGIngestionService:
 
     def __init__(self) -> None:
         self.chunker = StructureAwareChunker()
+        self.docling_chunker = DoclingNativeChunker()
 
-    def ingest_document(self, document_id: int) -> Dict[str, Any]:
+    def ingest_document(self, document_id: int, docling_doc: Optional[Any] = None) -> Dict[str, Any]:
         """Synchronously ingest a document using a fresh, independent DB session.
 
         Guarantees:
@@ -58,12 +59,32 @@ class RAGIngestionService:
                     logger.warning("[RAG Ingestion] Document %d has no OCR text, skipping", document_id)
                     return {"status": "skipped", "document_id": document_id, "reason": "no_ocr_text"}
 
-                # Canonical OCR text & raw blocks
-                full_text = ocr_result.full_text
-                raw_blocks = ocr_result.raw_blocks if isinstance(ocr_result.raw_blocks, list) else None
+                is_docling = (ocr_result.engine_name == "docling")
+                if is_docling and docling_doc is None:
+                    try:
+                        from app.ocr.factory import get_ocr_engine
+                        from app.utils.file_storage import get_file_path
 
-                # Structure-aware chunking
-                chunks_data = self.chunker.chunk_document(full_text, raw_blocks=raw_blocks)
+                        file_path = get_file_path(document.stored_filename)
+                        if file_path.exists():
+                            engine = get_ocr_engine("docling")
+                            conv = engine._get_converter()
+                            conv_res = conv.convert(file_path)
+                            docling_doc = conv_res.document
+                    except Exception as doc_err:
+                        logger.error("[RAG Ingestion] Failed to convert document %d with Docling: %s", document_id, doc_err)
+                        raise
+
+                if is_docling:
+                    if docling_doc is None:
+                        raise ValueError(f"DoclingDocument unavailable for docling-processed document {document_id}")
+                    chunks_data = self.docling_chunker.chunk_document(docling_doc)
+                else:
+                    # Canonical OCR text & raw blocks for legacy / non-docling engines
+                    full_text = ocr_result.full_text
+                    raw_blocks = ocr_result.raw_blocks if isinstance(ocr_result.raw_blocks, list) else None
+                    chunks_data = self.chunker.chunk_document(full_text, raw_blocks=raw_blocks)
+
                 if not chunks_data:
                     logger.warning("[RAG Ingestion] 0 chunks produced for document %d", document_id)
                     return {"status": "skipped", "document_id": document_id, "reason": "zero_chunks"}
@@ -120,14 +141,14 @@ class RAGIngestionService:
                 "error": str(exc),
             }
 
-    def ingest_document_async(self, document_id: int) -> None:
+    def ingest_document_async(self, document_id: int, docling_doc: Optional[Any] = None) -> None:
         """Asynchronously trigger document ingestion in a background thread.
 
         Completely isolated; failure will never impact the calling thread or request.
         """
         def _run():
             try:
-                self.ingest_document(document_id)
+                self.ingest_document(document_id, docling_doc=docling_doc)
             except Exception as e:
                 logger.error("[RAG Ingestion Async] Background thread error for document %d: %s", document_id, e)
 
