@@ -33,9 +33,11 @@ class DoclingEngine(OCREngine):
         *,
         do_ocr: bool = True,
         do_table_structure: bool = True,
+        do_cell_matching: bool = True,
     ):
         self.do_ocr = do_ocr
         self.do_table_structure = do_table_structure
+        self.do_cell_matching = do_cell_matching
 
     def _get_converter(self):
         global _cached_converter
@@ -54,14 +56,16 @@ class DoclingEngine(OCREngine):
                     ) from exc
 
                 logger.info(
-                    "Loading Docling DocumentConverter (do_ocr=%s, do_table_structure=%s)...",
+                    "Loading Docling DocumentConverter (do_ocr=%s, do_table_structure=%s, do_cell_matching=%s)...",
                     self.do_ocr,
                     self.do_table_structure,
+                    self.do_cell_matching,
                 )
                 try:
                     pipeline_options = PdfPipelineOptions()
                     pipeline_options.do_ocr = self.do_ocr
                     pipeline_options.do_table_structure = self.do_table_structure
+                    pipeline_options.table_structure_options.do_cell_matching = self.do_cell_matching
 
                     _cached_converter = DocumentConverter(
                         format_options={
