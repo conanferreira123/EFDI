@@ -163,14 +163,14 @@ export function GlobalChatPage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-semibold text-ink-900">EFDI Global Multi-Tool Assistant</h2>
+              <h2 className="text-base font-semibold text-ink-900">EFDI Intelligence Assistant</h2>
               <span className="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 {user?.role === "FINANCE_ANALYST" ? "Role Scoped (Your Uploads)" : "Full Corpus Access"}
               </span>
             </div>
             <p className="text-xs text-ink-500">
-              Deterministic SQL · Exact Decimal Math · Hybrid Document RAG
+              Enterprise-wide financial document and data intelligence
             </p>
           </div>
         </div>

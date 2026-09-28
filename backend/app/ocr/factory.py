@@ -15,21 +15,15 @@ labels it clearly so nobody mistakes stub output for real extraction.
 """
 from app.core.exceptions import ValidationFailedException
 from app.ocr.base import OCREngine
+from app.ocr.docling_engine import DoclingEngine
 from app.ocr.easyocr_engine import EasyOCREngine
 from app.ocr.paddle_engine import PaddleOCREngine
+from app.ocr.paddle_vl_engine import PaddleOCRVLEngine
 from app.ocr.stub_engine import StubOCREngine
 
-# PaddleOCR is deliberately excluded from the selectable engine set.
-# Instantiating/running it on this deployment's ARM64 hardware
-# segfaults the whole Python process (a native crash, not a catchable
-# exception) -- confirmed via tests/test_phase4_ocr.py -- which would
-# take down the entire backend worker, not just the one request, if
-# a caller specified engine="paddleocr". EasyOCR is the supported
-# replacement (see the OCR engine migration history). The class
-# still exists (app/ocr/paddle_engine.py) for a possible future
-# x86_64 deployment, but it must not be reachable from this API.
-PRODUCTION_ENGINES = ("easyocr",)
-SUPPORTED_ENGINES = PRODUCTION_ENGINES + ("stub",)
+PRODUCTION_ENGINES = ("docling", "easyocr")
+LEGACY_ENGINES = ("paddleocr-vl-1.6",)
+SUPPORTED_ENGINES = PRODUCTION_ENGINES + LEGACY_ENGINES + ("stub",)
 
 _singletons: dict[str, OCREngine] = {}
 
@@ -37,10 +31,7 @@ _singletons: dict[str, OCREngine] = {}
 def get_ocr_engine(engine_name: str) -> OCREngine:
     """
     Return an OCREngine instance for the given name. Engines are cached
-    as singletons (one instance per engine name per process) since the
-    PaddleOCR/EasyOCR implementations already do their own model-level
-    caching internally -- this just avoids re-constructing the thin
-    wrapper object on every call.
+    as singletons (one instance per engine name per process).
     """
     if engine_name not in SUPPORTED_ENGINES:
         raise ValidationFailedException(
@@ -48,7 +39,11 @@ def get_ocr_engine(engine_name: str) -> OCREngine:
         )
 
     if engine_name not in _singletons:
-        if engine_name == "paddleocr":
+        if engine_name == "docling":
+            _singletons[engine_name] = DoclingEngine()
+        elif engine_name == "paddleocr-vl-1.6":
+            _singletons[engine_name] = PaddleOCRVLEngine()
+        elif engine_name == "paddleocr":
             _singletons[engine_name] = PaddleOCREngine()
         elif engine_name == "easyocr":
             _singletons[engine_name] = EasyOCREngine()

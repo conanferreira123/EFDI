@@ -62,7 +62,30 @@ class ExtractionService:
         ocr_validation = None
         ocr_quality = None
 
-        if raw_blocks:
+        if ocr_result.engine_name in ("docling", "paddleocr-vl-1.6"):
+            try:
+                from app.ocr.markdown_table_parser import parse_markdown_table
+
+                table_data = parse_markdown_table(ocr_result.full_text)
+                normalized_items = normalize_table_data(table_data)
+                normalized_data = {"line_items": [item.to_dict() for item in normalized_items]}
+                val_res = validate_ocr_output(normalized_items, raw_full_text=ocr_result.full_text)
+                ocr_validation = val_res.to_dict()
+                avg_conf = (
+                    float(ocr_result.average_confidence)
+                    if ocr_result.average_confidence is not None
+                    else 1.0
+                )
+                quality_res = calculate_quality_score(
+                    avg_confidence=avg_conf,
+                    full_text=ocr_result.full_text,
+                    table_data=table_data,
+                    validation_result=val_res,
+                )
+                ocr_quality = quality_res.to_dict()
+            except Exception as exc:
+                logger.warning("Could not compute derived OCR structures from Markdown table for context: %s", exc)
+        elif raw_blocks:
             try:
                 all_page_blocks = raw_blocks[0].get("blocks", []) if raw_blocks else []
                 pw = float(raw_blocks[0].get("page_width", 1000.0))

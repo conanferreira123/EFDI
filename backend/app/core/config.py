@@ -59,10 +59,8 @@ class Settings(BaseSettings):
 
     # --- OCR ---
     # Which engine app/ocr/factory.py uses when a request doesn't
-    # explicitly specify one. "stub" is a safe, always-working default
-    # for environments without network access to real model weights;
-    # set to "paddleocr" or "easyocr" once weights are available.
-    OCR_DEFAULT_ENGINE: str = "easyocr"
+    # explicitly specify one.
+    OCR_DEFAULT_ENGINE: str = "docling"
     ENABLE_STRUCTURED_FULL_TEXT: bool = True
 
     # --- Extraction & LLM ---

@@ -42,7 +42,31 @@ from app.ocr.validation import validate_ocr_output
 def _to_response(ocr_result) -> OCRResultResponse:
     response = OCRResultResponse.model_validate(ocr_result)
     response.is_stub_result = ocr_result.engine_name == "stub"
-    if ocr_result.raw_blocks and isinstance(ocr_result.raw_blocks, list) and len(ocr_result.raw_blocks) > 0:
+    if ocr_result.engine_name in ("docling", "paddleocr-vl-1.6"):
+        try:
+            from app.ocr.markdown_table_parser import parse_markdown_table
+
+            table_dict = parse_markdown_table(ocr_result.full_text)
+            response.table_data = table_dict
+
+            normalized_items = normalize_table_data(table_dict)
+            response.normalized_data = {
+                "line_items": [itm.to_dict() for itm in normalized_items]
+            }
+
+            validation_res = validate_ocr_output(normalized_items, raw_full_text=ocr_result.full_text)
+            response.validation_results = validation_res.to_dict()
+
+            quality_breakdown = calculate_quality_score(
+                avg_confidence=ocr_result.average_confidence,
+                full_text=ocr_result.full_text,
+                table_data=table_dict,
+                validation_result=validation_res,
+            )
+            response.quality_score = quality_breakdown.to_dict()
+        except Exception as exc:
+            logger.warning("Could not compute derived OCR structures from Markdown table: %s", exc)
+    elif ocr_result.raw_blocks and isinstance(ocr_result.raw_blocks, list) and len(ocr_result.raw_blocks) > 0:
         page_0 = ocr_result.raw_blocks[0]
         blocks = page_0.get("blocks", [])
         pw = page_0.get("page_width", 1000.0)
