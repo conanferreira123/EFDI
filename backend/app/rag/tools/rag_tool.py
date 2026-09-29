@@ -121,14 +121,18 @@ class DocumentRAGTool(BaseTool):
             })
 
             if not chunks:
-                return f"Document RAG Results: No matching text chunks found in {scope_info}."
+                return f"Document Evidence: No matching textual clauses found in {scope_info}."
 
             evidence_blocks = []
             for c in chunks:
-                header = f"[Doc #{c.document_id}, Chunk {c.chunk_id}, Page {c.page_number or 1} - {c.chunk_type}]"
-                evidence_blocks.append(f"{header}\n{c.content.strip()}")
+                doc_title = getattr(c, "document_title", None) or (c.metadata_json.get("filename") if c.metadata_json else None) or f"Document #{c.document_id}"
+                evidence_blocks.append(
+                    f'<document_evidence untrusted="true" document="{doc_title}" page="{c.page_number or 1}" section="{c.chunk_type}">\n'
+                    f"{c.content.strip()}\n"
+                    f"</document_evidence>"
+                )
 
-            return f"Retrieved Document Evidence ({len(chunks)} chunks from {scope_info}):\n\n" + "\n---\n".join(evidence_blocks)
+            return f"Retrieved Document Evidence ({len(chunks)} items from {scope_info}):\n\n" + "\n---\n".join(evidence_blocks)
         except Exception as err:
             logger.error("[DocumentRAGTool] Retrieval error: %s", err, exc_info=True)
             self.execution_logs.append({

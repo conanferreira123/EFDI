@@ -41,22 +41,56 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
             <ol className="list-decimal pl-5 mb-2.5 space-y-1">{children}</ol>
           ),
           li: ({ children }) => <li className="leading-relaxed pl-0.5">{children}</li>,
-          table: ({ children }) => (
-            <div className="overflow-x-auto my-3 rounded-lg border border-ink-200">
-              <table className="min-w-full divide-y divide-ink-200 text-xs text-left">
+          table: ({ children, ...props }) => (
+            <div className="overflow-x-auto my-3 rounded-lg border border-ink-200 shadow-xs">
+              <table className="min-w-full divide-y divide-ink-200 text-xs" {...props}>
                 {children}
               </table>
             </div>
           ),
-          thead: ({ children }) => (
-            <thead className="bg-ink-100/70 font-semibold text-ink-800">{children}</thead>
+          thead: ({ children, ...props }) => (
+            <thead className="bg-ink-100/80 font-semibold text-ink-800" {...props}>{children}</thead>
           ),
-          tbody: ({ children }) => (
-            <tbody className="divide-y divide-ink-100 bg-white">{children}</tbody>
+          tbody: ({ children, ...props }) => (
+            <tbody className="divide-y divide-ink-100 bg-white" {...props}>{children}</tbody>
           ),
-          tr: ({ children }) => <tr className="hover:bg-ink-50/60 transition-colors">{children}</tr>,
-          th: ({ children }) => <th className="px-3 py-2 font-semibold text-ink-800">{children}</th>,
-          td: ({ children }) => <td className="px-3 py-1.5 text-ink-700 font-data">{children}</td>,
+          tr: ({ children, ...props }) => (
+            <tr className="hover:bg-ink-50/60 transition-colors" {...props}>{children}</tr>
+          ),
+          th: ({ children, style, className = "", ...props }) => {
+            const alignClass =
+              style?.textAlign === "right"
+                ? "text-right"
+                : style?.textAlign === "center"
+                ? "text-center"
+                : "text-left";
+            return (
+              <th
+                style={style}
+                className={`px-3 py-2 font-semibold text-ink-800 whitespace-nowrap ${alignClass} ${className}`}
+                {...props}
+              >
+                {children}
+              </th>
+            );
+          },
+          td: ({ children, style, className = "", ...props }) => {
+            const alignClass =
+              style?.textAlign === "right"
+                ? "text-right"
+                : style?.textAlign === "center"
+                ? "text-center"
+                : "text-left";
+            return (
+              <td
+                style={style}
+                className={`px-3 py-1.5 text-ink-700 font-data ${alignClass} ${className}`}
+                {...props}
+              >
+                {children}
+              </td>
+            );
+          },
           blockquote: ({ children }) => (
             <blockquote className="border-l-3 border-seal-400 pl-3 py-1 my-2 italic text-ink-600 bg-ink-50/50 rounded-r">
               {children}

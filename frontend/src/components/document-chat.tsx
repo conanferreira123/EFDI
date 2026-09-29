@@ -280,7 +280,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                                 title="Click to view citation snippet"
                               >
                                 <span>
-                                  Chunk {citation.chunk_id} · Page {citation.page_number} · {citation.chunk_type}
+                                  Page {citation.page_number} · {citation.chunk_type}
                                 </span>
                                 {isExpanded ? (
                                   <ChevronUp className="h-3 w-3 shrink-0 opacity-70" />
@@ -296,7 +296,7 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
                           <div className="mt-2 rounded-lg border border-ink-200/80 bg-white/95 p-2.5 text-[11px] text-ink-700 shadow-xs">
                             <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-ink-100 text-[10px] uppercase font-semibold tracking-wider text-ink-500 font-data">
                               <span>
-                                Source Text — Chunk {activeCitation.chunk_id} (Page {activeCitation.page_number} · {activeCitation.chunk_type})
+                                Source Evidence — Page {activeCitation.page_number} · {activeCitation.chunk_type}
                               </span>
                               <button
                                 type="button"

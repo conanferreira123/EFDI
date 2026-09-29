@@ -17,6 +17,13 @@ from app.models.roles import UserRole
 from app.models.user import User
 from app.rag.agent_llm import get_agent_llm
 from app.rag.agent_result import AgentResult
+from app.rag.response_guardrails import (
+    GLOBAL_TIMEOUT_MESSAGE,
+    RESPONSE_GENERATION_GUARDRAIL_PROMPT,
+    get_execution_state_refusal,
+    is_execution_state_query,
+    sanitize_response_content,
+)
 from app.rag.tools.calculator_tool import FinancialCalculatorTool
 from app.rag.tools.database_tool import DatabaseQueryTool
 from app.rag.tools.rag_tool import DocumentRAGTool
@@ -24,7 +31,7 @@ from app.utils.clock import get_temporal_prompt_block
 
 logger = logging.getLogger(__name__)
 
-GLOBAL_REACT_SYSTEM_PROMPT = """You are the EFDI Global Financial Intelligence Agent, an enterprise copilot for corporate finance.
+GLOBAL_REACT_SYSTEM_PROMPT = f"""You are the EFDI Global Financial Intelligence Agent, an enterprise copilot for corporate finance.
 You assist finance analysts, managers, and auditors across corporate financial documents, invoices, line items, and business data.
 
 You have access to three specialized tools:
@@ -53,9 +60,11 @@ MULTI-CURRENCY SAFETY RULES:
 - For overall spend or portfolio monetary totals across multiple currencies (e.g. Q50), report breakdowns grouped by currency.
 - For questions explicitly requesting "dollar value" or USD spend (e.g. Q48, Q53), scope calculations strictly to USD amounts and transparently state that non-USD amounts were excluded from the USD total.
 - For top vendor rankings by spend (e.g. Q52), report separate Top-5 vendor rankings per currency (e.g. Top USD vendors, Top EUR vendors). Never rank vendors by comparing raw numeric values across different currencies.
+
+{RESPONSE_GENERATION_GUARDRAIL_PROMPT}
 """
 
-MAX_ITERATIONS = 8
+MAX_ITERATIONS = 5
 
 
 def _is_duplicate_call(tool_name: str, tool_args: Any, executed_calls: Any) -> bool:
@@ -115,9 +124,21 @@ class GlobalReActAgent:
         query: str,
         user: User,
         history: Optional[List[BaseMessage]] = None,
+        timeout_seconds: Optional[float] = None,
     ) -> AgentResult:
         """Execute dynamic ReAct tool loop for global chat."""
         start_time = time.perf_counter()
+        effective_timeout = timeout_seconds if timeout_seconds is not None else float(getattr(settings, "CHAT_REQUEST_TIMEOUT_SECONDS", 30.0))
+        deadline = start_time + effective_timeout
+
+        # Guardrail 6: Politely decline execution-state probing inquiries without exposing internal mechanics
+        if is_execution_state_query(query):
+            return AgentResult(
+                content=get_execution_state_refusal(),
+                tool_calls=[],
+                citations=[],
+                execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+            )
 
         # 1. Enforce Role Policy for Global Chat
         if user.role == UserRole.FINANCE_ANALYST.value:
@@ -160,6 +181,18 @@ class GlobalReActAgent:
 
         # 5. Iterative ReAct Loop (up to MAX_ITERATIONS = 8)
         for step in range(MAX_ITERATIONS):
+            # Check global request deadline
+            if time.perf_counter() > deadline:
+                logger.warning("[GlobalReActAgent] Global timeout (%.1fs) exceeded before step %d", effective_timeout, step)
+                return AgentResult(
+                    content=GLOBAL_TIMEOUT_MESSAGE,
+                    tool_calls=chronological_tool_logs,
+                    citations=[],
+                    relational_provenance=[],
+                    calculation_provenance=[],
+                    execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                )
+
             try:
                 response = llm_with_tools.invoke(messages)
             except Exception as e:
@@ -179,6 +212,18 @@ class GlobalReActAgent:
 
             # Execute requested tools
             for tc in tool_calls:
+                # Check global request deadline before each tool
+                if time.perf_counter() > deadline:
+                    logger.warning("[GlobalReActAgent] Global timeout (%.1fs) exceeded before tool execution", effective_timeout)
+                    return AgentResult(
+                        content=GLOBAL_TIMEOUT_MESSAGE,
+                        tool_calls=chronological_tool_logs,
+                        citations=[],
+                        relational_provenance=[],
+                        calculation_provenance=[],
+                        execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                    )
+
                 if len(chronological_tool_logs) >= MAX_ITERATIONS:
                     logger.info("[GlobalReActAgent] Reached maximum allowed tool steps (%d)", MAX_ITERATIONS)
                     should_break_loop = True
@@ -241,9 +286,24 @@ class GlobalReActAgent:
 
         # 6. If max iterations reached without final answer, request synthesis
         if not final_content and len(messages) > 0:
+            if time.perf_counter() > deadline:
+                logger.warning("[GlobalReActAgent] Global timeout (%.1fs) exceeded before synthesis", effective_timeout)
+                return AgentResult(
+                    content=GLOBAL_TIMEOUT_MESSAGE,
+                    tool_calls=chronological_tool_logs,
+                    citations=[],
+                    relational_provenance=[],
+                    calculation_provenance=[],
+                    execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                )
+
             try:
                 synthesis_prompt = HumanMessage(
-                    content="Please provide a concise, grounded final answer based only on the verified tool observations above."
+                    content=(
+                        "Please provide a concise, grounded final answer based only on the verified tool observations above.\n"
+                        "Follow strict response guardrails: Describe business findings only. Do NOT expose internal tool names, SQL, "
+                        "database errors, or system execution details."
+                    )
                 )
                 final_resp = llm.invoke(messages + [synthesis_prompt])
                 resp_str = final_resp.content if isinstance(final_resp.content, str) else str(final_resp.content)
@@ -258,19 +318,25 @@ class GlobalReActAgent:
         # 7. Format Citations from RAG tool
         citations: List[Dict[str, Any]] = []
         for c in rag_tool.retrieved_chunks:
+            meta = getattr(c, "metadata_json", {}) or {}
+            doc_title = getattr(c, "document_title", None) or meta.get("document_title") or meta.get("filename")
             citations.append({
                 "chunk_id": c.chunk_id,
                 "document_id": c.document_id,
+                "document_title": doc_title,
                 "page_number": c.page_number or 1,
                 "chunk_type": c.chunk_type,
                 "snippet": c.content.strip()[:300],
-                "bounding_box_refs": c.metadata_json.get("bounding_box_refs", []),
+                "bounding_box_refs": meta.get("bounding_box_refs", []) if isinstance(meta, dict) else [],
             })
 
         elapsed_ms = (time.perf_counter() - start_time) * 1000.0
 
+        # Guardrails 1-10: Deterministically sanitize response content
+        sanitized_content = sanitize_response_content(final_content, query=query)
+
         return AgentResult(
-            content=final_content.strip(),
+            content=sanitized_content.strip(),
             tool_calls=chronological_tool_logs,
             citations=citations,
             relational_provenance=db_tool.relational_provenance,

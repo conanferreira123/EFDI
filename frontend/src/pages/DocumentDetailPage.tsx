@@ -179,7 +179,7 @@ export function DocumentDetailPage() {
                     <p className="mb-2 text-xs font-medium uppercase tracking-wide text-ink-400">
                       Detected text blocks
                     </p>
-                    <OCRBoundingBoxes pages={ocr.raw_blocks} />
+                    <OCRBoundingBoxes pages={ocr.raw_blocks} initialPage={Number(searchParams.get("page")) || 1} />
                   </div>
                 )}
               </CardContent>

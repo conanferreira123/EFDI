@@ -20,6 +20,7 @@ class RetrievedChunk:
     chunk_type: str
     content: str
     metadata_json: dict
+    document_title: Optional[str] = None
     dense_rank: Optional[int] = None
     sparse_rank: Optional[int] = None
     rrf_score: float = 0.0

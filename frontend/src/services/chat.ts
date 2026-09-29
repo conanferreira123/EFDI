@@ -3,6 +3,8 @@ import { apiRequest } from "./client";
 export interface CitationItem {
   chunk_id: number;
   document_id?: number;
+  document_title?: string;
+  invoice_number?: string;
   page_number: number;
   chunk_type: string;
   snippet: string;

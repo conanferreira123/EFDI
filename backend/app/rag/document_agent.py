@@ -11,16 +11,24 @@ from sqlalchemy.orm import Session
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage
 
+from app.core.config import settings
 from app.core.exceptions import AIServiceException
 from app.models.user import User
 from app.rag.agent_llm import get_agent_llm
 from app.rag.agent_result import AgentResult
+from app.rag.response_guardrails import (
+    GLOBAL_TIMEOUT_MESSAGE,
+    RESPONSE_GENERATION_GUARDRAIL_PROMPT,
+    get_execution_state_refusal,
+    is_execution_state_query,
+    sanitize_response_content,
+)
 from app.rag.tools.calculator_tool import FinancialCalculatorTool
 from app.rag.tools.rag_tool import DocumentRAGTool
 
 logger = logging.getLogger(__name__)
 
-DOCUMENT_REACT_SYSTEM_PROMPT = """You are the EFDI Document Financial Assistant, an enterprise copilot scoped strictly to a single financial document.
+DOCUMENT_REACT_SYSTEM_PROMPT = f"""You are the EFDI Document Financial Assistant, an enterprise copilot scoped strictly to a single financial document.
 You answer inquiries about line items, payment terms, early payment discounts, freight, penalties, and contractual clauses for this specific document.
 
 You have access to two specialized tools:
@@ -32,7 +40,7 @@ OPERATIONAL GUIDELINES:
 - For contractual terms, settlement percentages, or clauses, query document_rag_tool.
 - For exact discount totals, net payable amounts, or deadline dates, invoke financial_calculator_tool.
 - Answer ONLY from verified tool observations. NEVER invent or extrapolate terms or figures.
-- When sufficient information has been gathered, provide a concise, professional, grounded final answer citing relevant chunk and page numbers where applicable.
+- When sufficient information has been gathered, provide a concise, professional, grounded final answer citing relevant page numbers where applicable. Never mention chunk IDs or internal retrieval identifiers.
 
 CONVERSATIONAL CONTINUITY & EVIDENCE RULES:
 - When the user asks a follow-up or confirms an offer, resolve their intent using the immediate dialogue context.
@@ -40,6 +48,8 @@ CONVERSATIONAL CONTINUITY & EVIDENCE RULES:
 - If a tool search returns no matching clauses or negative evidence, report clearly that the document was searched and does not contain those terms.
 - Do NOT repeatedly query equivalent variations of the same search if previous attempts yielded no relevant clauses.
 - Do NOT repeat an offer or question you already extended and executed in the same dialogue thread.
+
+{RESPONSE_GENERATION_GUARDRAIL_PROMPT}
 """
 
 MAX_ITERATIONS = 5
@@ -94,9 +104,21 @@ class DocumentReActAgent:
         query: str,
         user: User,
         history: Optional[List[BaseMessage]] = None,
+        timeout_seconds: Optional[float] = None,
     ) -> AgentResult:
         """Execute dynamic ReAct tool loop scoped strictly to document_id."""
         start_time = time.perf_counter()
+        effective_timeout = timeout_seconds if timeout_seconds is not None else float(getattr(settings, "CHAT_REQUEST_TIMEOUT_SECONDS", 30.0))
+        deadline = start_time + effective_timeout
+
+        # Guardrail 6: Politely decline execution-state probing inquiries without exposing internal mechanics
+        if is_execution_state_query(query):
+            return AgentResult(
+                content=get_execution_state_refusal(),
+                tool_calls=[],
+                citations=[],
+                execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+            )
 
         # 1. Instantiate Scoped Tools (Text-to-SQL is STRICTLY EXCLUDED)
         rag_tool = DocumentRAGTool(
@@ -126,6 +148,16 @@ class DocumentReActAgent:
 
         # 4. Iterative ReAct Loop (max 5 iterations)
         for step in range(MAX_ITERATIONS):
+            # Check global request deadline
+            if time.perf_counter() > deadline:
+                logger.warning("[DocumentReActAgent] Global timeout (%.1fs) exceeded before step %d", effective_timeout, step)
+                return AgentResult(
+                    content=GLOBAL_TIMEOUT_MESSAGE,
+                    tool_calls=chronological_tool_logs,
+                    citations=[],
+                    execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                )
+
             try:
                 response = llm_with_tools.invoke(messages)
             except Exception as e:
@@ -142,6 +174,16 @@ class DocumentReActAgent:
                 break
 
             for tc in tool_calls:
+                # Check global request deadline before each tool
+                if time.perf_counter() > deadline:
+                    logger.warning("[DocumentReActAgent] Global timeout (%.1fs) exceeded before tool execution", effective_timeout)
+                    return AgentResult(
+                        content=GLOBAL_TIMEOUT_MESSAGE,
+                        tool_calls=chronological_tool_logs,
+                        citations=[],
+                        execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                    )
+
                 if len(chronological_tool_logs) >= MAX_ITERATIONS:
                     logger.info("[DocumentReActAgent] Reached maximum allowed tool steps (%d)", MAX_ITERATIONS)
                     should_break_loop = True
@@ -207,9 +249,22 @@ class DocumentReActAgent:
 
         # 5. If max iterations reached or loop broken without final answer, request synthesis
         if not final_content and len(messages) > 0:
+            if time.perf_counter() > deadline:
+                logger.warning("[DocumentReActAgent] Global timeout (%.1fs) exceeded before synthesis", effective_timeout)
+                return AgentResult(
+                    content=GLOBAL_TIMEOUT_MESSAGE,
+                    tool_calls=chronological_tool_logs,
+                    citations=[],
+                    execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
+                )
+
             try:
                 synthesis_prompt = HumanMessage(
-                    content="Please provide a concise, grounded final answer based only on the verified tool observations above."
+                    content=(
+                        "Please provide a concise, grounded final answer based only on the verified tool observations above.\n"
+                        "Follow strict response guardrails: Describe business findings only. Do NOT expose internal chunk IDs, "
+                        "tool names, or system execution details. Cite legitimate page numbers if applicable."
+                    )
                 )
                 final_resp = llm.invoke(messages + [synthesis_prompt])
                 resp_str = final_resp.content if isinstance(final_resp.content, str) else str(final_resp.content)
@@ -225,20 +280,26 @@ class DocumentReActAgent:
         # 6. Format Citations from RAG tool
         citations: List[Dict[str, Any]] = []
         for c in rag_tool.retrieved_chunks:
+            meta = getattr(c, "metadata_json", {}) or {}
+            doc_title = getattr(c, "document_title", None) or meta.get("document_title") or meta.get("filename")
             citations.append({
                 "chunk_id": c.chunk_id,
                 "document_id": c.document_id,
+                "document_title": doc_title,
                 "page_number": c.page_number or 1,
                 "chunk_type": c.chunk_type,
                 "snippet": c.content.strip()[:300],
-                "bounding_box_refs": c.metadata_json.get("bounding_box_refs", []),
+                "bounding_box_refs": meta.get("bounding_box_refs", []) if isinstance(meta, dict) else [],
                 "rerank_score": getattr(c, "rerank_score", None),
             })
 
         elapsed_ms = (time.perf_counter() - start_time) * 1000.0
 
+        # Guardrails 1-10: Deterministically sanitize response content
+        sanitized_content = sanitize_response_content(final_content, query=query)
+
         return AgentResult(
-            content=final_content.strip(),
+            content=sanitized_content.strip(),
             tool_calls=chronological_tool_logs,
             citations=citations,
             execution_time_ms=elapsed_ms,

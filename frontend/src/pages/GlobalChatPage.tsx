@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   Send,
   Sparkles,
@@ -407,10 +408,30 @@ export function GlobalChatPage() {
                                     key={cidx}
                                     className="rounded-lg border border-ink-200 bg-paper-50 p-2.5 text-xs text-ink-700"
                                   >
-                                    <div className="flex items-center justify-between text-[11px] font-medium text-ink-500 mb-1">
-                                      <span>
-                                        Doc #{cite.document_id || "?"} · Page {cite.page_number} · {cite.chunk_type}
-                                      </span>
+                                    <div className="flex items-center justify-between text-[11px] font-medium text-ink-600 mb-1">
+                                      {cite.document_id ? (
+                                        <Link
+                                          to={`/documents/${cite.document_id}?tab=ocr&page=${cite.page_number}`}
+                                          className="inline-flex items-center gap-1.5 text-primary-700 hover:text-primary-800 hover:underline font-semibold"
+                                          title="Open document viewer at this page"
+                                        >
+                                          <FileText className="h-3 w-3 shrink-0" />
+                                          <span>{cite.document_title || (cite.invoice_number ? `Invoice ${cite.invoice_number}` : "Document")}</span>
+                                          <span className="text-ink-400 font-normal">—</span>
+                                          <span>Page {cite.page_number}</span>
+                                          <span className="text-ink-400 font-normal">·</span>
+                                          <span className="text-ink-500 font-normal">{cite.chunk_type}</span>
+                                        </Link>
+                                      ) : (
+                                        <span className="inline-flex items-center gap-1.5 font-semibold text-ink-700">
+                                          <FileText className="h-3 w-3 shrink-0" />
+                                          <span>{cite.document_title || "Document"}</span>
+                                          <span className="text-ink-400 font-normal">—</span>
+                                          <span>Page {cite.page_number}</span>
+                                          <span className="text-ink-400 font-normal">·</span>
+                                          <span className="text-ink-500 font-normal">{cite.chunk_type}</span>
+                                        </span>
+                                      )}
                                     </div>
                                     <p className="italic text-ink-600 bg-white p-1.5 rounded border border-ink-150">
                                       "{cite.snippet}"
@@ -435,17 +456,11 @@ export function GlobalChatPage() {
                                   >
                                     <div className="flex items-center gap-1 font-medium text-primary-800">
                                       <Database className="h-3 w-3" />
-                                      <span className="capitalize">{rec.table}</span>
-                                      {rec.record_id && <span className="text-ink-400">#{rec.record_id}</span>}
+                                      <span>{rec.vendor_name || (rec.invoice_number ? `Invoice ${rec.invoice_number}` : (rec.filename || "Financial Record"))}</span>
                                     </div>
-                                    {rec.invoice_number && (
+                                    {rec.invoice_number && rec.vendor_name && (
                                       <div className="text-[11px] text-ink-600">
                                         Invoice: <span className="font-mono text-ink-800">{rec.invoice_number}</span>
-                                      </div>
-                                    )}
-                                    {rec.vendor_name && (
-                                      <div className="text-[11px] text-ink-600">
-                                        Vendor: <span className="font-medium text-ink-800">{rec.vendor_name}</span>
                                       </div>
                                     )}
                                     {rec.amount && (
@@ -454,9 +469,14 @@ export function GlobalChatPage() {
                                       </div>
                                     )}
                                     {rec.document_id && (
-                                      <div className="text-[10px] text-ink-400">
-                                        Linked Doc #{rec.document_id}
-                                      </div>
+                                      <Link
+                                        to={`/documents/${rec.document_id}?tab=extraction`}
+                                        className="text-[10px] text-primary-600 hover:underline flex items-center gap-1 mt-0.5"
+                                        title="View linked document"
+                                      >
+                                        <FileText className="h-2.5 w-2.5" />
+                                        <span>View Document Details</span>
+                                      </Link>
                                     )}
                                   </div>
                                 ))}

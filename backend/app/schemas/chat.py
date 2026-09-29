@@ -11,6 +11,8 @@ class ChatMessageRequest(BaseModel):
 class CitationItem(BaseModel):
     chunk_id: int
     document_id: Optional[int] = None
+    document_title: Optional[str] = None
+    invoice_number: Optional[str] = None
     page_number: int
     chunk_type: str
     snippet: str

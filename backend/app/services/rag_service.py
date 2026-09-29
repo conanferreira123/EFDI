@@ -210,6 +210,7 @@ class RAGService:
         for rank, chunk in enumerate(dense_chunks, start=1):
             rrf_scores[chunk.id] += 1.0 / (self.rrf_k + rank)
             if chunk.id not in chunk_map:
+                doc_title = (getattr(chunk, "document", None) and getattr(chunk.document, "original_filename", None)) or (chunk.metadata_json.get("filename") if chunk.metadata_json else None)
                 chunk_map[chunk.id] = RetrievedChunk(
                     chunk_id=chunk.id,
                     document_id=chunk.document_id,
@@ -217,6 +218,7 @@ class RAGService:
                     chunk_type=chunk.chunk_type,
                     content=chunk.content,
                     metadata_json=chunk.metadata_json or {},
+                    document_title=doc_title,
                     dense_rank=rank,
                 )
             else:
@@ -226,6 +228,7 @@ class RAGService:
         for rank, chunk in enumerate(sparse_chunks, start=1):
             rrf_scores[chunk.id] += 1.0 / (self.rrf_k + rank)
             if chunk.id not in chunk_map:
+                doc_title = (getattr(chunk, "document", None) and getattr(chunk.document, "original_filename", None)) or (chunk.metadata_json.get("filename") if chunk.metadata_json else None)
                 chunk_map[chunk.id] = RetrievedChunk(
                     chunk_id=chunk.id,
                     document_id=chunk.document_id,
@@ -233,6 +236,7 @@ class RAGService:
                     chunk_type=chunk.chunk_type,
                     content=chunk.content,
                     metadata_json=chunk.metadata_json or {},
+                    document_title=doc_title,
                     sparse_rank=rank,
                 )
             else:

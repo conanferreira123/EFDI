@@ -3,9 +3,10 @@
 Orchestrates session state, hybrid retrieval, strict grounding, citation generation,
 and audit logging.
 """
-import re
-from datetime import datetime, timezone
 import logging
+import re
+import time
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
@@ -13,8 +14,10 @@ from app.core.config import settings
 from app.models.document import Document
 from app.models.document_enums import DocumentStatus
 from app.models.user import User
+from app.rag.agent_result import AgentResult
 from app.rag.context_resolver import ConversationContextResolver
 from app.rag.llm_client import get_llm_client
+from app.rag.response_guardrails import GLOBAL_TIMEOUT_MESSAGE
 from app.repositories.chat_history_repository import ChatHistoryRepository
 from app.repositories.ocr_result_repository import OCRResultRepository
 from app.services.document_service import DocumentService
@@ -81,6 +84,7 @@ class ChatService:
         user: User,
     ) -> Dict[str, Any]:
         """Process a user query scoped to a single document with strict authorization."""
+        request_start_time = time.perf_counter()
         # 1. Verify user has permission to access this document
         document = self.doc_service.get_for_user(document_id, user)
         self.doc_service.record_activity(document.id, user)
@@ -194,41 +198,53 @@ class ChatService:
 
         # 8. Invoke Document ReAct Agent (strictly scoped to this document, NO SQL tool)
         from app.rag.document_agent import DocumentReActAgent
-        agent = DocumentReActAgent(self.db)
-        agent_result = agent.run(
-            document_id=document.id,
-            query=effective_query,
-            user=user,
-            history=history_messages,
+        remaining_timeout = max(
+            1.0,
+            float(getattr(settings, "CHAT_REQUEST_TIMEOUT_SECONDS", 30.0)) - (time.perf_counter() - request_start_time),
         )
+        try:
+            agent = DocumentReActAgent(self.db)
+            agent_result = agent.run(
+                document_id=document.id,
+                query=effective_query,
+                user=user,
+                history=history_messages,
+                timeout_seconds=remaining_timeout,
+            )
+        except TimeoutError:
+            logger.warning("[DocumentChat] Global request timeout exceeded during agent execution")
+            agent_result = AgentResult(
+                content=GLOBAL_TIMEOUT_MESSAGE,
+                tool_calls=[],
+                citations=[],
+                execution_time_ms=(time.perf_counter() - request_start_time) * 1000.0,
+            )
 
-        # 9. Update Structured State Lifecycle
-        # If user accepted a pending offer, clear it so it isn't repeated on subsequent turns
-        if resolution.action_type == "confirmation_affirmative":
-            session_state["pending_offer"] = None
+        # 9. Update Structured State Lifecycle (if not timed out)
+        if agent_result.content != GLOBAL_TIMEOUT_MESSAGE:
+            if resolution.action_type == "confirmation_affirmative":
+                session_state["pending_offer"] = None
 
-        # Detect if new assistant response makes an offer or asks a confirmation question
-        new_offer = resolver.extract_pending_offer(agent_result.content)
-        session_state["pending_offer"] = new_offer
+            new_offer = resolver.extract_pending_offer(agent_result.content)
+            session_state["pending_offer"] = new_offer
 
-        # Track verified tool evidence if tools were executed
-        if agent_result.tool_calls:
-            verified = session_state.get("verified_facts", [])
-            for tc in agent_result.tool_calls:
-                tool_name = tc.get("tool") or tc.get("name")
-                if tool_name:
-                    verified.append({"tool": tool_name, "query": tc.get("query") or tc.get("input")})
-            session_state["verified_facts"] = verified[-10:]
+            if agent_result.tool_calls:
+                verified = session_state.get("verified_facts", [])
+                for tc in agent_result.tool_calls:
+                    tool_name = tc.get("tool") or tc.get("name")
+                    if tool_name:
+                        verified.append({"tool": tool_name, "query": tc.get("query") or tc.get("input")})
+                session_state["verified_facts"] = verified[-10:]
 
-        self.history_repo.update_session_state(session.id, session_state)
+            self.history_repo.update_session_state(session.id, session_state)
 
         # 10. Persist assistant response with citations and tool metadata
         assistant_msg = self.history_repo.add_message(
             session_id=session.id,
             role="assistant",
             content=agent_result.content,
-            tool_calls=agent_result.tool_calls,
-            citations=agent_result.citations,
+            tool_calls=agent_result.tool_calls if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
+            citations=agent_result.citations if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
         )
         self.db.commit()
 
@@ -238,7 +254,7 @@ class ChatService:
             "user_message_id": user_msg.id,
             "role": "assistant",
             "content": agent_result.content,
-            "citations": agent_result.citations,
+            "citations": agent_result.citations if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
             "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
         }
 

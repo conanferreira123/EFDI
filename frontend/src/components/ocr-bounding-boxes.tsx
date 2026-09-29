@@ -12,8 +12,9 @@ import { formatConfidence } from "@/lib/format";
  * text block proportionally within it, using page_width/page_height to
  * scale real pixel coordinates down to the SVG's viewBox.
  */
-export function OCRBoundingBoxes({ pages }: { pages: OCRPageBlocks[] }) {
-  const [activePage, setActivePage] = useState(0);
+export function OCRBoundingBoxes({ pages, initialPage = 1 }: { pages: OCRPageBlocks[]; initialPage?: number }) {
+  const initialIndex = Math.max(0, Math.min(pages.length - 1, initialPage - 1));
+  const [activePage, setActivePage] = useState(initialIndex);
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
 
   if (pages.length === 0) {

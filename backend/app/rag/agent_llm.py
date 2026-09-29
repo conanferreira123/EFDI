@@ -23,11 +23,13 @@ def get_agent_llm(temperature: float = 0.0, max_tokens: int = 1024) -> ChatMistr
     if not api_key:
         logger.warning("MISTRAL_API_KEY is not configured for ReAct agent.")
 
-    # ChatMistralAI accepts api_key, model, temperature, max_tokens, endpoint
+    # ChatMistralAI accepts api_key, model, temperature, max_tokens, endpoint, timeout
     kwargs = {
         "model": settings.EXTRACTION_LLM_MODEL or "mistral-small-2603",
         "temperature": temperature,
         "max_tokens": max_tokens,
+        "timeout": int(getattr(settings, "CHAT_REQUEST_TIMEOUT_SECONDS", 30.0)),
+        "max_retries": 1,
     }
     if api_key:
         kwargs["api_key"] = api_key
