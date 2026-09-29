@@ -6,28 +6,41 @@ export function FloatingChatButton() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Document is open if the pathname matches /documents/:id (with a numeric document ID)
-  const isDocumentOpen = /^\/documents\/\d+/.test(location.pathname);
-  const searchParams = new URLSearchParams(location.search);
-  const isChatOpen = searchParams.get("tab") === "chat";
+  // Document Detail context: matches /documents/:id (with a numeric document ID)
+  const isDocumentDetail = /^\/documents\/\d+/.test(location.pathname);
+  // Documents / Home context: matches /documents or / (with optional trailing slash)
+  const isDocumentsHome = /^\/documents\/?$/.test(location.pathname) || location.pathname === "/";
 
-  // SHOW FLOATING BUTTON = document detail is open AND document chatbot is closed
-  const isVisible = isDocumentOpen && !isChatOpen;
+  const searchParams = new URLSearchParams(location.search);
+  const isDocumentChatOpen = searchParams.get("tab") === "chat";
+
+  // Visibility:
+  // - On Document Detail: visible ONLY if the document-level chat tab is closed
+  // - On Documents/Home: visible to provide the global Ask AI entry point
+  // - On any other page (e.g. /chat where global AI is already open): hidden
+  // Mutual exclusivity: isDocumentDetail and isDocumentsHome cannot both be true
+  const isVisible = (isDocumentDetail && !isDocumentChatOpen) || isDocumentsHome;
 
   if (!isVisible) {
     return null;
   }
 
   function handleClick() {
-    const nextParams = new URLSearchParams(location.search);
-    nextParams.set("tab", "chat");
-    navigate(
-      {
-        pathname: location.pathname,
-        search: nextParams.toString(),
-      },
-      { replace: false }
-    );
+    if (isDocumentDetail) {
+      // Open document-specific EFDI Bot via the document tab query param
+      const nextParams = new URLSearchParams(location.search);
+      nextParams.set("tab", "chat");
+      navigate(
+        {
+          pathname: location.pathname,
+          search: nextParams.toString(),
+        },
+        { replace: false }
+      );
+    } else if (isDocumentsHome) {
+      // Open global Ask AI interface via navigation
+      navigate("/chat");
+    }
   }
 
   return (
