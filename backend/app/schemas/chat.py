@@ -36,6 +36,8 @@ class GlobalChatMessageResponse(BaseModel):
     content: str
     tool_calls: List[Dict[str, Any]] = Field(default_factory=list)
     citations: List[CitationItem] = Field(default_factory=list)
+    relational_provenance: List[Dict[str, Any]] = Field(default_factory=list)
+    calculation_provenance: List[Dict[str, Any]] = Field(default_factory=list)
     created_at: str
     execution_time_ms: Optional[float] = None
 
@@ -46,6 +48,8 @@ class ChatHistoryItem(BaseModel):
     role: str
     content: str
     citations: List[CitationItem] = Field(default_factory=list)
+    relational_provenance: List[Dict[str, Any]] = Field(default_factory=list)
+    calculation_provenance: List[Dict[str, Any]] = Field(default_factory=list)
     created_at: Optional[str] = None
 
 

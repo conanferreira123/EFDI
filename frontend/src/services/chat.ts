@@ -31,6 +31,27 @@ export interface ToolCallItem {
   error?: string;
 }
 
+export interface RelationalProvenanceItem {
+  table: string;
+  record_id?: number | string;
+  document_id?: number | string;
+  invoice_number?: string;
+  vendor_name?: string;
+  filename?: string;
+  currency?: string;
+  amount?: string;
+}
+
+export interface CalculationProvenanceItem {
+  operation: string;
+  formula: string;
+  original_gross?: string;
+  discount_amount?: string;
+  payable_total?: string;
+  result?: string;
+  totals_by_currency?: Record<string, any>;
+}
+
 export interface GlobalChatMessageResponse {
   session_id: number;
   message_id: number;
@@ -39,6 +60,8 @@ export interface GlobalChatMessageResponse {
   content: string;
   tool_calls: ToolCallItem[];
   citations: CitationItem[];
+  relational_provenance?: RelationalProvenanceItem[];
+  calculation_provenance?: CalculationProvenanceItem[];
   created_at: string;
   execution_time_ms: number;
 }
@@ -51,6 +74,8 @@ export interface ChatHistoryItem {
   status?: "sending" | "sent" | "error";
   tool_calls?: ToolCallItem[];
   citations: CitationItem[];
+  relational_provenance?: RelationalProvenanceItem[];
+  calculation_provenance?: CalculationProvenanceItem[];
   created_at?: string;
 }
 

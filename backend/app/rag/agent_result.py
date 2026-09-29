@@ -11,4 +11,6 @@ class AgentResult(BaseModel):
     content: str
     tool_calls: List[Dict[str, Any]] = Field(default_factory=list)
     citations: List[Dict[str, Any]] = Field(default_factory=list)
+    relational_provenance: List[Dict[str, Any]] = Field(default_factory=list)
+    calculation_provenance: List[Dict[str, Any]] = Field(default_factory=list)
     execution_time_ms: float = 0.0

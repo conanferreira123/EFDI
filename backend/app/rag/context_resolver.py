@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional, Sequence
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 
 from app.rag.agent_llm import get_agent_llm
+from app.utils.clock import get_temporal_prompt_block
 
 logger = logging.getLogger(__name__)
 
@@ -198,8 +199,10 @@ class ConversationContextResolver:
 
         try:
             llm = self._get_llm()
+            temporal_block = get_temporal_prompt_block()
+            system_content = f"{CONTEXT_RESOLVER_SYSTEM_PROMPT}\n\n{temporal_block}"
             messages = [
-                SystemMessage(content=CONTEXT_RESOLVER_SYSTEM_PROMPT),
+                SystemMessage(content=system_content),
                 HumanMessage(content=user_prompt),
             ]
             resp = llm.invoke(messages)

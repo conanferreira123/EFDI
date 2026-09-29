@@ -111,10 +111,20 @@ class RAGService:
         query: str,
         user: User,
         document_ids: Optional[List[int]] = None,
+        section: Optional[str] = None,
+        document_type: Optional[str] = None,
+        vendor_id: Optional[int] = None,
         top_k: Optional[int] = None,
     ) -> List[RetrievedChunk]:
-        """Hybrid retrieval across authorized corpus with pre-retrieval SQL enforcement."""
-        limit = top_k or self.final_top_k
+        """Hybrid retrieval across authorized corpus with pre-retrieval SQL enforcement and metadata pre-filtering."""
+        # Dynamic candidate scaling: for broad portfolio searches, allow scaling up to 15 chunks
+        if top_k is not None:
+            limit = top_k
+        elif document_ids is not None and len(document_ids) == 1:
+            limit = 5
+        else:
+            limit = max(self.final_top_k, 10)
+
         start_time = time.perf_counter()
 
         # 1. Generate query embedding
@@ -122,23 +132,29 @@ class RAGService:
         query_vector = self.embedding_service.generate_query_embedding(query)
         t_embed_ms = (time.perf_counter() - t_embed_start) * 1000.0
 
-        # 2. Dense vector search with pre-retrieval authorization
+        # 2. Dense vector search with pre-retrieval authorization and metadata pre-filters
         t_dense_start = time.perf_counter()
         dense_chunks = self.chunk_repo.search_vector_global(
             query_vector=query_vector,
             user=user,
             document_ids=document_ids,
-            limit=self.dense_top_k,
+            section=section,
+            document_type=document_type,
+            vendor_id=vendor_id,
+            limit=max(self.dense_top_k, 40),
         )
         t_dense_ms = (time.perf_counter() - t_dense_start) * 1000.0
 
-        # 3. Sparse PostgreSQL FTS search with pre-retrieval authorization
+        # 3. Sparse PostgreSQL FTS search with pre-retrieval authorization and metadata pre-filters
         t_sparse_start = time.perf_counter()
         sparse_chunks = self.chunk_repo.search_fts_global(
             query_text=query,
             user=user,
             document_ids=document_ids,
-            limit=self.sparse_top_k,
+            section=section,
+            document_type=document_type,
+            vendor_id=vendor_id,
+            limit=max(self.sparse_top_k, 40),
         )
         t_sparse_ms = (time.perf_counter() - t_sparse_start) * 1000.0
 

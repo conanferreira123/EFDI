@@ -28,6 +28,14 @@ class GlobalRAGInput(BaseModel):
         default=None,
         description="Optional list of specific document IDs to focus retrieval on.",
     )
+    section: Optional[str] = Field(
+        default=None,
+        description="Optional section or chunk type filter (e.g. 'PAYMENT', 'TERMS', 'LINE_ITEMS', 'SUMMARY').",
+    )
+    document_type: Optional[str] = Field(
+        default=None,
+        description="Optional document type filter (e.g. 'POI', 'NPO', 'CREDIT_NOTE').",
+    )
 
 
 class DocumentRAGInput(BaseModel):
@@ -55,7 +63,13 @@ class DocumentRAGTool(BaseTool):
     retrieved_chunks: List[RetrievedChunk] = Field(default_factory=list, exclude=True)
     execution_logs: List[Dict[str, Any]] = Field(default_factory=list, exclude=True)
 
-    def _run(self, query: str, document_ids: Optional[List[int]] = None) -> str:
+    def _run(
+        self,
+        query: str,
+        document_ids: Optional[List[int]] = None,
+        section: Optional[str] = None,
+        document_type: Optional[str] = None,
+    ) -> str:
         """Execute hybrid RAG retrieval under backend-enforced authorization."""
         service = RAGService(self.db)
         try:
@@ -78,14 +92,22 @@ class DocumentRAGTool(BaseTool):
                 scope_info = f"Document #{self.enforced_document_id}"
                 scoped_ids = [self.enforced_document_id]
             else:
-                # Global Chat: authorized portfolio search with optional hint filter
+                # Global Chat: authorized portfolio search with optional hint filters
                 chunks = service.retrieve_global(
                     query=query,
                     user=self.user,
                     document_ids=document_ids,
-                    top_k=5,
+                    section=section,
+                    document_type=document_type,
                 )
-                scope_info = f"Document IDs {document_ids}" if document_ids else "Authorized Portfolio"
+                scope_parts = []
+                if document_ids:
+                    scope_parts.append(f"Document IDs {document_ids}")
+                if section:
+                    scope_parts.append(f"Section '{section}'")
+                if document_type:
+                    scope_parts.append(f"Type '{document_type}'")
+                scope_info = ", ".join(scope_parts) if scope_parts else "Authorized Portfolio"
                 scoped_ids = document_ids
 
             # Accumulate retrieved chunks for citation building

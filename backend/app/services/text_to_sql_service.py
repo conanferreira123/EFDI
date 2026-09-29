@@ -22,6 +22,7 @@ from app.core.config import settings
 from app.database.session import engine
 from app.models.roles import UserRole
 from app.models.user import User
+from app.utils.clock import get_temporal_prompt_block
 from app.rag.llm_client import get_llm_client
 
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ ALLOWED_TABLES: Set[str] = {
     "invoice_line_items",
     "payment_obligations",
     "invoice_payments",
+    "workflow_history",
 }
 
 # Role-specific table allowlists
@@ -78,6 +80,7 @@ ROLE_ALLOWED_TABLES: Dict[str, Set[str]] = {
         "vendors",
         "vendor_aliases",
         "invoice_payments",
+        "workflow_history",
     },
     UserRole.ADMIN.value: {
         "documents",
@@ -91,6 +94,7 @@ ROLE_ALLOWED_TABLES: Dict[str, Set[str]] = {
         "vendor_aliases",
         "invoice_payments",
         "users",
+        "workflow_history",
     },
 }
 
@@ -145,6 +149,10 @@ ALLOWED_COLUMNS: Dict[str, Set[str]] = {
         "id", "invoice_id", "payment_date", "amount", "currency",
         "payment_reference", "payment_method", "created_at",
     },
+    "workflow_history": {
+        "id", "document_id", "action", "from_status", "to_status", "comment",
+        "performed_by", "created_at",
+    },
 }
 
 FORBIDDEN_FUNCTIONS: Set[str] = {
@@ -158,12 +166,17 @@ class SQLSecurityException(Exception):
     pass
 
 
+class SQLQueryException(Exception):
+    """Raised when SQL generation or safe execution fails."""
+    pass
+
+
 class TextToSQLService:
     """Service for safely translating financial questions into constrained SQL queries."""
 
     SCHEMA_CONTEXT = """PostgreSQL Database Schema:
 Table: documents
-Columns: id (int), original_filename (str), document_type (str: POI, NPO), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
+Columns: id (int), original_filename (str), document_type (str: POI, NPO), status (str: UPLOADED, OCR_COMPLETED, EXTRACTED, VALIDATED, APPROVED, REJECTED, PENDING_APPROVAL), company_code (str), vendor_code (str), validation_status (str), file_size_bytes (int), uploaded_by (int), is_deleted (bool), created_at (timestamp)
 
 Table: invoices
 Columns: id (int), document_id (int, FK documents.id, UNIQUE), source_extraction_result_id (int, FK extraction_results.id), invoice_number (str), invoice_date (date), vendor_id (int, FK vendors.id), buyer_name (str), buyer_tax_id (str), currency (str), subtotal_amount (decimal), tax_amount (decimal), discount_amount (decimal), shipping_amount (decimal), rounding_amount (decimal), other_charges_amount (decimal), grand_total_amount (decimal), po_number (str), created_at (timestamp)
@@ -175,7 +188,7 @@ Table: invoice_line_items
 Columns: id (int), invoice_id (int, FK invoices.id), line_number (int), description (text), quantity (decimal), uom (str), unit_price (decimal), net_amount (decimal), tax_rate (decimal), tax_amount (decimal), gross_amount (decimal)
 
 Table: payment_obligations
-Columns: id (int), invoice_id (int, FK invoices.id, UNIQUE), amount_due (decimal), amount_paid (decimal), amount_outstanding (decimal), currency (str), due_date (date), status (str: UNKNOWN, OPEN, PARTIALLY_PAID, PAID, OVERDUE), payment_terms (text), early_payment_deadline (date), early_payment_discount (decimal), late_payment_penalty (decimal)
+Columns: id (int), invoice_id (int, FK invoices.id, UNIQUE), amount_due (decimal), amount_paid (decimal), amount_outstanding (decimal), currency (str), due_date (date), status (str: UNKNOWN, OPEN, PARTIALLY_PAID, PAID), payment_terms (text), early_payment_deadline (date), early_payment_discount (decimal), late_payment_penalty (decimal)
 
 Table: invoice_payments
 Columns: id (int), invoice_id (int, FK invoices.id), payment_date (date), amount (decimal), currency (str), payment_reference (str), payment_method (str)
@@ -189,8 +202,29 @@ Columns: id (int), document_id (int, FK documents.id), is_valid (bool), error_co
 Table: classification_results
 Columns: id (int), document_id (int, FK documents.id), predicted_type (str), confidence (float), created_at (timestamp)
 
-Table: users
+Table: workflow_history (Access restricted: AUDITOR and ADMIN only)
+Columns: id (int), document_id (int, FK documents.id), action (str), from_status (str), to_status (str), comment (text), performed_by (int, FK users.id), created_at (timestamp)
+
+Table: users (Access restricted: ADMIN only)
 Columns: id (int), username (str), email (str), full_name (str), role (str: FINANCE_ANALYST, FINANCE_MANAGER, AUDITOR, ADMIN)
+
+BUSINESS SEMANTICS RULES:
+1. OVERDUE INVOICES / OBLIGATIONS:
+   Must be computed dynamically using:
+   due_date < CURRENT_DATE AND (amount_outstanding > 0 OR amount_outstanding IS NULL) AND status != 'PAID'
+   CRITICAL: Do NOT filter by status = 'OVERDUE' because EFDI background workers do not populate that status automatically.
+2. AWAITING REVIEW:
+   Maps to documents.status = 'PENDING_APPROVAL'.
+3. PROCESSED SPEND / INGESTION TIMESTAMPS:
+   Maps to documents.created_at with documents.status IN ('VALIDATED', 'PENDING_APPROVAL', 'APPROVED') AND documents.is_deleted = false.
+4. MULTI-CURRENCY AGGREGATION CONTRACT:
+   - Never blindly SUM monetary amounts across heterogeneous currencies.
+   - Always GROUP BY currency when computing monetary totals or spend breakdowns.
+   - For questions asking for 'dollar value' (e.g. Q48, Q53), filter strictly to currency = 'USD'.
+5. VENDOR SPEND RANKINGS (Q52):
+   - Group by vendor and currency, and order by currency, spend DESC so separate per-currency rankings are produced.
+6. SOFT DELETED RECORDS:
+   - Always filter documents.is_deleted = false.
 """
 
     def __init__(self, db: Session) -> None:
@@ -244,6 +278,12 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
                 raise SQLSecurityException(f"Access to table '{table_name}' is unauthorized.")
 
         # 4. Check columns against allowlist (strictly preventing password_hash)
+        # Collect aliases defined in SELECT or CTEs to prevent false-positive rejection of projected aliases
+        defined_aliases = {
+            a.alias_or_name.lower()
+            for a in ast.find_all(exp.Alias)
+        }
+
         for col in ast.find_all(exp.Column):
             col_name = col.name.lower()
             if col_name == "*":
@@ -255,10 +295,17 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
                     if t.alias_or_name.lower() == col_tbl_ref or t.name.lower() == col_tbl_ref:
                         matched_table_name = t.name.lower()
                         break
-                target_tbl = matched_table_name or col_tbl_ref
+                if not matched_table_name:
+                    raise SQLSecurityException(
+                        f"Column references table '{col_tbl_ref}' which is not in the FROM or JOIN clause."
+                    )
+                target_tbl = matched_table_name
                 if target_tbl in ALLOWED_COLUMNS and col_name not in ALLOWED_COLUMNS[target_tbl]:
                     raise SQLSecurityException(f"Access to column '{col_tbl_ref}.{col_name}' is unauthorized.")
             else:
+                # If column name matches a projected expression alias in this query, allow it
+                if col_name in defined_aliases:
+                    continue
                 # Column without explicit table prefix: ensure it exists in at least one allowed table
                 all_allowed = set().union(*[ALLOWED_COLUMNS[t] for t in user_allowed_tables if t in ALLOWED_COLUMNS])
                 if col_name not in all_allowed:
@@ -342,6 +389,13 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
                             read="postgres",
                         )
                     )
+                elif table_name == "workflow_history":
+                    predicates.append(
+                        sqlglot.parse_one(
+                            f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
+                            read="postgres",
+                        )
+                    )
 
         where_clause = ast.args.get("where")
         combined_pred = where_clause.this if where_clause else None
@@ -385,9 +439,11 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
 
     def generate_and_execute_sql(self, natural_language_query: str, user: User) -> Dict[str, Any]:
         """Convert natural language query to safe SQL, validate AST, and execute."""
+        temporal_block = get_temporal_prompt_block()
         prompt = (
             f"You are a PostgreSQL expert for the EFDI system.\n"
             f"{self.SCHEMA_CONTEXT}\n\n"
+            f"{temporal_block}\n\n"
             f"Generate a single SELECT query answering this user question:\n"
             f"Question: {natural_language_query}\n\n"
             f"Rules:\n"
@@ -404,20 +460,11 @@ Columns: id (int), username (str), email (str), full_name (str), role (str: FINA
             # Strip any markdown code fences if present
             clean_sql = re.sub(r"^```(?:sql)?\s*|\s*```$", "", generated_sql.strip(), flags=re.IGNORECASE)
         except Exception as e:
-            logger.warning("LLM SQL generation failed: %s; using deterministic keyword heuristic", e)
-            clean_sql = self._heuristic_sql_fallback(natural_language_query)
+            logger.error("LLM SQL generation failed: %s", e)
+            raise SQLQueryException(f"Failed to generate SQL from user query: {e}") from e
+
+        if not clean_sql:
+            raise SQLQueryException("LLM returned empty SQL query.")
 
         safe_sql = self.validate_and_sanitize_sql(clean_sql, user=user)
         return self.execute_safe_query(safe_sql)
-
-    def _heuristic_sql_fallback(self, query: str) -> str:
-        """Deterministic query fallback for common metrics/count queries."""
-        q_lower = query.lower()
-        if "validated" in q_lower:
-            return "SELECT id, original_filename, document_type, status FROM documents WHERE status = 'VALIDATED' LIMIT 50"
-        elif "how many" in q_lower or "count" in q_lower:
-            return "SELECT status, COUNT(*) as count FROM documents GROUP BY status LIMIT 50"
-        elif "uploaded by" in q_lower:
-            return "SELECT id, original_filename, status, created_at FROM documents ORDER BY created_at DESC LIMIT 50"
-        else:
-            return "SELECT id, original_filename, document_type, status, created_at FROM documents ORDER BY created_at DESC LIMIT 50"

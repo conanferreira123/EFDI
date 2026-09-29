@@ -167,6 +167,8 @@ def send_global_message(
         content=agent_result.content,
         tool_calls=agent_result.tool_calls,
         citations=agent_result.citations,
+        relational_provenance=agent_result.relational_provenance,
+        calculation_provenance=agent_result.calculation_provenance,
         created_at=assistant_msg.created_at.isoformat() if assistant_msg.created_at else "",
         execution_time_ms=agent_result.execution_time_ms,
     )

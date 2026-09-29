@@ -20,6 +20,7 @@ from app.rag.agent_result import AgentResult
 from app.rag.tools.calculator_tool import FinancialCalculatorTool
 from app.rag.tools.database_tool import DatabaseQueryTool
 from app.rag.tools.rag_tool import DocumentRAGTool
+from app.utils.clock import get_temporal_prompt_block
 
 logger = logging.getLogger(__name__)
 
@@ -46,48 +47,64 @@ CONVERSATIONAL CONTINUITY & EVIDENCE RULES:
 - If a tool search returns no matching records/clauses, report clearly that the search yielded no results.
 - Do NOT repeatedly query equivalent variations of the same search if previous attempts yielded no relevant findings.
 - Do NOT repeat an offer or question you already extended and executed in the same dialogue thread.
+
+MULTI-CURRENCY SAFETY RULES:
+- Never combine or SUM monetary amounts across heterogeneous currencies (e.g. USD, EUR, GBP). There are no exchange rates.
+- For overall spend or portfolio monetary totals across multiple currencies (e.g. Q50), report breakdowns grouped by currency.
+- For questions explicitly requesting "dollar value" or USD spend (e.g. Q48, Q53), scope calculations strictly to USD amounts and transparently state that non-USD amounts were excluded from the USD total.
+- For top vendor rankings by spend (e.g. Q52), report separate Top-5 vendor rankings per currency (e.g. Top USD vendors, Top EUR vendors). Never rank vendors by comparing raw numeric values across different currencies.
 """
 
-MAX_ITERATIONS = 5
+MAX_ITERATIONS = 8
 
 
-def _is_redundant_query(tool_name: str, query_str: str, executed_queries: Any) -> bool:
-    """Check if query_str is substantially duplicate to an already executed query for this tool."""
-    if not query_str or not executed_queries:
+def _is_duplicate_call(tool_name: str, tool_args: Any, executed_calls: Any) -> bool:
+    """Check if a tool call has the exact same name and arguments as an already executed call in this turn."""
+    if not executed_calls:
         return False
 
-    q_lower = query_str.lower().strip()
-    stopwords = {"the", "for", "and", "or", "in", "of", "to", "document", "details", "any", "other", "is", "a", "an"}
-    words_a = {w for w in re.findall(r"\b[a-z0-9]+\b", q_lower) if len(w) > 2 and w not in stopwords}
+    def _normalize_val(v: Any) -> Any:
+        if isinstance(v, dict):
+            return {k: _normalize_val(val) for k, val in sorted(v.items())}
+        if isinstance(v, (list, tuple, set)):
+            return [_normalize_val(item) for item in v]
+        if isinstance(v, str):
+            return v.strip().lower()
+        return v
 
-    for item in executed_queries:
-        if isinstance(item, dict):
-            prev_tool = item.get("tool") or item.get("name")
-            prev_q = item.get("query") or item.get("input") or ""
-        elif isinstance(item, (list, tuple)) and len(item) >= 2:
-            prev_tool, prev_q = item[0], item[1]
+    args_dict = tool_args if isinstance(tool_args, dict) else {}
+    norm_args = {k: _normalize_val(v) for k, v in args_dict.items() if v is not None}
+
+    for prev in executed_calls:
+        if isinstance(prev, dict):
+            prev_name = prev.get("name") or prev.get("tool")
+            raw_prev_args = prev.get("args") or prev.get("input") or {}
+            prev_args_dict = raw_prev_args if isinstance(raw_prev_args, dict) else {"query": str(raw_prev_args)}
+        elif isinstance(prev, (list, tuple)) and len(prev) >= 2:
+            prev_name, raw_prev_args = prev[0], prev[1]
+            prev_args_dict = raw_prev_args if isinstance(raw_prev_args, dict) else {"query": str(raw_prev_args)}
         else:
             continue
 
-        if prev_tool != tool_name:
+        if prev_name != tool_name:
             continue
-        prev_lower = prev_q.lower().strip()
-        if q_lower == prev_lower:
+
+        prev_norm_args = {k: _normalize_val(v) for k, v in prev_args_dict.items() if v is not None}
+        if norm_args == prev_norm_args:
             return True
-        if tool_name == "document_rag_tool":
-            words_b = {w for w in re.findall(r"\b[a-z0-9]+\b", prev_lower) if len(w) > 2 and w not in stopwords}
-            if words_a and words_b:
-                overlap = len(words_a & words_b) / len(words_a | words_b)
-                if overlap >= 0.70:
-                    return True
 
     return False
+
+
+# Backward-compatible alias
+_is_redundant_query = _is_duplicate_call
 
 
 class GlobalReActAgent:
     """Dynamic ReAct Agent for portfolio-wide inquiries (/api/v1/chat/corpus)."""
 
-    _is_redundant_query = staticmethod(_is_redundant_query)
+    _is_redundant_query = staticmethod(_is_duplicate_call)
+    _is_duplicate_call = staticmethod(_is_duplicate_call)
 
     def __init__(self, db: Session, llm: Optional[Any] = None) -> None:
         self.db = db
@@ -122,18 +139,26 @@ class GlobalReActAgent:
         llm = self._llm or get_agent_llm()
         llm_with_tools = llm.bind_tools(tools)
 
-        # 4. Construct Message History
-        messages: List[BaseMessage] = [SystemMessage(content=GLOBAL_REACT_SYSTEM_PROMPT)]
+        # 4. Construct Message History with Dynamic Temporal and User Context
+        temporal_block = get_temporal_prompt_block()
+        dynamic_system_prompt = (
+            f"{GLOBAL_REACT_SYSTEM_PROMPT}\n\n"
+            f"{temporal_block}\n\n"
+            f"ACTIVE SESSION USER:\n"
+            f"- Role: {user.role}\n"
+            f"- Scoping Policy: {'Own uploaded documents only' if user.role == UserRole.FINANCE_ANALYST.value else 'All enterprise documents'}"
+        )
+        messages: List[BaseMessage] = [SystemMessage(content=dynamic_system_prompt)]
         if history:
             messages.extend(history)
         messages.append(HumanMessage(content=query.strip()))
 
         final_content = ""
         chronological_tool_logs: List[Dict[str, Any]] = []
-        executed_tool_queries: List[tuple[str, str]] = []
+        executed_tool_calls: List[Dict[str, Any]] = []
         should_break_loop = False
 
-        # 5. Iterative ReAct Loop (max 5 iterations)
+        # 5. Iterative ReAct Loop (up to MAX_ITERATIONS = 8)
         for step in range(MAX_ITERATIONS):
             try:
                 response = llm_with_tools.invoke(messages)
@@ -162,7 +187,6 @@ class GlobalReActAgent:
                 tool_name = tc.get("name")
                 tool_args = tc.get("args", {})
                 tool_id = tc.get("id") or f"call_{step}_{tool_name}"
-                query_str = str(tool_args.get("query", tool_args.get("expression", ""))).strip()
 
                 target_tool = tool_map.get(tool_name)
                 if not target_tool:
@@ -175,28 +199,26 @@ class GlobalReActAgent:
                     messages.append(ToolMessage(content=str(obs), tool_call_id=tool_id))
                     continue
 
-                # Check redundant tool-call loop guard
-                if _is_redundant_query(tool_name, query_str, executed_tool_queries):
+                # Check stateful duplicate call loop guard
+                if _is_duplicate_call(tool_name, tool_args, executed_tool_calls):
                     logger.info(
-                        "[GlobalReActAgent] Loop guard intercepted redundant call to '%s' with query %r",
+                        "[GlobalReActAgent] Loop guard intercepted duplicate call to '%s' with identical args: %s",
                         tool_name,
-                        query_str,
+                        tool_args,
                     )
                     obs = (
-                        f"Notice: An equivalent search for '{query_str}' has already been executed in this turn. "
-                        "No additional matching results were found. "
-                        "Please synthesize your final grounded answer based on available verified observations."
+                        f"Notice: A tool call to '{tool_name}' with identical arguments has already been executed in this turn. "
+                        "Please use the existing verified observations to formulate your response or proceed with different arguments."
                     )
                     chronological_tool_logs.append({
                         "tool": tool_name,
-                        "summary": f"Suppressed redundant search for: {query_str[:50]}",
-                        "status": "redundant_suppressed",
+                        "summary": f"Suppressed duplicate tool call with identical arguments",
+                        "status": "duplicate_suppressed",
                     })
                     messages.append(ToolMessage(content=obs, tool_call_id=tool_id))
-                    should_break_loop = True
                     continue
 
-                executed_tool_queries.append((tool_name, query_str))
+                executed_tool_calls.append({"name": tool_name, "args": tool_args})
                 pre_count = len(target_tool.execution_logs)
                 try:
                     obs = target_tool.invoke(tool_args)
@@ -251,5 +273,7 @@ class GlobalReActAgent:
             content=final_content.strip(),
             tool_calls=chronological_tool_logs,
             citations=citations,
+            relational_provenance=db_tool.relational_provenance,
+            calculation_provenance=calc_tool.calculation_provenance,
             execution_time_ms=elapsed_ms,
         )

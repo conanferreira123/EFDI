@@ -13,7 +13,14 @@ import {
   ShieldCheck,
   RotateCw,
 } from "lucide-react";
-import { chatApi, type ChatHistoryItem, type ToolCallItem, type CitationItem } from "@/services/chat";
+import {
+  chatApi,
+  type ChatHistoryItem,
+  type ToolCallItem,
+  type CitationItem,
+  type RelationalProvenanceItem,
+  type CalculationProvenanceItem,
+} from "@/services/chat";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/components/ui/toast";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
@@ -117,6 +124,8 @@ export function GlobalChatPage() {
         content: res.content,
         tool_calls: res.tool_calls,
         citations: res.citations,
+        relational_provenance: res.relational_provenance,
+        calculation_provenance: res.calculation_provenance,
         created_at: res.created_at,
         status: "sent",
       };
@@ -155,6 +164,8 @@ export function GlobalChatPage() {
         content: res.content,
         tool_calls: res.tool_calls,
         citations: res.citations,
+        relational_provenance: res.relational_provenance,
+        calculation_provenance: res.calculation_provenance,
         created_at: res.created_at,
         status: "sent",
       };
@@ -269,6 +280,9 @@ export function GlobalChatPage() {
             const isAssistant = msg.role === "assistant";
             const hasTools = msg.tool_calls && msg.tool_calls.length > 0;
             const hasCitations = msg.citations && msg.citations.length > 0;
+            const hasRelational = msg.relational_provenance && msg.relational_provenance.length > 0;
+            const hasCalculations = msg.calculation_provenance && msg.calculation_provenance.length > 0;
+            const hasProvenance = hasCitations || hasRelational || hasCalculations;
             const toolsExpanded = !!expandedTools[msg.id];
             const citationsExpanded = !!expandedCitations[msg.id];
 
@@ -353,8 +367,8 @@ export function GlobalChatPage() {
                     <div className="whitespace-pre-wrap">{msg.content}</div>
                   )}
 
-                  {/* Citations Accordion (Assistant only) */}
-                  {isAssistant && hasCitations && (
+                  {/* Unified Evidence and Provenance Accordion (Assistant only) */}
+                  {isAssistant && hasProvenance && (
                     <div className="mt-3 border-t border-ink-100 pt-2.5">
                       <button
                         onClick={() => toggleCitations(msg.id)}
@@ -365,26 +379,115 @@ export function GlobalChatPage() {
                         ) : (
                           <ChevronRight className="h-3.5 w-3.5" />
                         )}
-                        <span>{msg.citations.length} Verified OCR Grounding Reference(s)</span>
+                        <ShieldCheck className="h-3.5 w-3.5 text-primary-600" />
+                        <span>
+                          Verified Grounding & Provenance (
+                          {[
+                            hasCitations ? `${msg.citations.length} OCR Text` : null,
+                            hasRelational ? `${msg.relational_provenance!.length} Relational Record${msg.relational_provenance!.length > 1 ? "s" : ""}` : null,
+                            hasCalculations ? `${msg.calculation_provenance!.length} Math Formula${msg.calculation_provenance!.length > 1 ? "s" : ""}` : null,
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
+                          )
+                        </span>
                       </button>
 
                       {citationsExpanded && (
-                        <div className="mt-2 space-y-2 pl-2">
-                          {msg.citations.map((cite: CitationItem, cidx: number) => (
-                            <div
-                              key={cidx}
-                              className="rounded-lg border border-ink-200 bg-paper-50 p-2.5 text-xs text-ink-700"
-                            >
-                              <div className="flex items-center justify-between text-[11px] font-medium text-ink-500 mb-1">
-                                <span>
-                                  Doc #{cite.document_id || "?"} · Page {cite.page_number} · {cite.chunk_type}
-                                </span>
+                        <div className="mt-2 space-y-2.5 pl-2">
+                          {/* 1. OCR Grounding References */}
+                          {hasCitations && (
+                            <div>
+                              <div className="text-[11px] font-semibold text-ink-500 uppercase tracking-wider mb-1.5">
+                                Verified OCR Grounding References ({msg.citations.length})
                               </div>
-                              <p className="italic text-ink-600 bg-white p-1.5 rounded border border-ink-150">
-                                "{cite.snippet}"
-                              </p>
+                              <div className="space-y-1.5">
+                                {msg.citations.map((cite: CitationItem, cidx: number) => (
+                                  <div
+                                    key={cidx}
+                                    className="rounded-lg border border-ink-200 bg-paper-50 p-2.5 text-xs text-ink-700"
+                                  >
+                                    <div className="flex items-center justify-between text-[11px] font-medium text-ink-500 mb-1">
+                                      <span>
+                                        Doc #{cite.document_id || "?"} · Page {cite.page_number} · {cite.chunk_type}
+                                      </span>
+                                    </div>
+                                    <p className="italic text-ink-600 bg-white p-1.5 rounded border border-ink-150">
+                                      "{cite.snippet}"
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                          ))}
+                          )}
+
+                          {/* 2. Relational Database Records */}
+                          {hasRelational && (
+                            <div>
+                              <div className="text-[11px] font-semibold text-ink-500 uppercase tracking-wider mb-1.5">
+                                Verified Relational Records ({msg.relational_provenance!.length})
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                {msg.relational_provenance!.map((rec: RelationalProvenanceItem, ridx: number) => (
+                                  <div
+                                    key={ridx}
+                                    className="rounded-lg border border-ink-200 bg-paper-50 p-2 text-xs text-ink-700 flex flex-col gap-0.5"
+                                  >
+                                    <div className="flex items-center gap-1 font-medium text-primary-800">
+                                      <Database className="h-3 w-3" />
+                                      <span className="capitalize">{rec.table}</span>
+                                      {rec.record_id && <span className="text-ink-400">#{rec.record_id}</span>}
+                                    </div>
+                                    {rec.invoice_number && (
+                                      <div className="text-[11px] text-ink-600">
+                                        Invoice: <span className="font-mono text-ink-800">{rec.invoice_number}</span>
+                                      </div>
+                                    )}
+                                    {rec.vendor_name && (
+                                      <div className="text-[11px] text-ink-600">
+                                        Vendor: <span className="font-medium text-ink-800">{rec.vendor_name}</span>
+                                      </div>
+                                    )}
+                                    {rec.amount && (
+                                      <div className="text-[11px] text-ink-600">
+                                        Amount: <span className="font-mono font-medium text-emerald-700">{rec.currency || ""} {rec.amount}</span>
+                                      </div>
+                                    )}
+                                    {rec.document_id && (
+                                      <div className="text-[10px] text-ink-400">
+                                        Linked Doc #{rec.document_id}
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 3. Mathematical Calculations */}
+                          {hasCalculations && (
+                            <div>
+                              <div className="text-[11px] font-semibold text-ink-500 uppercase tracking-wider mb-1.5">
+                                Verified Financial Calculations ({msg.calculation_provenance!.length})
+                              </div>
+                              <div className="space-y-1.5">
+                                {msg.calculation_provenance!.map((calc: CalculationProvenanceItem, cidx: number) => (
+                                  <div
+                                    key={cidx}
+                                    className="rounded-lg border border-ink-200 bg-paper-50 p-2 text-xs text-ink-700"
+                                  >
+                                    <div className="flex items-center gap-1.5 font-medium text-emerald-800">
+                                      <Calculator className="h-3 w-3" />
+                                      <span className="capitalize">{calc.operation.replace(/_/g, " ")}</span>
+                                    </div>
+                                    <div className="mt-1 font-mono text-[11px] bg-white p-1 rounded border border-ink-200 text-ink-800">
+                                      {calc.formula}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

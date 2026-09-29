@@ -128,8 +128,9 @@ class ChatHistoryRepository:
         return result.rowcount
 
     def get_langchain_history(self, session_id: int, limit: int = 10) -> list:
-        """Fetch recent conversation turns converted to LangChain BaseMessage instances."""
-        from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+        """Fetch recent conversation turns converted to LangChain BaseMessage instances, rehydrating ToolMessages."""
+        import json
+        from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 
         raw_messages = self.get_session_history(session_id=session_id, limit=limit)
         lc_messages = []
@@ -141,7 +142,43 @@ class ChatHistoryRepository:
                     "executed_tools": m.tool_calls or [],
                     "has_verified_tool_evidence": bool(m.tool_calls),
                 }
-                lc_messages.append(AIMessage(content=m.content, additional_kwargs=extra))
+                if m.tool_calls and isinstance(m.tool_calls, list):
+                    reconstructed_calls = []
+                    tool_messages_to_append = []
+                    for idx, tc in enumerate(m.tool_calls):
+                        tool_name = tc.get("tool") or tc.get("name") or "tool"
+                        call_id = f"hist_{m.id}_{idx}_{tool_name}"
+                        reconstructed_calls.append({
+                            "id": call_id,
+                            "name": tool_name,
+                            "args": tc.get("args") or {"query": tc.get("query", tc.get("summary", ""))},
+                        })
+
+                        obs_payload = {}
+                        if "rows" in tc:
+                            obs_payload["row_count"] = tc.get("row_count", len(tc["rows"]))
+                            obs_payload["rows"] = tc["rows"][:10]
+                        if "candidate_document_ids" in tc:
+                            obs_payload["candidate_document_ids"] = tc["candidate_document_ids"]
+                        if "summary" in tc:
+                            obs_payload["summary"] = tc["summary"]
+                        if "result" in tc:
+                            obs_payload["result"] = tc["result"]
+                        if "retrieved_count" in tc:
+                            obs_payload["retrieved_count"] = tc["retrieved_count"]
+
+                        compact_content = json.dumps(obs_payload or tc, default=str)
+                        tool_messages_to_append.append(ToolMessage(content=compact_content, tool_call_id=call_id))
+
+                    ai_msg = AIMessage(
+                        content=m.content,
+                        tool_calls=reconstructed_calls,
+                        additional_kwargs=extra,
+                    )
+                    lc_messages.append(ai_msg)
+                    lc_messages.extend(tool_messages_to_append)
+                else:
+                    lc_messages.append(AIMessage(content=m.content, additional_kwargs=extra))
             elif m.role == "system" and m.content:
                 lc_messages.append(SystemMessage(content=m.content))
         return lc_messages

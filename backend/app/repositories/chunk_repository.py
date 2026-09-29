@@ -104,10 +104,17 @@ class ChunkRepository:
     # -------------------------------------------------------------------------
 
     def _apply_authorization_predicates(
-        self, stmt, user: User, document_ids: Optional[List[int]] = None
+        self,
+        stmt,
+        user: User,
+        document_ids: Optional[List[int]] = None,
+        section: Optional[str] = None,
+        document_type: Optional[str] = None,
+        vendor_id: Optional[int] = None,
     ):
-        """Inject strict in-database authorization filters before retrieval.
+        """Inject strict in-database authorization filters and optional metadata pre-filters before retrieval.
 
+        Metadata filters are strictly narrowing constraints combined with AND.
         Never returns unauthorized documents into memory.
         """
         predicates = [Document.is_deleted.is_(False)]
@@ -124,6 +131,25 @@ class ChunkRepository:
             else:
                 predicates.append(Document.id.in_(document_ids))
 
+        # Optional metadata pre-filters (narrowing constraints only)
+        if section:
+            clean_sec = section.strip()
+            predicates.append(
+                or_(
+                    DocumentChunk.section.ilike(f"%{clean_sec}%"),
+                    DocumentChunk.chunk_type.ilike(f"%{clean_sec}%"),
+                )
+            )
+
+        if document_type:
+            clean_type = document_type.strip()
+            predicates.append(Document.document_type.ilike(f"%{clean_type}%"))
+
+        if vendor_id is not None:
+            from app.models.invoice import Invoice
+            vendor_subquery = select(Invoice.document_id).where(Invoice.vendor_id == vendor_id)
+            predicates.append(Document.id.in_(vendor_subquery))
+
         return stmt.join(Document, DocumentChunk.document_id == Document.id).where(and_(*predicates))
 
     def search_vector_global(
@@ -131,11 +157,21 @@ class ChunkRepository:
         query_vector: List[float],
         user: User,
         document_ids: Optional[List[int]] = None,
+        section: Optional[str] = None,
+        document_type: Optional[str] = None,
+        vendor_id: Optional[int] = None,
         limit: int = 30,
     ) -> List[DocumentChunk]:
-        """Dense pgvector search across authorized corpus."""
+        """Dense pgvector search across authorized corpus with metadata pre-filtering."""
         stmt = select(DocumentChunk)
-        stmt = self._apply_authorization_predicates(stmt, user=user, document_ids=document_ids)
+        stmt = self._apply_authorization_predicates(
+            stmt,
+            user=user,
+            document_ids=document_ids,
+            section=section,
+            document_type=document_type,
+            vendor_id=vendor_id,
+        )
         stmt = stmt.order_by(DocumentChunk.embedding.cosine_distance(query_vector)).limit(limit)
         return list(self.db.scalars(stmt).all())
 
@@ -144,16 +180,26 @@ class ChunkRepository:
         query_text: str,
         user: User,
         document_ids: Optional[List[int]] = None,
+        section: Optional[str] = None,
+        document_type: Optional[str] = None,
+        vendor_id: Optional[int] = None,
         limit: int = 30,
     ) -> List[DocumentChunk]:
-        """PostgreSQL native Full-Text Search across authorized corpus."""
+        """PostgreSQL native Full-Text Search across authorized corpus with metadata pre-filtering."""
         clean_q = query_text.strip()
         if not clean_q:
             return []
 
         ts_query = func.websearch_to_tsquery("english", clean_q)
         stmt = select(DocumentChunk)
-        stmt = self._apply_authorization_predicates(stmt, user=user, document_ids=document_ids)
+        stmt = self._apply_authorization_predicates(
+            stmt,
+            user=user,
+            document_ids=document_ids,
+            section=section,
+            document_type=document_type,
+            vendor_id=vendor_id,
+        )
         stmt = stmt.where(
             or_(
                 DocumentChunk.tsv_content.op("@@")(ts_query),
