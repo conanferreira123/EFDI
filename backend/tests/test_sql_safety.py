@@ -186,3 +186,63 @@ def test_sql_safety_users_table_role_gating(db_session, mock_analyst, mock_manag
     with pytest.raises(SQLSecurityException, match="unauthorized"):
         service.validate_and_sanitize_sql("SELECT id, username, password_hash FROM users", user=mock_admin)
 
+
+def test_sql_safety_nested_subquery_scope_awareness_manager(db_session, mock_manager):
+    """AST validator must attach predicates to the SELECT scope that owns each table, not hoisting to outer WHERE."""
+    service = TextToSQLService(db_session)
+    query = (
+        "SELECT COUNT(*) AS validated_invoice_count "
+        "FROM invoices "
+        "WHERE document_id IN ("
+        "    SELECT id FROM documents WHERE status = 'VALIDATED'"
+        ")"
+    )
+    sanitized = service.validate_and_sanitize_sql(query, user=mock_manager)
+
+    # Invoices scoping belongs to outer query
+    assert "invoices.document_id in (select id from documents where is_deleted = false)" in sanitized.lower()
+
+    # Documents scoping belongs to inner query, NOT outer query
+    assert "select id from documents where status = 'validated' and documents.is_deleted = false" in sanitized.lower()
+
+    # Must execute against PostgreSQL with zero 'missing FROM-clause entry' error
+    res = service.execute_safe_query(sanitized)
+    assert res["row_count"] == 1
+    assert "validated_invoice_count" in res["rows"][0]
+
+
+def test_sql_safety_nested_subquery_scope_awareness_analyst(db_session, mock_analyst):
+    """Finance analyst user scoping must be attached to the respective SELECT scope without out-of-scope references."""
+    service = TextToSQLService(db_session)
+    query = (
+        "SELECT COUNT(*) AS validated_invoice_count "
+        "FROM invoices "
+        "WHERE document_id IN ("
+        "    SELECT id FROM documents WHERE status = 'VALIDATED'"
+        ")"
+    )
+    sanitized = service.validate_and_sanitize_sql(query, user=mock_analyst)
+
+    # Invoices scoped to analyst in outer query
+    assert "invoices.document_id in (select id from documents where uploaded_by = 42 and is_deleted = false)" in sanitized.lower()
+
+    # Documents scoped to analyst in inner query
+    assert "select id from documents where status = 'validated' and documents.uploaded_by = 42 and documents.is_deleted = false" in sanitized.lower()
+
+    # Must execute against PostgreSQL with zero error
+    res = service.execute_safe_query(sanitized)
+    assert res["row_count"] == 1
+
+
+def test_sql_safety_single_table_document_query_remains_successful(db_session, mock_manager):
+    """Single-table document count query (Query 2) remains valid and executable."""
+    service = TextToSQLService(db_session)
+    query = "SELECT COUNT(*) AS validated_document_count FROM documents WHERE status = 'VALIDATED' AND is_deleted = false"
+    sanitized = service.validate_and_sanitize_sql(query, user=mock_manager)
+
+    assert "documents.is_deleted = false" in sanitized.lower()
+    res = service.execute_safe_query(sanitized)
+    assert res["row_count"] == 1
+    assert "validated_document_count" in res["rows"][0]
+
+

@@ -28,6 +28,7 @@ from app.models.user import User, UserRole
 from app.rag.agent_result import AgentResult
 from app.rag.document_agent import DocumentReActAgent
 from app.rag.global_agent import GlobalReActAgent
+from app.rag.response_guardrails import GLOBAL_TIMEOUT_MESSAGE
 
 
 @pytest.fixture
@@ -485,3 +486,127 @@ def test_10_authorization_boundary_on_retry(client, auth_fixture):
         json={"message": "Show me this document"},
     )
     assert resp.status_code == 403
+
+
+# =========================================================================
+# TEST 11 — Document Chat timeout returns 504 and persists no assistant msg
+# =========================================================================
+def test_11_document_chat_timeout_returns_504_and_persists_no_assistant_msg(client, auth_fixture):
+    """When Document Chat agent times out, returns HTTP 504 with sanitized timeout message and commits no assistant message."""
+    doc = auth_fixture["doc_a"]
+    token = auth_fixture["token_a"]
+
+    mock_timeout_result = AgentResult(
+        content=GLOBAL_TIMEOUT_MESSAGE,
+        tool_calls=[],
+        citations=[],
+        execution_time_ms=30000,
+    )
+    with patch("app.rag.document_agent.DocumentReActAgent.run", return_value=mock_timeout_result):
+        resp = client.post(
+            f"/api/v1/chat/documents/{doc.id}/messages",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "Summarize all line items with calculation"},
+        )
+
+    assert resp.status_code == 504
+    data = resp.json()
+    assert data["error"] == "AI Service Error"
+    assert data["message"] == GLOBAL_TIMEOUT_MESSAGE
+
+    # In database: no assistant message should be committed
+    hist_resp = client.get(
+        f"/api/v1/chat/documents/{doc.id}/history",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert hist_resp.status_code == 200
+    # No messages should be present
+    assert len(hist_resp.json()) == 0
+
+
+# =========================================================================
+# TEST 12 — Document Chat timeout retry succeeds
+# =========================================================================
+def test_12_document_chat_timeout_retry_succeeds(client, auth_fixture):
+    """Failed timeout request followed by retry yields clean turn with no duplicate assistant messages."""
+    doc = auth_fixture["doc_a"]
+    token = auth_fixture["token_a"]
+
+    # First attempt: timeout
+    mock_timeout_result = AgentResult(
+        content=GLOBAL_TIMEOUT_MESSAGE,
+        tool_calls=[],
+        citations=[],
+        execution_time_ms=30000,
+    )
+    with patch("app.rag.document_agent.DocumentReActAgent.run", return_value=mock_timeout_result):
+        r1 = client.post(
+            f"/api/v1/chat/documents/{doc.id}/messages",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "What is the net invoice amount?"},
+        )
+        assert r1.status_code == 504
+
+    # Retry attempt: succeeds
+    mock_success_result = AgentResult(
+        content="The net invoice amount is $12,450.00.",
+        tool_calls=[],
+        citations=[],
+        execution_time_ms=100,
+    )
+    with patch("app.rag.document_agent.DocumentReActAgent.run", return_value=mock_success_result):
+        r2 = client.post(
+            f"/api/v1/chat/documents/{doc.id}/messages",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "What is the net invoice amount?"},
+        )
+        assert r2.status_code == 200
+        data = r2.json()
+        assert data["role"] == "assistant"
+        assert data["content"] == "The net invoice amount is $12,450.00."
+        assert "user_message_id" in data
+
+    # Database history must have exactly ONE user and ONE assistant turn
+    hist_resp = client.get(
+        f"/api/v1/chat/documents/{doc.id}/history",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert hist_resp.status_code == 200
+    history = hist_resp.json()
+    assert len(history) == 2
+    assert history[0]["role"] == "user"
+    assert history[1]["role"] == "assistant"
+    assert history[1]["content"] == "The net invoice amount is $12,450.00."
+
+
+# =========================================================================
+# TEST 13 — Legacy timeout messages filtered from history
+# =========================================================================
+def test_13_legacy_timeout_messages_filtered_from_history(client, auth_fixture, db_session):
+    """If legacy timeout messages were previously written into DB, get_document_history filters them out."""
+    doc = auth_fixture["doc_a"]
+    user = auth_fixture["user_a"]
+    token = auth_fixture["token_a"]
+
+    # Create session directly in DB with a legacy timeout message
+    session = ChatSession(user_id=user.id, document_id=doc.id, state_json={})
+    db_session.add(session)
+    db_session.flush()
+
+    user_msg = ChatMessage(session_id=session.id, role="user", content="Legacy question")
+    timeout_msg = ChatMessage(session_id=session.id, role="assistant", content=GLOBAL_TIMEOUT_MESSAGE)
+    valid_assistant_msg = ChatMessage(session_id=session.id, role="assistant", content="Valid historical response")
+    db_session.add_all([user_msg, timeout_msg, valid_assistant_msg])
+    db_session.commit()
+
+    hist_resp = client.get(
+        f"/api/v1/chat/documents/{doc.id}/history",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert hist_resp.status_code == 200
+    items = hist_resp.json()
+    # The timeout_msg should be filtered out
+    contents = [item["content"] for item in items]
+    assert GLOBAL_TIMEOUT_MESSAGE not in contents
+    assert "Legacy question" in contents
+    assert "Valid historical response" in contents

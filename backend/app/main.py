@@ -40,6 +40,19 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     else:
         logger.error("Database connection FAILED at startup. Check DATABASE_URL.")
 
+    # Warm RAG embedding and reranker models at startup to avoid 25s cold-start penalty inside request lifecycle
+    try:
+        from app.rag.embeddings import get_embedding_service
+        from app.rag.reranker import get_reranker_service
+
+        logger.info("Warming RAG embedding and reranker models at startup...")
+        get_embedding_service()._get_model()
+        get_reranker_service()._get_model()
+        logger.info("RAG models warmed successfully at startup.")
+    except Exception as e:
+        logger.error("Failed to warm RAG models at startup: %s", e, exc_info=True)
+        raise
+
     yield
 
     logger.info("Shutting down %s", settings.APP_NAME)

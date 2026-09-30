@@ -231,6 +231,21 @@ BUSINESS SEMANTICS RULES:
         self.db = db
         self.llm_client = get_llm_client()
 
+    @staticmethod
+    def _get_select_immediate_tables(select: exp.Select) -> List[exp.Table]:
+        """Extract tables belonging strictly to this SELECT's immediate FROM and JOIN clauses."""
+        tables: List[exp.Table] = []
+        from_clause = select.args.get("from_") or select.args.get("from")
+        if from_clause:
+            for t in from_clause.find_all(exp.Table):
+                if t.find_ancestor(exp.Select) == select:
+                    tables.append(t)
+        for j in select.args.get("joins") or []:
+            for t in j.find_all(exp.Table):
+                if t.find_ancestor(exp.Select) == select:
+                    tables.append(t)
+        return tables
+
     def validate_and_sanitize_sql(self, raw_sql: str, user: User) -> str:
         """Parse raw SQL with sqlglot and enforce all security rules.
 
@@ -311,7 +326,7 @@ BUSINESS SEMANTICS RULES:
                 if col_name not in all_allowed:
                     raise SQLSecurityException(f"Access to column '{col_name}' is unauthorized.")
 
-        # 5. Inject Authorization Predicates (Alias-Safe & Normalized Child-Table Scoped)
+        # 5. Inject Authorization Predicates (Scope-Aware & Normalized Child-Table Scoped)
         is_analyst = user.role == UserRole.FINANCE_ANALYST.value
         policy = getattr(settings, "GLOBAL_CHAT_ANALYST_POLICY", "scoped")
 
@@ -320,92 +335,100 @@ BUSINESS SEMANTICS RULES:
                 "Access to Global AI database query is restricted to Finance Managers, Auditors, and Admins."
             )
 
-        predicates: List[exp.Expression] = []
+        # Snapshot all Select scopes in the AST before injecting subqueries
+        select_nodes = list(ast.find_all(exp.Select))
 
-        if is_analyst and policy == "scoped":
-            for t in tables_in_query:
-                table_name = t.name.lower()
-                ref = t.alias_or_name
-                if table_name == "documents":
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.uploaded_by = {user.id} AND {ref}.is_deleted = false",
-                            read="postgres",
-                        )
-                    )
-                elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false)",
-                            read="postgres",
-                        )
-                    )
-                elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false))",
-                            read="postgres",
-                        )
-                    )
-                elif table_name == "vendors":
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
-                            read="postgres",
-                        )
-                    )
-                elif table_name == "vendor_aliases":
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.vendor_id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
-                            read="postgres",
-                        )
-                    )
-                else:
-                    # Fail closed on any table without an explicit scoping rule for FINANCE_ANALYST
-                    raise SQLSecurityException(
-                        f"Table '{table_name}' cannot be safely scoped for role '{user.role}'."
-                    )
-        else:
-            # Finance Manager, Auditor, Admin: enforce is_deleted = false on documents and child tables
-            for t in tables_in_query:
-                table_name = t.name.lower()
-                ref = t.alias_or_name
-                if table_name == "documents":
-                    predicates.append(
-                        sqlglot.parse_one(f"{ref}.is_deleted = false", read="postgres")
-                    )
-                elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
-                            read="postgres",
-                        )
-                    )
-                elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE is_deleted = false))",
-                            read="postgres",
-                        )
-                    )
-                elif table_name == "workflow_history":
-                    predicates.append(
-                        sqlglot.parse_one(
-                            f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
-                            read="postgres",
-                        )
-                    )
+        for select in select_nodes:
+            immediate_tables = self._get_select_immediate_tables(select)
+            if not immediate_tables:
+                continue
 
-        where_clause = ast.args.get("where")
-        combined_pred = where_clause.this if where_clause else None
+            predicates: List[exp.Expression] = []
 
-        for p in predicates:
-            if p is not None:
-                combined_pred = exp.And(this=combined_pred, expression=p) if combined_pred else p
+            if is_analyst and policy == "scoped":
+                for t in immediate_tables:
+                    table_name = t.name.lower()
+                    ref = t.alias_or_name
+                    if table_name == "documents":
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.uploaded_by = {user.id} AND {ref}.is_deleted = false",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false)",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false))",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name == "vendors":
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name == "vendor_aliases":
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.vendor_id IN (SELECT vendor_id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE uploaded_by = {user.id} AND is_deleted = false) AND vendor_id IS NOT NULL)",
+                                read="postgres",
+                            )
+                        )
+                    else:
+                        # Fail closed on any table without an explicit scoping rule for FINANCE_ANALYST
+                        raise SQLSecurityException(
+                            f"Table '{table_name}' cannot be safely scoped for role '{user.role}'."
+                        )
+            else:
+                # Finance Manager, Auditor, Admin: enforce is_deleted = false on documents and child tables
+                for t in immediate_tables:
+                    table_name = t.name.lower()
+                    ref = t.alias_or_name
+                    if table_name == "documents":
+                        predicates.append(
+                            sqlglot.parse_one(f"{ref}.is_deleted = false", read="postgres")
+                        )
+                    elif table_name in ("invoices", "extraction_results", "classification_results", "validation_results"):
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name in ("invoice_line_items", "payment_obligations", "invoice_payments"):
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.invoice_id IN (SELECT id FROM invoices WHERE document_id IN (SELECT id FROM documents WHERE is_deleted = false))",
+                                read="postgres",
+                            )
+                        )
+                    elif table_name == "workflow_history":
+                        predicates.append(
+                            sqlglot.parse_one(
+                                f"{ref}.document_id IN (SELECT id FROM documents WHERE is_deleted = false)",
+                                read="postgres",
+                            )
+                        )
 
-        if combined_pred:
-            ast.set("where", exp.Where(this=combined_pred))
+            where_clause = select.args.get("where")
+            combined_pred = where_clause.this if where_clause else None
+
+            for p in predicates:
+                if p is not None:
+                    combined_pred = exp.And(this=combined_pred, expression=p) if combined_pred else p
+
+            if combined_pred:
+                select.set("where", exp.Where(this=combined_pred))
 
         # 6. Enforce LIMIT <= 100
         limit_clause = ast.args.get("limit")
