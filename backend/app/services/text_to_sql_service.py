@@ -223,8 +223,19 @@ BUSINESS SEMANTICS RULES:
    - For questions asking for 'dollar value' (e.g. Q48, Q53), filter strictly to currency = 'USD'.
 5. VENDOR SPEND RANKINGS (Q52):
    - Group by vendor and currency, and order by currency, spend DESC so separate per-currency rankings are produced.
-6. SOFT DELETED RECORDS:
-   - Always filter documents.is_deleted = false.
+6. SOFT DELETED RECORDS & DOCUMENT JOINS:
+   - 'is_deleted' belongs strictly to the 'documents' table. The 'invoices' and 'vendors' tables do NOT have an 'is_deleted' column.
+   - If querying the 'documents' table directly and soft-delete filtering is required, filter: documents.is_deleted = false.
+   - If querying 'invoices' or 'vendors' and the query needs to exclude records associated with deleted documents, you MUST explicitly join the 'documents' table using:
+     JOIN documents ON invoices.document_id = documents.id
+     and filter documents.is_deleted = false.
+   - Never reference 'documents.is_deleted' or an alias like 'd.is_deleted' unless 'documents' actually appears in the query's FROM or JOIN clause.
+   - Do NOT join 'documents' if document-level filtering or document metadata is not needed by the query.
+7. VENDOR NAME MATCHING:
+   - When the user refers to a vendor using an informal, partial, or natural-language name (e.g., "Acme", "invoices from Acme"), use case-insensitive partial matching against vendors.canonical_name:
+     vendors.canonical_name ILIKE '%<name>%' (e.g., vendors.canonical_name ILIKE '%Acme%').
+   - If the user explicitly asks for an exact name match (e.g., "vendor whose exact name is Acme Corporation"), use exact equality (=).
+   - If the query references a structured vendor identifier (e.g., "vendor code XYZ"), filter on vendors.vendor_code rather than performing a partial name search.
 """
 
     def __init__(self, db: Session) -> None:
