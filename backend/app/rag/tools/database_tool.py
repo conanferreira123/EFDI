@@ -94,7 +94,11 @@ class DatabaseQueryTool(BaseTool):
                 "status": "error",
                 "error": str(sec_err),
             })
-            return f"Database Query Rejected by Security Policy: {sec_err}"
+            hint = ""
+            err_str = str(sec_err)
+            if ("references table 'd'" in err_str or "references table 'documents'" in err_str) and "not in the FROM or JOIN clause" in err_str:
+                hint = " (Hint: The query references documents/is_deleted but the documents table is not present in FROM/JOIN. If document soft-delete filtering is required, explicitly join documents using: JOIN documents d ON invoices.document_id = d.id)"
+            return f"Database Query Rejected by Security Policy: {sec_err}{hint}"
         except SQLQueryException as q_err:
             logger.warning("[DatabaseQueryTool] SQL Query execution failed: %s", q_err)
             self.execution_logs.append({

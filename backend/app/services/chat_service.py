@@ -11,6 +11,7 @@ from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.exceptions import AIServiceException
 from app.models.document import Document
 from app.models.document_enums import DocumentStatus
 from app.models.user import User
@@ -213,38 +214,38 @@ class ChatService:
             )
         except TimeoutError:
             logger.warning("[DocumentChat] Global request timeout exceeded during agent execution")
-            agent_result = AgentResult(
-                content=GLOBAL_TIMEOUT_MESSAGE,
-                tool_calls=[],
-                citations=[],
-                execution_time_ms=(time.perf_counter() - request_start_time) * 1000.0,
-            )
+            self.db.rollback()
+            raise AIServiceException(GLOBAL_TIMEOUT_MESSAGE, status_code=504)
 
-        # 9. Update Structured State Lifecycle (if not timed out)
-        if agent_result.content != GLOBAL_TIMEOUT_MESSAGE:
-            if resolution.action_type == "confirmation_affirmative":
-                session_state["pending_offer"] = None
+        if agent_result.content == GLOBAL_TIMEOUT_MESSAGE:
+            logger.warning("[DocumentChat] Document agent returned global timeout message")
+            self.db.rollback()
+            raise AIServiceException(GLOBAL_TIMEOUT_MESSAGE, status_code=504)
 
-            new_offer = resolver.extract_pending_offer(agent_result.content)
-            session_state["pending_offer"] = new_offer
+        # 9. Update Structured State Lifecycle
+        if resolution.action_type == "confirmation_affirmative":
+            session_state["pending_offer"] = None
 
-            if agent_result.tool_calls:
-                verified = session_state.get("verified_facts", [])
-                for tc in agent_result.tool_calls:
-                    tool_name = tc.get("tool") or tc.get("name")
-                    if tool_name:
-                        verified.append({"tool": tool_name, "query": tc.get("query") or tc.get("input")})
-                session_state["verified_facts"] = verified[-10:]
+        new_offer = resolver.extract_pending_offer(agent_result.content)
+        session_state["pending_offer"] = new_offer
 
-            self.history_repo.update_session_state(session.id, session_state)
+        if agent_result.tool_calls:
+            verified = session_state.get("verified_facts", [])
+            for tc in agent_result.tool_calls:
+                tool_name = tc.get("tool") or tc.get("name")
+                if tool_name:
+                    verified.append({"tool": tool_name, "query": tc.get("query") or tc.get("input")})
+            session_state["verified_facts"] = verified[-10:]
+
+        self.history_repo.update_session_state(session.id, session_state)
 
         # 10. Persist assistant response with citations and tool metadata
         assistant_msg = self.history_repo.add_message(
             session_id=session.id,
             role="assistant",
             content=agent_result.content,
-            tool_calls=agent_result.tool_calls if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
-            citations=agent_result.citations if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
+            tool_calls=agent_result.tool_calls,
+            citations=agent_result.citations,
         )
         self.db.commit()
 
@@ -254,7 +255,7 @@ class ChatService:
             "user_message_id": user_msg.id,
             "role": "assistant",
             "content": agent_result.content,
-            "citations": agent_result.citations if agent_result.content != GLOBAL_TIMEOUT_MESSAGE else [],
+            "citations": agent_result.citations,
             "created_at": assistant_msg.created_at.isoformat() if assistant_msg.created_at else datetime.now(timezone.utc).isoformat(),
         }
 
@@ -270,6 +271,12 @@ class ChatService:
         )
         messages = self.history_repo.get_session_history(session.id)
 
+        # Filter out legacy/previously persisted timeout assistant messages
+        valid_messages = [
+            m for m in messages
+            if not (m.role == "assistant" and m.content == GLOBAL_TIMEOUT_MESSAGE)
+        ]
+
         return [
             {
                 "id": m.id,
@@ -279,7 +286,7 @@ class ChatService:
                 "citations": m.citations or [],
                 "created_at": m.created_at.isoformat() if m.created_at else None,
             }
-            for m in messages
+            for m in valid_messages
         ]
 
     def clear_document_history(

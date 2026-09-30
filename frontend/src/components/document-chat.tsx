@@ -34,7 +34,15 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
     setIsFetchingHistory(true);
     try {
       const history = await chatApi.getDocumentHistory(documentId);
-      setMessages(history.map((m) => ({ ...m, status: "sent" })));
+      const sanitizedHistory = history.filter(
+        (m) =>
+          !(
+            m.role === "assistant" &&
+            (m.content?.includes("allowed processing time") ||
+              m.content?.includes("narrower question"))
+          )
+      );
+      setMessages(sanitizedHistory.map((m) => ({ ...m, status: "sent" })));
     } catch (err) {
       showError(err, "Could not load chat history");
     } finally {
@@ -62,6 +70,14 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
 
     try {
       const response = await chatApi.sendDocumentMessage(documentId, text);
+      const isTimeoutResponse =
+        typeof response?.content === "string" &&
+        (response.content.includes("allowed processing time") ||
+          response.content.includes("narrower question"));
+      if (isTimeoutResponse) {
+        throw new Error(response.content);
+      }
+
       setMessages((prev) =>
         prev.map((m) =>
           m.id === tempUserMsg.id
@@ -99,6 +115,14 @@ export function DocumentChatAssistant({ documentId, originalFilename }: Document
 
     try {
       const response = await chatApi.sendDocumentMessage(documentId, failedMsg.content);
+      const isTimeoutResponse =
+        typeof response?.content === "string" &&
+        (response.content.includes("allowed processing time") ||
+          response.content.includes("narrower question"));
+      if (isTimeoutResponse) {
+        throw new Error(response.content);
+      }
+
       setMessages((prev) =>
         prev.map((m) =>
           m.id === failedMsg.id

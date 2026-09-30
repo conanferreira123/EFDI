@@ -52163,3 +52163,203 @@ payment_terms            agreed
 2026-09-23 16:12:53 | INFO     | httpx2 | HTTP Request: POST http://testserver/api/v1/chat/documents/1062/messages "HTTP/1.1 200 OK"
 2026-09-23 16:12:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/1064/messages: You may only access documents you uploaded
 2026-09-23 16:12:53 | INFO     | httpx2 | HTTP Request: POST http://testserver/api/v1/chat/documents/1064/messages "HTTP/1.1 403 Forbidden"
+2026-09-29 16:50:24 | INFO     | app.rag.embeddings | EmbeddingService initialized (target model: sentence-transformers/all-MiniLM-L6-v2, dim: 384)
+2026-09-29 16:50:24 | INFO     | app.rag.reranker | RerankerService initialized (target model: cross-encoder/ms-marco-MiniLM-L-6-v2)
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3401/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3401/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3401/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3403/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3403/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3403/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3405/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3405/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3405/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3405/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3407/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3407/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3407/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3407/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3407/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3409/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3409/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3409/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3409/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3409/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3411/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/messages/1657/resend "HTTP/1.1 404 Not Found"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3413/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3413/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3413/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3413/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3415/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3415/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3415/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/corpus/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/corpus/history "HTTP/1.1 200 OK"
+2026-09-29 16:50:25 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3419/messages: You may only access documents you uploaded
+2026-09-29 16:50:25 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3419/messages "HTTP/1.1 403 Forbidden"
+2026-09-29 16:50:26 | INFO     | app.rag.embeddings | Loading sentence-transformers model 'sentence-transformers/all-MiniLM-L6-v2'...
+2026-09-29 16:50:46 | WARNING  | tensorflow | From C:\Users\conanferreira\AppData\Roaming\Python\Python313\site-packages\tf_keras\src\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+
+2026-09-29 16:50:47 | INFO     | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-09-29 16:50:47 | INFO     | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-09-29 16:50:52 | INFO     | app.rag.embeddings | SentenceTransformer model 'sentence-transformers/all-MiniLM-L6-v2' loaded successfully.
+2026-09-29 16:50:52 | INFO     | app.rag.reranker | Loading CrossEncoder model 'cross-encoder/ms-marco-MiniLM-L-6-v2'...
+2026-09-29 16:50:55 | INFO     | sentence_transformers.cross_encoder.CrossEncoder | Use pytorch device: cpu
+2026-09-29 16:50:55 | INFO     | app.rag.reranker | CrossEncoder model 'cross-encoder/ms-marco-MiniLM-L-6-v2' loaded successfully.
+2026-09-29 16:50:55 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3429 query='instructions': dense=2 (36.9ms), sparse=1 (20.3ms), rrf=2 (0.1ms), final=1 (3260.3ms), total=29678.0ms
+2026-09-29 16:50:56 | WARNING  | app.rag.global_agent | [GlobalReActAgent] Global timeout (-0.1s) exceeded before step 0
+2026-09-29 16:50:56 | WARNING  | app.rag.document_agent | [DocumentReActAgent] Global timeout (-0.1s) exceeded before step 0
+2026-09-29 16:50:56 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3434 query='Invoice Acme': dense=2 (4.5ms), sparse=1 (4.5ms), rrf=2 (0.1ms), final=1 (28.2ms), total=57.1ms
+2026-09-29 16:55:13 | INFO     | app.rag.embeddings | EmbeddingService initialized (target model: sentence-transformers/all-MiniLM-L6-v2, dim: 384)
+2026-09-29 16:55:13 | INFO     | app.rag.reranker | RerankerService initialized (target model: cross-encoder/ms-marco-MiniLM-L-6-v2)
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3435/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3435/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3435/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3437/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3437/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3437/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3439/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3439/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3439/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3439/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3441/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3441/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3441/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3441/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3441/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3443/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3443/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3443/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3443/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:13 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3443/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3445/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/messages/1682/resend "HTTP/1.1 404 Not Found"
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3447/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3447/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3447/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3447/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3449/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3449/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3449/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/corpus/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/corpus/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3453/messages: You may only access documents you uploaded
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3453/messages "HTTP/1.1 403 Forbidden"
+2026-09-29 16:55:14 | WARNING  | app.services.chat_service | [DocumentChat] Document agent returned global timeout message
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3455/messages: I’m sorry, but I couldn’t complete that request within the allowed processing time. Please try again with a narrower question.
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3455/messages "HTTP/1.1 504 Gateway Timeout"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3455/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | WARNING  | app.services.chat_service | [DocumentChat] Document agent returned global timeout message
+2026-09-29 16:55:14 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3457/messages: I’m sorry, but I couldn’t complete that request within the allowed processing time. Please try again with a narrower question.
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3457/messages "HTTP/1.1 504 Gateway Timeout"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3457/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:14 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3457/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | app.rag.embeddings | EmbeddingService initialized (target model: sentence-transformers/all-MiniLM-L6-v2, dim: 384)
+2026-09-29 16:55:53 | INFO     | app.rag.reranker | RerankerService initialized (target model: cross-encoder/ms-marco-MiniLM-L-6-v2)
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3461/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3461/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3461/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3463/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3463/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3463/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3465/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3465/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3465/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3465/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3467/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3467/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3467/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3467/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3467/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3469/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3469/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3469/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3469/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3469/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3471/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/messages/1711/resend "HTTP/1.1 404 Not Found"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3473/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3473/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3473/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3473/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3475/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3475/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3475/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/corpus/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/corpus/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3479/messages: You may only access documents you uploaded
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3479/messages "HTTP/1.1 403 Forbidden"
+2026-09-29 16:55:53 | WARNING  | app.services.chat_service | [DocumentChat] Document agent returned global timeout message
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3481/messages: I’m sorry, but I couldn’t complete that request within the allowed processing time. Please try again with a narrower question.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3481/messages "HTTP/1.1 504 Gateway Timeout"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3481/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | WARNING  | app.services.chat_service | [DocumentChat] Document agent returned global timeout message
+2026-09-29 16:55:53 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3483/messages: I’m sorry, but I couldn’t complete that request within the allowed processing time. Please try again with a narrower question.
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3483/messages "HTTP/1.1 504 Gateway Timeout"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3483/messages "HTTP/1.1 200 OK"
+2026-09-29 16:55:53 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3483/history "HTTP/1.1 200 OK"
+2026-09-29 16:55:54 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3485/history "HTTP/1.1 200 OK"
+2026-09-29 16:56:21 | INFO     | app.rag.embeddings | EmbeddingService initialized (target model: sentence-transformers/all-MiniLM-L6-v2, dim: 384)
+2026-09-29 16:56:21 | INFO     | app.rag.reranker | RerankerService initialized (target model: cross-encoder/ms-marco-MiniLM-L-6-v2)
+2026-09-29 16:56:21 | INFO     | app.rag.embeddings | Loading sentence-transformers model 'sentence-transformers/all-MiniLM-L6-v2'...
+2026-09-29 16:56:41 | WARNING  | tensorflow | From C:\Users\conanferreira\AppData\Roaming\Python\Python313\site-packages\tf_keras\src\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+
+2026-09-29 16:56:42 | INFO     | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-09-29 16:56:42 | INFO     | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-09-29 16:56:47 | INFO     | app.rag.embeddings | SentenceTransformer model 'sentence-transformers/all-MiniLM-L6-v2' loaded successfully.
+2026-09-29 16:56:47 | INFO     | app.rag.reranker | Loading CrossEncoder model 'cross-encoder/ms-marco-MiniLM-L-6-v2'...
+2026-09-29 16:56:50 | INFO     | sentence_transformers.cross_encoder.CrossEncoder | Use pytorch device: cpu
+2026-09-29 16:56:50 | INFO     | app.rag.reranker | CrossEncoder model 'cross-encoder/ms-marco-MiniLM-L-6-v2' loaded successfully.
+2026-09-29 16:56:50 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3495 query='instructions': dense=2 (32.6ms), sparse=1 (18.4ms), rrf=2 (0.2ms), final=1 (2991.8ms), total=29779.8ms
+2026-09-29 16:56:51 | WARNING  | app.rag.global_agent | [GlobalReActAgent] Global timeout (-0.1s) exceeded before step 0
+2026-09-29 16:56:51 | WARNING  | app.rag.document_agent | [DocumentReActAgent] Global timeout (-0.1s) exceeded before step 0
+2026-09-29 16:56:51 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3500 query='Invoice Acme': dense=2 (4.2ms), sparse=1 (4.0ms), rrf=2 (0.1ms), final=1 (23.6ms), total=47.4ms
+2026-09-29 16:56:51 | ERROR    | app.rag.document_agent | [DocumentReActAgent] LLM invocation failed at step 0: Upstream LLM connection timed out
+Traceback (most recent call last):
+  File "C:\Users\conanferreira\Desktop\PROJECT-BLACKBOX\EFDI\backend\app\rag\document_agent.py", line 230, in run
+    response = llm_with_tools.invoke(messages)
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1167, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1171, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1226, in _execute_mock_call
+    raise effect
+RuntimeError: Upstream LLM connection timed out
+2026-09-29 16:56:51 | ERROR    | app.rag.global_agent | [GlobalReActAgent] LLM invocation failed at step 0: AI service unavailable
+Traceback (most recent call last):
+  File "C:\Users\conanferreira\Desktop\PROJECT-BLACKBOX\EFDI\backend\app\rag\global_agent.py", line 197, in run
+    response = llm_with_tools.invoke(messages)
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1167, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1171, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\unittest\mock.py", line 1226, in _execute_mock_call
+    raise effect
+ConnectionError: AI service unavailable
+2026-09-29 16:56:51 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3503/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3503/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3503/history "HTTP/1.1 200 OK"
+2026-09-29 16:56:51 | WARNING  | app.main | Handled exception on POST /api/v1/chat/corpus/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/corpus/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/corpus/history "HTTP/1.1 200 OK"
+2026-09-29 16:56:51 | WARNING  | app.main | Handled exception on POST /api/v1/chat/documents/3505/messages: Something went wrong while processing your request. Please try again.
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3505/messages "HTTP/1.1 502 Bad Gateway"
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: POST http://testserver/api/v1/chat/documents/3505/messages "HTTP/1.1 200 OK"
+2026-09-29 16:56:51 | INFO     | httpx | HTTP Request: GET http://testserver/api/v1/chat/documents/3505/history "HTTP/1.1 200 OK"
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3506 query='invoice overview line items totals payment terms': dense=1 (4.3ms), sparse=0 (3.6ms), rrf=1 (0.0ms), final=1 (54.7ms), total=75.9ms
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3509 query='search_1': dense=1 (3.9ms), sparse=0 (2.8ms), rrf=1 (0.0ms), final=1 (42.0ms), total=61.2ms
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3509 query='search_2': dense=1 (4.8ms), sparse=0 (3.0ms), rrf=1 (0.0ms), final=1 (41.6ms), total=60.6ms
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3509 query='search_3': dense=1 (4.6ms), sparse=0 (3.3ms), rrf=1 (0.0ms), final=1 (41.0ms), total=62.1ms
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3509 query='search_4': dense=1 (4.2ms), sparse=0 (3.3ms), rrf=1 (0.0ms), final=1 (42.8ms), total=63.7ms
+2026-09-29 16:56:52 | INFO     | app.services.rag_service | [RAG Document Retrieval] doc_id=3509 query='search_5': dense=1 (4.3ms), sparse=0 (3.1ms), rrf=1 (0.0ms), final=1 (42.9ms), total=63.4ms
